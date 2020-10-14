@@ -9,3 +9,15 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+alias Infin.Accounts.User
+alias Infin.Repo
+
+Repo.insert!(
+  %User{}
+  |> User.registration_changeset(%{email: "test@mail.com", password: "Qwerty1"})
+)
+
+Repo.insert!(
+  %User{}
+  |> User.registration_changeset(%{email: "test2@mail.com", password: "Qwerty2"})
+)
