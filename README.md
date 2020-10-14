@@ -1,5 +1,9 @@
 # Infin
 
+Start postgres instance in docker:
+  * docker-compose up -d
+
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
@@ -8,6 +12,10 @@ To start your Phoenix server:
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+After you're done you can stop postgres instance:
+
+* docker-compose down
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
