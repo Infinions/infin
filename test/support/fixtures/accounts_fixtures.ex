@@ -5,7 +5,7 @@ defmodule Infin.AccountsFixtures do
   """
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
-  def valid_user_password, do: "hello world!"
+  def valid_user_password, do: "Qwerty12345678!"
 
   def user_fixture(attrs \\ %{}) do
     {:ok, user} =
