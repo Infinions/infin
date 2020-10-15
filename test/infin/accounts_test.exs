@@ -58,7 +58,7 @@ defmodule Infin.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "not valid", password_confirmation: "not matching"})
+      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "Not valid", password_confirmation: "not matching"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
@@ -235,8 +235,8 @@ defmodule Infin.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.update_user_password(user, valid_user_password(), %{
-          password: "not valid",
-          password_confirmation: "another"
+          password: "Not valid",
+          password_confirmation: "Not valid password 2"
         })
 
       assert %{
@@ -264,11 +264,11 @@ defmodule Infin.AccountsTest do
     test "updates the password", %{user: user} do
       {:ok, user} =
         Accounts.update_user_password(user, valid_user_password(), %{
-          password: "new valid password"
+          password: "Qwerty1234567890_cd"
         })
 
       assert is_nil(user.password)
-      assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
+      assert Accounts.get_user_by_email_and_password(user.email, "Qwerty1234567890_cd")
     end
 
     test "deletes all tokens for the given user", %{user: user} do
@@ -276,7 +276,7 @@ defmodule Infin.AccountsTest do
 
       {:ok, _} =
         Accounts.update_user_password(user, valid_user_password(), %{
-          password: "new valid password"
+          password: "Qwerty1234567890_cd"
         })
 
       refute Repo.get_by(UserToken, user_id: user.id)
@@ -444,8 +444,8 @@ defmodule Infin.AccountsTest do
     test "validates password", %{user: user} do
       {:error, changeset} =
         Accounts.reset_user_password(user, %{
-          password: "not valid",
-          password_confirmation: "another"
+          password: "Not valid",
+          password_confirmation: "Another"
         })
 
       assert %{
@@ -461,14 +461,14 @@ defmodule Infin.AccountsTest do
     end
 
     test "updates the password", %{user: user} do
-      {:ok, updated_user} = Accounts.reset_user_password(user, %{password: "new valid password"})
+      {:ok, updated_user} = Accounts.reset_user_password(user, %{password: "Qwerty1234567890_cd"})
       assert is_nil(updated_user.password)
-      assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
+      assert Accounts.get_user_by_email_and_password(user.email, "Qwerty1234567890_cd")
     end
 
     test "deletes all tokens for the given user", %{user: user} do
       _ = Accounts.generate_user_session_token(user)
-      {:ok, _} = Accounts.reset_user_password(user, %{password: "new valid password"})
+      {:ok, _} = Accounts.reset_user_password(user, %{password: "Qwerty1234567890_cd"})
       refute Repo.get_by(UserToken, user_id: user.id)
     end
   end
