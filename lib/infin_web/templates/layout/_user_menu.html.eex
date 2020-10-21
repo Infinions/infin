@@ -1,6 +1,7 @@
 <div class="buttons">
   <%= if @current_user do %>
     <%= link "#{@current_user.email}", to: Routes.user_settings_path(@conn, :edit), class: "button is-primary" %>
+    <%= link "My company", to: Routes.company_path(@conn, :show, @current_user.company), class: "button is-primary" %>
     <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "button is-light" %>
   <% else %>
     <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "button is-primary" %>
