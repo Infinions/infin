@@ -1,7 +1,9 @@
 defmodule InfinWeb.CompanyControllerTest do
-  use InfinWeb.ConnCase
+  use InfinWeb.ConnCase, async: true
 
   alias Infin.Companies
+
+  setup :register_and_log_in_user
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
