@@ -7,6 +7,7 @@ defmodule Infin.Companies do
   alias Infin.Repo
 
   alias Infin.Companies.Company
+  alias Infin.Accounts.User
 
   @doc """
   Returns the list of companies.
@@ -100,5 +101,23 @@ defmodule Infin.Companies do
   """
   def change_company(%Company{} = company, attrs \\ %{}) do
     Company.changeset(company, attrs)
+  end
+
+  @doc """
+  Adds an user to ta company.
+
+  ## Examples
+
+      iex> add_user_to_company(company, user)
+      {:ok, %Ecto.Schema{}}
+
+      iex> add_user_company(company, bad_user})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def add_user_to_company(%Company{} = company, %User{} = user) do
+    user
+    |> Ecto.Changeset.change(%{company_id: company.id})
+    |> Repo.update()
   end
 end

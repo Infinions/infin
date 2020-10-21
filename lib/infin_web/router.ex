@@ -81,6 +81,6 @@ defmodule InfinWeb.Router do
   scope "/manage", InfinWeb do
     pipe_through [:browser, :require_authenticated_user]
 
-    resources "/companies", CompanyController
+    resources "/companies", CompanyController, only: [:show, :edit, :update]
   end
 end
