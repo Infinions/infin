@@ -5,6 +5,7 @@ defmodule Infin.Companies do
 
   import Ecto.Query, warn: false
   alias Infin.Repo
+  alias Ecto.Multi
 
   alias Infin.Companies.Company
   alias Infin.Accounts.User
@@ -37,6 +38,22 @@ defmodule Infin.Companies do
 
   """
   def get_company!(id), do: Repo.get!(Company, id)
+
+  @doc """
+  Gets a single company.
+
+  Raises `Ecto.NoResultsError` if the Company does not exist.
+
+  ## Examples
+
+      iex> get_company_by_nif!(123)
+      %Company{}
+
+      iex> get_company_by_nif!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_company_by_nif!(nif), do: Repo.get_by!(Company, nif: nif)
 
   @doc """
   Creates a company.
@@ -119,5 +136,11 @@ defmodule Infin.Companies do
     user
     |> Ecto.Changeset.change(%{company_id: company.id})
     |> Repo.update()
+  end
+
+  def register_user_and_company(company_attrs \\ %{}, user_attrs \\ %{}) do
+    Multi.new()
+    |> Multi.insert(:user, %User{} |> User.registration_changeset(user_attrs))
+    |> Multi.insert(:company, %Company{} |> Company.changeset(company_attrs))
   end
 end

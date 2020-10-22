@@ -28,6 +28,7 @@ defmodule InfinWeb.UserRegistrationControllerTest do
           "user" => %{"email" => email, "password" => valid_user_password(), "password_confirmation" => valid_user_password()}
         })
 
+
       assert get_session(conn, :user_token)
       assert redirected_to(conn) =~ "/"
 

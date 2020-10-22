@@ -11,6 +11,14 @@
   <%= email_input f, :email, required: true %>
   <%= error_tag f, :email %>
 
+  <%= label f, :company_name %>
+  <%= text_input f, :name, required: true %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :company_nif %>
+  <%= text_input f, :nif, required: true %>
+  <%= error_tag f, :nif %>
+
   <%= label f, :password %>
   <%= password_input f, :password, required: true %>
   <%= error_tag f, :password %>
@@ -18,7 +26,6 @@
   <%= label f, :password_confirmation %>
   <%= password_input f, :password_confirmation, required: true %>
   <%= error_tag f, :password_confirmation %>
-
   <div>
     <%= submit "Register" %>
   </div>

@@ -8,13 +8,16 @@ defmodule Infin.AccountsFixtures do
   def valid_user_password, do: "Qwerty1234567890"
 
   def user_fixture(attrs \\ %{}) do
-    {:ok, user} =
+    {:ok, company} = Infin.Companies.create_company(%{name: "a name"})
+
+    attrs =
       attrs
       |> Enum.into(%{
         email: unique_user_email(),
         password: valid_user_password()
       })
-      |> Infin.Accounts.register_user()
+
+      {:ok, user} = Infin.Accounts.register_user_company(company, attrs)
 
     user
   end

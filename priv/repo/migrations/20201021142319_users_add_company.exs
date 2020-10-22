@@ -3,7 +3,7 @@ defmodule Infin.Repo.Migrations.UsersAddCompany do
 
   def change do
     alter table("users") do
-      add :company_id, references(:companies), null: false
+      add :company_id, references(:companies)
     end
   end
 end
