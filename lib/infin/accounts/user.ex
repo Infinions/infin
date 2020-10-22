@@ -31,8 +31,24 @@ defmodule Infin.Accounts.User do
   end
 
   defp to_form(attrs) when attrs == %{}, do: %{}
-  defp to_form(%{"nif" => nif, "name" => name} = attrs) do
+  defp to_form(%{"nif" => _nif, "name" => _name} = attrs) do
     Map.put(attrs, "company", attrs)
+  end
+
+  def copy_company_errors(%Ecto.Changeset{} = changeset) do
+    company = changeset.changes.company
+
+    cond do
+      company ->
+        Enum.reduce(company.errors, changeset, fn err, acc ->
+          [key | [mess | []]] = Tuple.to_list(err)
+          [message | _] = Tuple.to_list(mess)
+          Ecto.Changeset.add_error(acc, key, message)
+        end)
+
+      true ->
+        changeset
+    end
   end
 
   defp validate_email(changeset) do
