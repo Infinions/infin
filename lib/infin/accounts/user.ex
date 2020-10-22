@@ -23,10 +23,16 @@ defmodule Infin.Accounts.User do
   """
   def registration_changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(to_form(attrs), [:email, :password])
     |> validate_confirmation(:password, message: "does not match password")
+    |> cast_assoc(:company, required: true)
     |> validate_email()
     |> validate_password()
+  end
+
+  defp to_form(attrs) when attrs == %{}, do: %{}
+  defp to_form(%{"nif" => nif, "name" => name} = attrs) do
+    Map.put(attrs, "company", attrs)
   end
 
   defp validate_email(changeset) do

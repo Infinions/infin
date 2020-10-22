@@ -7,18 +7,13 @@ defmodule InfinWeb.UserRegistrationController do
   alias InfinWeb.UserAuth
 
   def new(conn, _params) do
-    changeset = Accounts.change_user_registration(%User{})
+    changeset = User.registration_changeset(%User{}, %{})
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"company" => user_params}), do: create(conn, %{"user" => user_params})
   def create(conn, %{"user" => user_params}) do
-    case Companies.create_company(user_params) do
-      {:ok, company} ->
-        attrs = Map.put(user_params, "company_id", "#{company.id}")
-
-        case Accounts.register_user(attrs) do
-          {:ok, user} ->
+    case Accounts.register_user(user_params) do
+      {:ok, user} ->
             {:ok, _} =
               Accounts.deliver_user_confirmation_instructions(
                 user,
@@ -29,13 +24,22 @@ defmodule InfinWeb.UserRegistrationController do
             |> put_flash(:info, "User created successfully.")
             |> UserAuth.log_in_user(user)
 
-          {:error, %Ecto.Changeset{} = changeset} ->
-            {:ok, _} = Companies.delete_company(company)
-            render(conn, "new.html", changeset: changeset)
-        end
-
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        IO.inspect(changeset)
+        render(conn, "new.html", changeset: copy_errors(changeset))
+    end
+  end
+
+  defp copy_errors(%Ecto.Changeset{} = changeset) do
+    cond do
+      changeset.changes.company.errors ->
+        for err <- changeset.changes.company.errors do
+          [key | [err | []]] = Tuple.to_list(err)
+          changeset = Ecto.Changeset.add_error(changeset, key, err)
+        end
+        changeset
+
+      true -> changeset
     end
   end
 end

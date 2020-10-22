@@ -135,12 +135,21 @@ defmodule Infin.Companies do
   def add_user_to_company(%Company{} = company, %User{} = user) do
     user
     |> Ecto.Changeset.change(%{company_id: company.id})
+    |> Ecto.Changeset.put_assoc(:company, company)
     |> Repo.update()
   end
 
-  def register_user_and_company(company_attrs \\ %{}, user_attrs \\ %{}) do
+  def register_user_and_company(attrs \\ %{}) do
     Multi.new()
-    |> Multi.insert(:user, %User{} |> User.registration_changeset(user_attrs))
-    |> Multi.insert(:company, %Company{} |> Company.changeset(company_attrs))
+    |> Multi.insert(:company, %Company{} |> Company.changeset(attrs))
+    |> Multi.run(:user, fn repo, %{company: company} ->
+      repo.insert(
+        %User{}
+        |> User.registration_changeset(attrs)
+        |> Ecto.Changeset.change(%{company_id: company.id})
+        |> Ecto.Changeset.put_assoc(:company, company)
+      )
+    end)
+    |> Repo.transaction()
   end
 end
