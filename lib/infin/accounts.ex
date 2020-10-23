@@ -6,7 +6,6 @@ defmodule Infin.Accounts do
   import Ecto.Query, warn: false
   alias Infin.Repo
   alias Infin.Accounts.{User, UserToken, UserNotifier}
-  alias Infin.Companies
 
   ## Database getters
 
@@ -77,25 +76,6 @@ defmodule Infin.Accounts do
   def register_user(attrs) do
     %User{}
     |> User.registration_changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Registers a user with a company.
-
-  ## Examples
-
-      iex> register_user(company, %{field: value})
-      {:ok, %User{}}
-
-      iex> register_user(company, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def register_user_company(%Companies.Company{} = company, attrs) do
-    %User{}
-    |> User.registration_changeset(attrs)
-    |> Ecto.Changeset.put_assoc(:company, company)
     |> Repo.insert()
   end
 
