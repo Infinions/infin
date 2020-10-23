@@ -7,7 +7,6 @@ defmodule Infin.Companies do
   alias Infin.Repo
 
   alias Infin.Companies.Company
-  alias Infin.Accounts.User
 
   @doc """
   Returns the list of companies.
