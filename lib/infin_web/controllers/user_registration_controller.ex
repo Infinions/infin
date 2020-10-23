@@ -6,7 +6,7 @@ defmodule InfinWeb.UserRegistrationController do
   alias InfinWeb.UserAuth
 
   def new(conn, _params) do
-    changeset = User.registration_changeset(%User{}, %{})
+    changeset = Accounts.change_user_registration(%User{})
     render(conn, "new.html", changeset: changeset)
   end
 

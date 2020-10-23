@@ -25,7 +25,7 @@ defmodule InfinWeb.UserRegistrationControllerTest do
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => email, "password" => valid_user_password(), "password_confirmation" => valid_user_password()}
+          "user" => %{"email" => email, "password" => valid_user_password(), "password_confirmation" => valid_user_password(), "nif" => "#{System.unique_integer()}", "name" => "#{System.unique_integer()}"}
         })
 
 
@@ -43,7 +43,7 @@ defmodule InfinWeb.UserRegistrationControllerTest do
     test "render errors for invalid data", %{conn: conn} do
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => "with spaces", "password" => "too short", "password_confirmation" => "does not match"}
+          "user" => %{"email" => "with spaces", "password" => "too short", "password_confirmation" => "does not match", "nif" => "valid", "name" => "valid"}
         })
 
       response = html_response(conn, 200)

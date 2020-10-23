@@ -6,9 +6,9 @@ defmodule Infin.CompaniesTest do
   describe "companies" do
     alias Infin.Companies.Company
 
-    @valid_attrs %{name: "some name"}
-    @update_attrs %{name: "some updated name"}
-    @invalid_attrs %{name: nil}
+    @valid_attrs %{name: "some name", nif: "1234"}
+    @update_attrs %{name: "some updated name", nif: "123"}
+    @invalid_attrs %{nif: nil, name: nil}
 
     def company_fixture(attrs \\ %{}) do
       {:ok, company} =
@@ -29,9 +29,15 @@ defmodule Infin.CompaniesTest do
       assert Companies.get_company!(company.id) == company
     end
 
+    test "get_company_by_nif!/1 returns the company with given nif" do
+      company = company_fixture()
+      assert Companies.get_company_by_nif!(company.nif) == company
+    end
+
     test "create_company/1 with valid data creates a company" do
       assert {:ok, %Company{} = company} = Companies.create_company(@valid_attrs)
       assert company.name == "some name"
+      assert company.nif == "1234"
     end
 
     test "create_company/1 with invalid data returns error changeset" do
@@ -42,6 +48,7 @@ defmodule Infin.CompaniesTest do
       company = company_fixture()
       assert {:ok, %Company{} = company} = Companies.update_company(company, @update_attrs)
       assert company.name == "some updated name"
+      assert company.nif == "123"
     end
 
     test "update_company/2 with invalid data returns error changeset" do

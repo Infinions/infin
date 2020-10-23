@@ -23,17 +23,16 @@ defmodule Infin.Accounts.User do
   """
   def registration_changeset(user, attrs) do
     user
-    |> cast(to_form(attrs), [:email, :password])
+    |> cast(to_company_form(attrs), [:email, :password])
     |> validate_confirmation(:password, message: "does not match password")
     |> cast_assoc(:company, required: true)
     |> validate_email()
     |> validate_password()
   end
 
-  defp to_form(attrs) when attrs == %{}, do: %{}
-  defp to_form(%{"nif" => _nif, "name" => _name} = attrs) do
-    Map.put(attrs, "company", attrs)
-  end
+  defp to_company_form(%{"nif" => nif, "name" => name} = attrs), do: Map.put(attrs, "company", %{ "nif" => nif, "name" => name })
+  defp to_company_form(%{nif: nif, name: name} = attrs), do: Map.put(attrs, :company, %{ nif: nif, name: name })
+  defp to_company_form(%{} = attrs), do: attrs
 
   def copy_company_errors(%Ecto.Changeset{} = changeset) do
     company = changeset.changes.company
@@ -41,8 +40,10 @@ defmodule Infin.Accounts.User do
     cond do
       company ->
         Enum.reduce(company.errors, changeset, fn err, acc ->
-          [key | [mess | []]] = Tuple.to_list(err)
-          [message | _] = Tuple.to_list(mess)
+          key = Kernel.elem(err, 0)
+          pre_message = Kernel.elem(err, 1)
+          message = Kernel.elem(pre_message, 0)
+
           Ecto.Changeset.add_error(acc, key, message)
         end)
 
@@ -101,6 +102,15 @@ defmodule Infin.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_password()
+  end
+
+  @doc """
+  A user changeset for changing the company.
+  """
+  def company_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:company_id])
+    |> validate_required([:company_id])
   end
 
   @doc """

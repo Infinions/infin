@@ -5,7 +5,6 @@ defmodule Infin.Companies do
 
   import Ecto.Query, warn: false
   alias Infin.Repo
-  alias Ecto.Multi
 
   alias Infin.Companies.Company
   alias Infin.Accounts.User
@@ -118,38 +117,5 @@ defmodule Infin.Companies do
   """
   def change_company(%Company{} = company, attrs \\ %{}) do
     Company.changeset(company, attrs)
-  end
-
-  @doc """
-  Adds an user to ta company.
-
-  ## Examples
-
-      iex> add_user_to_company(company, user)
-      {:ok, %Ecto.Schema{}}
-
-      iex> add_user_company(company, bad_user})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def add_user_to_company(%Company{} = company, %User{} = user) do
-    user
-    |> Ecto.Changeset.change(%{company_id: company.id})
-    |> Ecto.Changeset.put_assoc(:company, company)
-    |> Repo.update()
-  end
-
-  def register_user_and_company(attrs \\ %{}) do
-    Multi.new()
-    |> Multi.insert(:company, %Company{} |> Company.changeset(attrs))
-    |> Multi.run(:user, fn repo, %{company: company} ->
-      repo.insert(
-        %User{}
-        |> User.registration_changeset(attrs)
-        |> Ecto.Changeset.change(%{company_id: company.id})
-        |> Ecto.Changeset.put_assoc(:company, company)
-      )
-    end)
-    |> Repo.transaction()
   end
 end

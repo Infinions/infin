@@ -6,9 +6,9 @@ defmodule InfinWeb.CompanyControllerTest do
 
   setup :register_and_log_in_user
 
-  @create_attrs %{name: "some name"}
+  @create_attrs %{name: "some name", nif: "1234"}
   @update_attrs %{name: "some updated name"}
-  @invalid_attrs %{name: nil}
+  @invalid_attrs %{nif: nil}
 
   def fixture(:company) do
     {:ok, company} = Companies.create_company(@create_attrs)
@@ -19,7 +19,7 @@ defmodule InfinWeb.CompanyControllerTest do
     setup [:create_company]
 
     test "renders form for editing chosen company", %{conn: conn, company: company, user: user} do
-      Companies.add_user_to_company(company, user)
+      Accounts.change_user_company(user, %{company_id: company.id})
 
       conn = get(conn, Routes.company_path(conn, :edit, company))
       assert html_response(conn, 200) =~ "Edit Company"
@@ -30,7 +30,7 @@ defmodule InfinWeb.CompanyControllerTest do
     setup [:create_company]
 
     test "redirects when data is valid", %{conn: conn, company: company, user: user} do
-      Companies.add_user_to_company(company, user)
+      Accounts.change_user_company(user, %{company_id: company.id})
 
       conn = put(conn, Routes.company_path(conn, :update, company), company: @update_attrs)
       assert redirected_to(conn) == Routes.company_path(conn, :show, company)
@@ -40,7 +40,7 @@ defmodule InfinWeb.CompanyControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, company: company, user: user} do
-      Companies.add_user_to_company(company, user)
+      Accounts.change_user_company(user, %{company_id: company.id})
 
       conn = put(conn, Routes.company_path(conn, :update, company), company: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Company"

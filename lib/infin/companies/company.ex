@@ -15,7 +15,6 @@ defmodule Infin.Companies.Company do
     company
     |> cast(attrs, [:name, :nif])
     |> validate_required([:name, :nif])
-    |> unique_constraint(:name)
     |> unique_constraint(:nif)
   end
 end

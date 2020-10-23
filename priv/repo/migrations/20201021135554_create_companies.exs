@@ -9,7 +9,6 @@ defmodule Infin.Repo.Migrations.CreateCompanies do
       timestamps()
     end
 
-    create unique_index(:companies, [:name])
     create unique_index(:companies, [:nif])
   end
 end
