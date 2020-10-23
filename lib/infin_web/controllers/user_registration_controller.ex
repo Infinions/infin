@@ -24,7 +24,7 @@ defmodule InfinWeb.UserRegistrationController do
         |> UserAuth.log_in_user(user)
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: User.copy_company_errors(changeset))
     end
   end
 end
