@@ -14,7 +14,9 @@
     <div id="page-container">
       <div id="content-wrap">
         <%= render "_navbar.html", assigns %>
-        <%= @inner_content %>
+        <div class="bd-lead">
+          <%= @inner_content %>
+        </div>
       </div>
       <%= render "_footer.html", assigns %>
     </div>
