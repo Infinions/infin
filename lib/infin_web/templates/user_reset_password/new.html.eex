@@ -1,15 +1,23 @@
-<h1>Forgot your password?</h1>
+<p class="is-size-3 mb-5">Forgot your password?</p>
 
 <%= form_for :user, Routes.user_reset_password_path(@conn, :create), fn f -> %>
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+  <div class="field">
+    <%= label f, :email, class: "label" %>
+    <div class="control has-icons-left">
+      <span class="icon is-small is-left">
+        <i class="fas fa-user"></i>
+      </span>
+      <%= email_input f, :email, required: true, class: "input" %>
+    </div>
+  </div>
 
-  <div>
-    <%= submit "Send instructions to reset password" %>
+  <div class="level mt-5">
+    <div class="level-left">
+      <%= submit "Send instructions to reset password", class: "button is-primary level-item" %>
+    </div>
+    <div class="level-left">
+      <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "button level-item" %>
+      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "button level-item" %>
+    </div>
   </div>
 <% end %>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>

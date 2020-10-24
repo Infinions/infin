@@ -1,4 +1,4 @@
-<h1>Reset password</h1>
+<p class="is-size-3 mb-5">Reset password</p>
 
 <%= form_for @changeset, Routes.user_reset_password_path(@conn, :update, @token), fn f -> %>
   <%= if @changeset.action do %>
@@ -7,20 +7,49 @@
     </div>
   <% end %>
 
-  <%= label f, :password, "New password" %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
+  <div class="field">
+    <%= label f, :password, "New password", class: "label" %>
+    <div class="control has-icons-left has-icons-right">
+      <span class="icon is-small is-left">
+        <i class="fas fa-lock"></i>
+      </span>
+      <%= if has_error(f, :password) do %>
+        <%= password_input f, :password, required: true, class: "input is-danger" %>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      <% else %>
+        <%= password_input f, :password, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :password %>
+    </div>
+  </div>
 
-  <%= label f, :password_confirmation, "Confirm new password" %>
-  <%= password_input f, :password_confirmation, required: true %>
-  <%= error_tag f, :password_confirmation %>
+  <div class="field">
+    <%= label f, :password_confirmation, "Confirm new password", class: "label" %>
+    <div class="control has-icons-left has-icons-right">
+      <span class="icon is-small is-left">
+        <i class="fas fa-lock"></i>
+      </span>
+      <%= if has_error(f, :password_confirmation) do %>
+        <%= password_input f, :password_confirmation, required: true, class: "input is-danger" %>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      <% else %>
+        <%= password_input f, :password_confirmation, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :password_confirmation %>
+    </div>
+  </div>
 
-  <div>
-    <%= submit "Reset password" %>
+  <div class="level mt-5">
+    <div class="level-left">
+      <%= submit "Reset password", class: "button is-primary level-item" %>
+    </div>
+    <div class="level-left">
+      <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "button level-item" %>
+      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "button level-item" %>
+    </div>
   </div>
 <% end %>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %>
-</p>
