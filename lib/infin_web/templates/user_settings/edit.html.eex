@@ -102,12 +102,12 @@
         <i class="fas fa-lock"></i>
       </span>
       <%= if has_error(f, :current_password) do %>
-        <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: "input is-danger" %>
+        <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password", class: "input is-danger" %>
         <span class="icon is-small is-right">
           <i class="fas fa-exclamation-triangle"></i>
         </span>
       <% else %>
-        <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: "input" %>
+        <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password", class: "input" %>
       <% end %>
       <%= error_tag f, :current_password %>
     </div>

@@ -4,12 +4,8 @@ defmodule InfinWeb.CompanyController do
   alias Infin.Companies
 
   def show(conn, _params, current_user_company) do
-    render(conn, "show.html", company: current_user_company)
-  end
-
-  def edit(conn, _params, current_user_company) do
     changeset = Companies.change_company(current_user_company)
-    render(conn, "edit.html", company: current_user_company, changeset: changeset)
+    render(conn, "show.html", company: current_user_company, changeset: changeset)
   end
 
   def update(conn, %{"company" => company_params}, current_user_company) do
@@ -20,7 +16,7 @@ defmodule InfinWeb.CompanyController do
         |> redirect(to: Routes.company_path(conn, :show, company))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", company: current_user_company, changeset: changeset)
+        render(conn, "show.html", company: current_user_company, changeset: changeset)
     end
   end
 

@@ -7,6 +7,8 @@
     </div>
   <% end %>
 
+  <p class="is-size-4 mt-3 mb-3">User</p>
+
   <div class="field">
     <%= label f, :email, class: "label" %>
     <div class="control has-icons-left has-icons-right">
@@ -24,14 +26,6 @@
       <%= error_tag f, :email %>
     </div>
   </div>
-
-  <%= label f, :company_name %>
-  <%= text_input f, :name, required: true %>
-  <%= error_tag f, :name %>
-
-  <%= label f, :company_nif %>
-  <%= text_input f, :nif, required: true %>
-  <%= error_tag f, :nif %>
 
   <div class="field">
     <%= label f, :password, class: "label" %>
@@ -69,11 +63,49 @@
     </div>
   </div>
 
+  <p class="is-size-4 mt-3 mb-3">Company</p>
+
+  <div class="field">
+    <%= label f, :company_name, "Name", class: "label" %>
+    <div class="control has-icons-left has-icons-right">
+      <span class="icon is-small is-left">
+        <i class="fas fa-building"></i>
+      </span>
+      <%= if has_error(f, :name) do %>
+        <%= text_input f, :name, required: true, class: "input is-danger" %>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      <% else %>
+        <%= text_input f, :name, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :name %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label f, :company_nif, "Tax Id", class: "label" %>
+    <div class="control has-icons-left has-icons-right">
+      <span class="icon is-small is-left">
+        <i class="fas fa-file-invoice-dollar"></i>
+      </span>
+      <%= if has_error(f, :nif) do %>
+        <%= text_input f, :nif, required: true, class: "input is-danger" %>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      <% else %>
+        <%= text_input f, :nif, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :nif %>
+    </div>
+  </div>
+
   <div class="level mt-5">
     <div class="level-left">
       <%= submit "Register", class: "button is-primary level-item" %>
     </div>
-    <div class="level-left">
+    <div class="level-right">
       <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "button level-item" %>
       <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "button level-item" %>
     </div>

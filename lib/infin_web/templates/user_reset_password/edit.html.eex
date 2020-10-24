@@ -47,7 +47,7 @@
     <div class="level-left">
       <%= submit "Reset password", class: "button is-primary level-item" %>
     </div>
-    <div class="level-left">
+    <div class="level-right">
       <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "button level-item" %>
       <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "button level-item" %>
     </div>
