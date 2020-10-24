@@ -1,12 +1,3 @@
-<h1>Show Company</h1>
+<p class="is-size-3 mb-5"><%= @company.name %> Settings</p>
 
-<ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @company.name %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.company_path(@conn, :edit, @company) %></span>
+<%= render "form.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
