@@ -14,10 +14,10 @@ alias Infin.Repo
 
 Repo.insert!(
   %User{}
-  |> User.registration_changeset(%{email: "test@mail.com", password: "Qwerty1234567891"})
+  |> User.registration_changeset(%{"email" => "test1@mail.com", "password" => "Qwerty1234567891", "name" => "Infin", "nif" => "1234"})
 )
 
 Repo.insert!(
   %User{}
-  |> User.registration_changeset(%{email: "test2@mail.com", password: "Qwerty1234567892"})
+  |> User.registration_changeset(%{"email" => "test2@mail.com", "password" => "Qwerty1234567892", "name" => "NotInfin", "nif" => "6123"})
 )

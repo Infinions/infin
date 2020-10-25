@@ -1,0 +1,26 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+    </a>
+
+    <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div class="navbar-menu" id="navMenu">
+    <div class="navbar-start">
+      <%= link "Home", to: Routes.page_path(@conn, :index), class: "navbar-item" %>
+      <%= link "Bulma Docs", to: "https://bulma.io/documentation/", class: "navbar-item" %>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <%= render "_user_menu.html", assigns %>
+      </div>
+    </div>
+  </div>
+</nav>

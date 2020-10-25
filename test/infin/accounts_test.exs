@@ -86,18 +86,19 @@ defmodule Infin.AccountsTest do
 
     test "registers users with a hashed password" do
       email = unique_user_email()
-      {:ok, user} = Accounts.register_user(%{email: email, password: valid_user_password(), password_confirmation: valid_user_password()})
+      {:ok, user} = Accounts.register_user(%{email: email, password: valid_user_password(), password_confirmation: valid_user_password(), name: "#{System.unique_integer()}", nif: "#{System.unique_integer()}"})
       assert user.email == email
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
       assert is_nil(user.password)
+      refute is_nil(user.company)
     end
   end
 
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:password, :email, :company]
     end
   end
 

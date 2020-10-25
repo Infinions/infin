@@ -7,9 +7,9 @@ defmodule InfinWeb.UserRegistrationControllerTest do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
-      assert response =~ "Log in</a>"
-      assert response =~ "Register</a>"
+      assert response =~ "Register"
+      assert response =~ "Log in"
+      assert response =~ "Register"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -25,8 +25,9 @@ defmodule InfinWeb.UserRegistrationControllerTest do
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => email, "password" => valid_user_password(), "password_confirmation" => valid_user_password()}
+          "user" => %{"email" => email, "password" => valid_user_password(), "password_confirmation" => valid_user_password(), "nif" => "#{System.unique_integer()}", "name" => "#{System.unique_integer()}"}
         })
+
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) =~ "/"
@@ -35,18 +36,18 @@ defmodule InfinWeb.UserRegistrationControllerTest do
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ email
-      assert response =~ "Settings</a>"
+      assert response =~ "#{email}</a>"
       assert response =~ "Log out</a>"
     end
 
     test "render errors for invalid data", %{conn: conn} do
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => "with spaces", "password" => "too short", "password_confirmation" => "does not match"}
+          "user" => %{"email" => "with spaces", "password" => "Too short", "password_confirmation" => "does not match", "nif" => "valid", "name" => "valid"}
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
+      assert response =~ "Register"
       assert response =~ "must have the @ sign and no spaces"
       assert response =~ "should be at least 12 character"
       assert response =~ "does not match password"

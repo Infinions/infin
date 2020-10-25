@@ -76,4 +76,11 @@ defmodule InfinWeb.Router do
     post "/users/confirm", UserConfirmationController, :create
     get "/users/confirm/:token", UserConfirmationController, :confirm
   end
+
+
+  scope "/manage", InfinWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    resources "/companies", CompanyController, only: [:show, :update]
+  end
 end

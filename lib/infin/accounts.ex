@@ -184,6 +184,15 @@ defmodule Infin.Accounts do
   end
 
   @doc """
+  Returns an `%Ecto.Changeset{}` for changing the user company.
+
+  """
+  def change_user_company(user, attrs) do
+    User.company_changeset(user, attrs)
+    |> Repo.update!()
+  end
+
+  @doc """
   Updates the user password.
 
   ## Examples
@@ -227,7 +236,9 @@ defmodule Infin.Accounts do
   """
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
-    Repo.one(query)
+    query
+    |> Repo.one()
+    |> Repo.preload(:company)
   end
 
   @doc """
