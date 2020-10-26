@@ -5,7 +5,7 @@ defmodule InfinWeb.CategoryController do
   alias Infin.Companies.Category
 
   def index(conn, _params) do
-    categories = Companies.list_categories()
+    categories = Companies.list_categories(conn.assigns[:current_user].company_id)
     render(conn, "index.html", categories: categories)
   end
 
@@ -15,7 +15,7 @@ defmodule InfinWeb.CategoryController do
   end
 
   def create(conn, %{"category" => category_params}) do
-    case Companies.create_category(category_params) do
+    case Companies.create_category(category_params, conn.assigns[:current_user].company_id) do
       {:ok, category} ->
         conn
         |> put_flash(:info, "Category created successfully.")
