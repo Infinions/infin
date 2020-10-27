@@ -3,6 +3,8 @@ defmodule InfinWeb.CategoryControllerTest do
 
   alias Infin.Companies
 
+  setup :register_and_log_in_user
+
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
@@ -46,7 +48,9 @@ defmodule InfinWeb.CategoryControllerTest do
   describe "edit category" do
     setup [:create_category]
 
-    test "renders form for editing chosen category", %{conn: conn, category: category} do
+    test "renders form for editing chosen category", %{conn: conn, category: category, user: user} do
+      Companies.change_company_category(category, %{company_id: user.company.id})
+
       conn = get(conn, Routes.category_path(conn, :edit, category))
       assert html_response(conn, 200) =~ "Edit Category"
     end
@@ -55,7 +59,9 @@ defmodule InfinWeb.CategoryControllerTest do
   describe "update category" do
     setup [:create_category]
 
-    test "redirects when data is valid", %{conn: conn, category: category} do
+    test "redirects when data is valid", %{conn: conn, category: category, user: user} do
+      Companies.change_company_category(category, %{company_id: user.company.id})
+
       conn = put(conn, Routes.category_path(conn, :update, category), category: @update_attrs)
       assert redirected_to(conn) == Routes.category_path(conn, :show, category)
 
@@ -63,7 +69,9 @@ defmodule InfinWeb.CategoryControllerTest do
       assert html_response(conn, 200) =~ "some updated name"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, category: category} do
+    test "renders errors when data is invalid", %{conn: conn, category: category, user: user} do
+      Companies.change_company_category(category, %{company_id: user.company.id})
+
       conn = put(conn, Routes.category_path(conn, :update, category), category: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Category"
     end
@@ -72,7 +80,9 @@ defmodule InfinWeb.CategoryControllerTest do
   describe "delete category" do
     setup [:create_category]
 
-    test "deletes chosen category", %{conn: conn, category: category} do
+    test "deletes chosen category", %{conn: conn, category: category, user: user} do
+      Companies.change_company_category(category, %{company_id: user.company.id})
+
       conn = delete(conn, Routes.category_path(conn, :delete, category))
       assert redirected_to(conn) == Routes.category_path(conn, :index)
       assert_error_sent 404, fn ->

@@ -129,7 +129,11 @@ defmodule Infin.Companies do
       [%Category{}, ...]
 
   """
-  def list_categories(company_id) do
+  def list_categories() do
+    Repo.all(Category)
+  end
+
+  def list_company_categories(company_id) do
     Repo.all(from c in Category, where: c.company_id == ^company_id)
   end
 
@@ -161,6 +165,12 @@ defmodule Infin.Companies do
       {:error, %Ecto.Changeset{}}
 
   """
+  def create_category(attrs) do
+    %Category{}
+    |> Category.changeset(attrs)
+    |> Repo.insert()
+  end
+
   def create_category(attrs, company_id) do
     category = %{:name => attrs["name"], :company_id => company_id}
     %Category{}
@@ -213,5 +223,10 @@ defmodule Infin.Companies do
   """
   def change_category(%Category{} = category, attrs \\ %{}) do
     Category.changeset(category, attrs)
+  end
+
+  def change_company_category(company, attrs) do
+    Category.category_changeset(company, attrs)
+    |> Repo.update!()
   end
 end

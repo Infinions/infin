@@ -6,7 +6,6 @@ defmodule Infin.Repo.Migrations.CompanyAddCategories do
       add :company_id, references(:companies)
     end
 
-    create unique_index(:categories, [:name])
     create unique_index(:categories, [:name, :company_id])
   end
 end
