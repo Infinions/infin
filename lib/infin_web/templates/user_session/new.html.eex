@@ -1,27 +1,60 @@
-<h1>Log in</h1>
+<p class="is-size-3 mb-5">Log in</p>
 
 <%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>
   <%= if @error_message do %>
-    <div class="alert alert-danger">
+    <div class="notification is-danger">
       <p><%= @error_message %></p>
     </div>
   <% end %>
 
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
+  <div class="field">
+    <%= label f, :email, class: "label" %>
+    <div class="control has-icons-left has-icons-right">
+      <span class="icon is-small is-left">
+        <i class="fas fa-user"></i>
+      </span>
+      <%= if has_error(f, :email) do %>
+        <%= email_input f, :email, required: true, class: "input is-danger" %>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      <% else %>
+        <%= email_input f, :email, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :email %>
+    </div>
+  </div>
 
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
+  <div class="field">
+    <%= label f, :password, class: "label" %>
+    <div class="control has-icons-left has-icons-right">
+      <span class="icon is-small is-left">
+        <i class="fas fa-lock"></i>
+      </span>
+      <%= if has_error(f, :password) do %>
+        <%= password_input f, :password, required: true, class: "input is-danger" %>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      <% else %>
+        <%= password_input f, :password, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :password %>
+    </div>
+  </div>
 
-  <%= label f, :remember_me, "Keep me logged in for 60 days" %>
-  <%= checkbox f, :remember_me %>
+  <div class="field">
+    <%= checkbox f, :remember_me %>
+    <%= label f, :remember_me, "Remember me" %>
+  </div>
 
-  <div>
-    <%= submit "Log in" %>
+  <div class="level mt-5">
+    <div class="level-left">
+      <%= submit "Log in", class: "button is-primary level-item" %>
+    </div>
+    <div class="level-right">
+      <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "button level-item" %>
+  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: "button level-item" %>
+    </div>
   </div>
 <% end %>
-
-<p>
-  <%= link "Register", to: Routes.user_registration_path(@conn, :new) %> |
-  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
-</p>

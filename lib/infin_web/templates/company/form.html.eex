@@ -5,11 +5,39 @@
     </div>
   <% end %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
+  <div class="field">
+    <%= label f, :name, "Name", class: "label" %>
+    <div class="control has-icons-left has-icons-right">
+      <span class="icon is-small is-left">
+        <i class="fas fa-building"></i>
+      </span>
+      <%= if has_error(f, :name) do %>
+        <%= text_input f, :name, required: true, class: "input is-danger" %>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+      <% else %>
+        <%= text_input f, :name, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :name %>
+    </div>
+  </div>
 
-  <div>
-    <%= submit "Save" %>
+  <div class="field">
+    <fieldset disabled>
+      <%= label f, :company_nif, "Tax Id", class: "label" %>
+      <div class="control has-icons-left">
+        <span class="icon is-small is-left">
+          <i class="fas fa-file-invoice-dollar"></i>
+        </span>
+        <%= text_input f, :nif, required: true, class: "input" %>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= submit "Update", class: "button is-primary" %>
+    </div>
   </div>
 <% end %>
