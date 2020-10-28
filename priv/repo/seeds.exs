@@ -10,6 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 alias Infin.Accounts.User
+alias Infin.Companies.Category
 alias Infin.Repo
 
 Repo.insert!(
@@ -20,4 +21,24 @@ Repo.insert!(
 Repo.insert!(
   %User{}
   |> User.registration_changeset(%{"email" => "test2@mail.com", "password" => "Qwerty1234567892", "name" => "NotInfin", "nif" => "6123"})
+)
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Food", "company_id" => "1",})
+)
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Drink", "company_id" => "1",})
+)
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Foodssss", "company_id" => "2",})
+)
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Drinkssss", "company_id" => "2",})
 )
