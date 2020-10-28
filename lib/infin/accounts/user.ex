@@ -23,7 +23,7 @@ defmodule Infin.Accounts.User do
   """
   def registration_changeset(user, attrs) do
     user
-    |> cast(to_company_form(attrs), [:email, :password])
+    |> cast(attrs, [:email, :password])
     |> validate_confirmation(:password, message: "does not match password")
     |> cast_assoc(:company, required: true)
     |> validate_email()
