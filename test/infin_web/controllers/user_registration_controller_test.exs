@@ -25,9 +25,16 @@ defmodule InfinWeb.UserRegistrationControllerTest do
 
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => email, "password" => valid_user_password(), "password_confirmation" => valid_user_password(), "nif" => "#{System.unique_integer()}", "name" => "#{System.unique_integer()}"}
+          "user" => %{
+            "email" => email,
+            "password" => valid_user_password(),
+            "password_confirmation" => valid_user_password(),
+            "company" => %{
+              "nif" => "#{System.unique_integer()}",
+              "name" => "#{System.unique_integer()}"
+            }
+          }
         })
-
 
       assert get_session(conn, :user_token)
       assert redirected_to(conn) =~ "/"
@@ -43,7 +50,15 @@ defmodule InfinWeb.UserRegistrationControllerTest do
     test "render errors for invalid data", %{conn: conn} do
       conn =
         post(conn, Routes.user_registration_path(conn, :create), %{
-          "user" => %{"email" => "with spaces", "password" => "Too short", "password_confirmation" => "does not match", "nif" => "valid", "name" => "valid"}
+          "user" => %{
+            "email" => "with spaces",
+            "password" => "Too short",
+            "password_confirmation" => "does not match",
+            "company" => %{
+              "nif" => "#{System.unique_integer()}",
+              "name" => "#{System.unique_integer()}"
+            }
+          }
         })
 
       response = html_response(conn, 200)
