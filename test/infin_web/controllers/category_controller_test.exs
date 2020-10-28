@@ -85,9 +85,6 @@ defmodule InfinWeb.CategoryControllerTest do
 
       conn = delete(conn, Routes.category_path(conn, :delete, category))
       assert redirected_to(conn) == Routes.category_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get(conn, Routes.category_path(conn, :show, category))
-      end
     end
   end
 

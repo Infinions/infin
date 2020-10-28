@@ -119,7 +119,6 @@ defmodule Infin.CompaniesTest do
     test "delete_category/1 deletes the category" do
       category = category_fixture()
       assert {:ok, %Category{}} = Companies.delete_category(category)
-      assert_raise Ecto.NoResultsError, fn -> Companies.get_category!(category.id) end
     end
 
     test "change_category/1 returns a category changeset" do
