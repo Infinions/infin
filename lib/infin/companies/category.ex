@@ -13,7 +13,7 @@ defmodule Infin.Companies.Category do
   def changeset(category, attrs) do
     category
     |> cast(attrs, [:name, :company_id])
-    |> validate_required([:name, :company_id])
+    |> validate_required(:name)
     |> unique_constraint([:name, :company_id])
   end
 
