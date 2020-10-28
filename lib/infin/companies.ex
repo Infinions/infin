@@ -173,6 +173,7 @@ defmodule Infin.Companies do
 
   def create_category(attrs, company_id) do
     category = %{:name => attrs["name"], :company_id => company_id}
+
     %Category{}
     |> Category.changeset(category)
     |> Repo.insert()

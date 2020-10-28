@@ -58,7 +58,12 @@ defmodule Infin.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_user(%{email: "not valid", password: "Not valid", password_confirmation: "not matching"})
+      {:error, changeset} =
+        Accounts.register_user(%{
+          email: "not valid",
+          password: "Not valid",
+          password_confirmation: "not matching"
+        })
 
       assert %{
                email: ["must have the @ sign and no spaces"],
@@ -86,7 +91,16 @@ defmodule Infin.AccountsTest do
 
     test "registers users with a hashed password" do
       email = unique_user_email()
-      {:ok, user} = Accounts.register_user(%{email: email, password: valid_user_password(), password_confirmation: valid_user_password(), name: "#{System.unique_integer()}", nif: "#{System.unique_integer()}"})
+
+      {:ok, user} =
+        Accounts.register_user(%{
+          email: email,
+          password: valid_user_password(),
+          password_confirmation: valid_user_password(),
+          name: "#{System.unique_integer()}",
+          nif: "#{System.unique_integer()}"
+        })
+
       assert user.email == email
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)

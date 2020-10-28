@@ -15,30 +15,40 @@ alias Infin.Repo
 
 Repo.insert!(
   %User{}
-  |> User.registration_changeset(%{"email" => "test1@mail.com", "password" => "Qwerty1234567891", "name" => "Infin", "nif" => "1234"})
+  |> User.registration_changeset(%{
+    "email" => "test1@mail.com",
+    "password" => "Qwerty1234567891",
+    "name" => "Infin",
+    "nif" => "1234"
+  })
 )
 
 Repo.insert!(
   %User{}
-  |> User.registration_changeset(%{"email" => "test2@mail.com", "password" => "Qwerty1234567892", "name" => "NotInfin", "nif" => "6123"})
+  |> User.registration_changeset(%{
+    "email" => "test2@mail.com",
+    "password" => "Qwerty1234567892",
+    "name" => "NotInfin",
+    "nif" => "6123"
+  })
 )
 
 Repo.insert!(
   %Category{}
-  |> Category.changeset(%{"name" => "Food", "company_id" => "1",})
+  |> Category.changeset(%{"name" => "Food", "company_id" => "1"})
 )
 
 Repo.insert!(
   %Category{}
-  |> Category.changeset(%{"name" => "Drink", "company_id" => "1",})
+  |> Category.changeset(%{"name" => "Drink", "company_id" => "1"})
 )
 
 Repo.insert!(
   %Category{}
-  |> Category.changeset(%{"name" => "Education", "company_id" => "2",})
+  |> Category.changeset(%{"name" => "Education", "company_id" => "2"})
 )
 
 Repo.insert!(
   %Category{}
-  |> Category.changeset(%{"name" => "Travel", "company_id" => "2",})
+  |> Category.changeset(%{"name" => "Travel", "company_id" => "2"})
 )
