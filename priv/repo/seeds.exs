@@ -35,10 +35,10 @@ Repo.insert!(
 
 Repo.insert!(
   %Category{}
-  |> Category.changeset(%{"name" => "Foodssss", "company_id" => "2",})
+  |> Category.changeset(%{"name" => "Education", "company_id" => "2",})
 )
 
 Repo.insert!(
   %Category{}
-  |> Category.changeset(%{"name" => "Drinkssss", "company_id" => "2",})
+  |> Category.changeset(%{"name" => "Travel", "company_id" => "2",})
 )
