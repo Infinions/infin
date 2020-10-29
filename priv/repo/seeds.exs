@@ -33,3 +33,23 @@ Repo.insert!(
     }
   })
 )
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Food", "company_id" => "1"})
+)
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Drink", "company_id" => "1"})
+)
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Education", "company_id" => "2"})
+)
+
+Repo.insert!(
+  %Category{}
+  |> Category.changeset(%{"name" => "Travel", "company_id" => "2"})
+)
