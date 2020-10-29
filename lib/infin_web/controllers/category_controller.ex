@@ -34,24 +34,8 @@ defmodule InfinWeb.CategoryController do
       category ->
         cond do
           company_id == category.company_id ->
-            render(conn, "show.html", category: category)
-
-          true ->
-            index(conn, %{}, company_id)
-        end
-    end
-  end
-
-  def edit(conn, %{"id" => id}, company_id) do
-    case Companies.get_category(id) do
-      nil ->
-        index(conn, %{}, company_id)
-
-      category ->
-        cond do
-          company_id == category.company_id ->
             changeset = Companies.change_category(category)
-            render(conn, "edit.html", category: category, changeset: changeset)
+            render(conn, "show.html", category: category, changeset: changeset)
 
           true ->
             index(conn, %{}, company_id)
@@ -74,7 +58,7 @@ defmodule InfinWeb.CategoryController do
                 |> redirect(to: Routes.category_path(conn, :show, category))
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                render(conn, "edit.html", category: category, changeset: changeset)
+                render(conn, "show.html", category: category, changeset: changeset)
             end
 
           true ->

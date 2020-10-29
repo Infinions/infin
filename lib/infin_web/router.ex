@@ -81,6 +81,6 @@ defmodule InfinWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     resources "/companies", CompanyController, only: [:show, :update]
-    resources "/categories", CategoryController
+    resources "/categories", CategoryController, except: [:edit]
   end
 end
