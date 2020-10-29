@@ -53,8 +53,8 @@ defmodule InfinWeb.CategoryControllerTest do
     test "renders form for editing chosen category", %{conn: conn, category: category, user: user} do
       Companies.change_company_category(category, %{company_id: user.company.id})
 
-      conn = get(conn, Routes.category_path(conn, :edit, category))
-      assert html_response(conn, 200) =~ "Edit Category"
+      conn = get(conn, Routes.category_path(conn, :show, category))
+      assert html_response(conn, 200) =~ "Show Category"
     end
   end
 
@@ -75,7 +75,7 @@ defmodule InfinWeb.CategoryControllerTest do
       Companies.change_company_category(category, %{company_id: user.company.id})
 
       conn = put(conn, Routes.category_path(conn, :update, category), category: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Category"
+      assert html_response(conn, 200) =~ "Show Category"
     end
   end
 
