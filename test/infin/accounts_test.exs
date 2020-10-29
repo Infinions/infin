@@ -97,8 +97,7 @@ defmodule Infin.AccountsTest do
           email: email,
           password: valid_user_password(),
           password_confirmation: valid_user_password(),
-          name: "#{System.unique_integer()}",
-          nif: "#{System.unique_integer()}"
+          company: %{name: "#{System.unique_integer()}", nif: "#{System.unique_integer()}"}
         })
 
       assert user.email == email

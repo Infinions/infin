@@ -29,8 +29,10 @@ defmodule InfinWeb.UserRegistrationControllerTest do
             "email" => email,
             "password" => valid_user_password(),
             "password_confirmation" => valid_user_password(),
-            "nif" => "#{System.unique_integer()}",
-            "name" => "#{System.unique_integer()}"
+            "company" => %{
+              "nif" => "#{System.unique_integer()}",
+              "name" => "#{System.unique_integer()}"
+            }
           }
         })
 
@@ -52,8 +54,10 @@ defmodule InfinWeb.UserRegistrationControllerTest do
             "email" => "with spaces",
             "password" => "Too short",
             "password_confirmation" => "does not match",
-            "nif" => "valid",
-            "name" => "valid"
+            "company" => %{
+              "nif" => "#{System.unique_integer()}",
+              "name" => "#{System.unique_integer()}"
+            }
           }
         })
 
