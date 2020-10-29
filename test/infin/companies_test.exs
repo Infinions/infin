@@ -1,6 +1,8 @@
 defmodule Infin.CompaniesTest do
   use Infin.DataCase
 
+  import Infin.Factory
+
   alias Infin.Companies
 
   describe "companies" do
@@ -72,17 +74,12 @@ defmodule Infin.CompaniesTest do
   describe "categories" do
     alias Infin.Companies.Category
 
-    @valid_attrs %{name: "some name"}
     @update_attrs %{name: "some updated name"}
-    @invalid_attrs %{name: nil}
+    @invalid_attrs %{name: nil, company_id: nil}
 
-    def category_fixture(attrs \\ %{}) do
-      {:ok, category} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Companies.create_category()
-
-      category
+    def category_fixture() do
+      company = insert(:company)
+      insert(:category, company_id: company.id)
     end
 
     test "list_categories/0 returns all categories" do
@@ -96,7 +93,9 @@ defmodule Infin.CompaniesTest do
     end
 
     test "create_category/1 with valid data creates a category" do
-      assert {:ok, %Category{} = category} = Companies.create_category(@valid_attrs)
+      company = company_fixture()
+      attrs =%{name: "some name", company_id: company.id}
+      assert {:ok, %Category{} = category} = Companies.create_category(attrs)
       assert category.name == "some name"
     end
 

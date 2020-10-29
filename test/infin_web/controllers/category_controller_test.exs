@@ -1,6 +1,8 @@
 defmodule InfinWeb.CategoryControllerTest do
   use InfinWeb.ConnCase
 
+  import Infin.Factory
+
   alias Infin.Companies
 
   setup :register_and_log_in_user
@@ -10,8 +12,8 @@ defmodule InfinWeb.CategoryControllerTest do
   @invalid_attrs %{name: nil}
 
   def fixture(:category) do
-    {:ok, category} = Companies.create_category(@create_attrs)
-    category
+    company = insert(:company)
+    insert(:category, company_id: company.id)
   end
 
   describe "index" do
