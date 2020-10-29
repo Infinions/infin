@@ -1,18 +1,17 @@
 defmodule InfinWeb.CompanyControllerTest do
   use InfinWeb.ConnCase, async: true
 
-  alias Infin.Companies
+  import Infin.Factory
+
   alias Infin.Accounts
 
   setup :register_and_log_in_user
 
-  @create_attrs %{name: "some name", nif: "1234"}
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{nif: nil}
 
   def fixture(:company) do
-    {:ok, company} = Companies.create_company(@create_attrs)
-    company
+    insert(:company)
   end
 
   describe "edit company" do

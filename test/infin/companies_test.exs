@@ -12,13 +12,8 @@ defmodule Infin.CompaniesTest do
     @update_attrs %{name: "some updated name", nif: "123"}
     @invalid_attrs %{nif: nil, name: nil}
 
-    def company_fixture(attrs \\ %{}) do
-      {:ok, company} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Companies.create_company()
-
-      company
+    def company_fixture() do
+      insert(:company)
     end
 
     test "list_companies/0 returns all companies" do
