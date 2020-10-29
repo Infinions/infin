@@ -77,10 +77,10 @@ defmodule InfinWeb.Router do
     get "/users/confirm/:token", UserConfirmationController, :confirm
   end
 
-
   scope "/manage", InfinWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     resources "/companies", CompanyController, only: [:show, :update]
+    resources "/categories", CategoryController, except: [:edit]
   end
 end

@@ -1,6 +1,8 @@
 defmodule Infin.CompaniesTest do
   use Infin.DataCase
 
+  import Infin.Factory
+
   alias Infin.Companies
 
   describe "companies" do
@@ -10,13 +12,8 @@ defmodule Infin.CompaniesTest do
     @update_attrs %{name: "some updated name", nif: "123"}
     @invalid_attrs %{nif: nil, name: nil}
 
-    def company_fixture(attrs \\ %{}) do
-      {:ok, company} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Companies.create_company()
-
-      company
+    def company_fixture() do
+      insert(:company)
     end
 
     test "list_companies/0 returns all companies" do
@@ -66,6 +63,61 @@ defmodule Infin.CompaniesTest do
     test "change_company/1 returns a company changeset" do
       company = company_fixture()
       assert %Ecto.Changeset{} = Companies.change_company(company)
+    end
+  end
+
+  describe "categories" do
+    alias Infin.Companies.Category
+
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil, company_id: nil}
+
+    def category_fixture() do
+      company = insert(:company)
+      insert(:category, company_id: company.id)
+    end
+
+    test "list_categories/0 returns all categories" do
+      category = category_fixture()
+      assert Companies.list_categories() == [category]
+    end
+
+    test "get_category!/1 returns the category with given id" do
+      category = category_fixture()
+      assert Companies.get_category(category.id) == category
+    end
+
+    test "create_category/1 with valid data creates a category" do
+      company = company_fixture()
+      attrs =%{name: "some name", company_id: company.id}
+      assert {:ok, %Category{} = category} = Companies.create_category(attrs)
+      assert category.name == "some name"
+    end
+
+    test "create_category/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Companies.create_category(@invalid_attrs)
+    end
+
+    test "update_category/2 with valid data updates the category" do
+      category = category_fixture()
+      assert {:ok, %Category{} = category} = Companies.update_category(category, @update_attrs)
+      assert category.name == "some updated name"
+    end
+
+    test "update_category/2 with invalid data returns error changeset" do
+      category = category_fixture()
+      assert {:error, %Ecto.Changeset{}} = Companies.update_category(category, @invalid_attrs)
+      assert category == Companies.get_category(category.id)
+    end
+
+    test "delete_category/1 deletes the category" do
+      category = category_fixture()
+      assert {:ok, %Category{}} = Companies.delete_category(category)
+    end
+
+    test "change_category/1 returns a category changeset" do
+      category = category_fixture()
+      assert %Ecto.Changeset{} = Companies.change_category(category)
     end
   end
 end
