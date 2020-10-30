@@ -184,11 +184,14 @@ defmodule Infin.Accounts do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for changing the user company.
+  Updates the user company.
 
   """
-  def change_user_company(user, attrs) do
-    User.company_changeset(user, attrs)
+  def change_user_company(user, company) do
+    user
+    |> Repo.preload(:company)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:company, company)
     |> Repo.update!()
   end
 
