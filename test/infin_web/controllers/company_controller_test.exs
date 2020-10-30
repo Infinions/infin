@@ -9,7 +9,7 @@ defmodule InfinWeb.CompanyControllerTest do
 
   @update_attrs %{name: "some updated name"}
   @invalid_update_attrs %{name: nil}
-  @invalid_update_nif_attrs %{nif: "#{System.unique_integer()}"}
+  @invalid_update_nif_attrs %{nif: "AZ91"}
 
   def fixture(:company) do
     insert(:company)
@@ -50,7 +50,7 @@ defmodule InfinWeb.CompanyControllerTest do
         put(conn, Routes.company_path(conn, :update, company), company: @invalid_update_nif_attrs)
 
       assert html_response(conn, 302)
-      refute company.nif == "91"
+      refute company.nif == "AZ91"
     end
 
     test "renders errors when data is invalid", %{conn: conn, company: company, user: user} do
