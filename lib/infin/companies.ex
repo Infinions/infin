@@ -67,7 +67,7 @@ defmodule Infin.Companies do
   """
   def create_company(attrs \\ %{}) do
     %Company{}
-    |> Company.changeset(attrs)
+    |> Company.registration_changeset(attrs)
     |> Repo.insert()
   end
 

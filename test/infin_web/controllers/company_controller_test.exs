@@ -8,7 +8,8 @@ defmodule InfinWeb.CompanyControllerTest do
   setup :register_and_log_in_user
 
   @update_attrs %{name: "some updated name"}
-  @invalid_attrs %{nif: nil}
+  @invalid_update_attrs %{name: nil}
+  @invalid_update_nif_attrs %{nif: "#{System.unique_integer()}"}
 
   def fixture(:company) do
     insert(:company)
@@ -38,10 +39,26 @@ defmodule InfinWeb.CompanyControllerTest do
       assert html_response(conn, 200) =~ "some updated name"
     end
 
+    test "redirects when editing trying to edit the nif", %{
+      conn: conn,
+      company: company,
+      user: user
+    } do
+      Accounts.change_user_company(user, company)
+
+      conn =
+        put(conn, Routes.company_path(conn, :update, company), company: @invalid_update_nif_attrs)
+
+      assert html_response(conn, 302)
+      refute company.nif == "91"
+    end
+
     test "renders errors when data is invalid", %{conn: conn, company: company, user: user} do
       Accounts.change_user_company(user, company)
 
-      conn = put(conn, Routes.company_path(conn, :update, company), company: @invalid_attrs)
+      conn =
+        put(conn, Routes.company_path(conn, :update, company), company: @invalid_update_attrs)
+
       assert html_response(conn, 200) =~ "Settings"
     end
   end
