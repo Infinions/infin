@@ -16,10 +16,4 @@ defmodule Infin.Companies.Category do
     |> validate_required([:name, :company_id])
     |> unique_constraint([:name, :company_id])
   end
-
-  def category_changeset(company, attrs) do
-    company
-    |> cast(attrs, [:company_id])
-    |> validate_required([:company_id])
-  end
 end

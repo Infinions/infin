@@ -83,15 +83,6 @@ defmodule Infin.Accounts.User do
   end
 
   @doc """
-  A user changeset for changing the company.
-  """
-  def company_changeset(user, attrs) do
-    user
-    |> cast(attrs, [:company_id])
-    |> validate_required([:company_id])
-  end
-
-  @doc """
   Confirms the account by setting `confirmed_at`.
   """
   def confirm_changeset(user) do
