@@ -51,7 +51,7 @@ defmodule InfinWeb.CategoryControllerTest do
     setup [:create_category]
 
     test "renders form for editing chosen category", %{conn: conn, category: category, user: user} do
-      Companies.change_company_category(category, %{company_id: user.company.id})
+      Companies.change_category_company(category, user.company)
 
       conn = get(conn, Routes.category_path(conn, :show, category))
       assert html_response(conn, 200) =~ "Show Category"
@@ -62,7 +62,7 @@ defmodule InfinWeb.CategoryControllerTest do
     setup [:create_category]
 
     test "redirects when data is valid", %{conn: conn, category: category, user: user} do
-      Companies.change_company_category(category, %{company_id: user.company.id})
+      Companies.change_category_company(category, user.company)
 
       conn = put(conn, Routes.category_path(conn, :update, category), category: @update_attrs)
       assert redirected_to(conn) == Routes.category_path(conn, :show, category)
@@ -72,7 +72,7 @@ defmodule InfinWeb.CategoryControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, category: category, user: user} do
-      Companies.change_company_category(category, %{company_id: user.company.id})
+      Companies.change_category_company(category, user.company)
 
       conn = put(conn, Routes.category_path(conn, :update, category), category: @invalid_attrs)
       assert html_response(conn, 200) =~ "Show Category"
@@ -83,7 +83,7 @@ defmodule InfinWeb.CategoryControllerTest do
     setup [:create_category]
 
     test "deletes chosen category", %{conn: conn, category: category, user: user} do
-      Companies.change_company_category(category, %{company_id: user.company.id})
+      Companies.change_category_company(category, user.company)
 
       conn = delete(conn, Routes.category_path(conn, :delete, category))
       assert redirected_to(conn) == Routes.category_path(conn, :index)
