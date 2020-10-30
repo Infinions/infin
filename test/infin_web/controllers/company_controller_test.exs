@@ -18,7 +18,7 @@ defmodule InfinWeb.CompanyControllerTest do
     setup [:create_company]
 
     test "renders form for editing chosen company", %{conn: conn, company: company, user: user} do
-      Accounts.change_user_company(user, %{company_id: company.id})
+      Accounts.change_user_company(user, company)
 
       conn = get(conn, Routes.company_path(conn, :show, company))
       assert html_response(conn, 200) =~ "Settings"
@@ -29,7 +29,7 @@ defmodule InfinWeb.CompanyControllerTest do
     setup [:create_company]
 
     test "redirects when data is valid", %{conn: conn, company: company, user: user} do
-      Accounts.change_user_company(user, %{company_id: company.id})
+      Accounts.change_user_company(user, company)
 
       conn = put(conn, Routes.company_path(conn, :update, company), company: @update_attrs)
       assert redirected_to(conn) == Routes.company_path(conn, :show, company)
@@ -39,7 +39,7 @@ defmodule InfinWeb.CompanyControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, company: company, user: user} do
-      Accounts.change_user_company(user, %{company_id: company.id})
+      Accounts.change_user_company(user, company)
 
       conn = put(conn, Routes.company_path(conn, :update, company), company: @invalid_attrs)
       assert html_response(conn, 200) =~ "Settings"

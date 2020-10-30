@@ -151,6 +151,8 @@ defmodule Infin.Companies do
       ** (Ecto.NoResultsError)
 
   """
+  def get_category!(id), do: Repo.get!(Category, id)
+
   def get_category(id), do: Repo.get(Category, id)
 
   @doc """
@@ -226,8 +228,11 @@ defmodule Infin.Companies do
     Category.changeset(category, attrs)
   end
 
-  def change_company_category(company, attrs) do
-    Category.category_changeset(company, attrs)
+  def change_category_company(category, company) do
+    category
+    |> Repo.preload(:company)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:company, company)
     |> Repo.update!()
   end
 end
