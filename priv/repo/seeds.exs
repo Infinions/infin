@@ -62,3 +62,11 @@ Repo.insert!(
     "nif" => "503483222"
   })
 )
+
+Repo.insert!(
+  %Enterprise{}
+  |> Enterprise.changeset(%{
+    "name" => "Subvisual Digital Finance, Lda",
+    "nif" => "515572535"
+  })
+)
