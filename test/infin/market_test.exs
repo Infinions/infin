@@ -2,6 +2,7 @@ defmodule Infin.MarketTest do
   use Infin.DataCase
 
   alias Infin.Market
+  import Infin.Factory
 
   describe "enterprises" do
     alias Infin.Market.Enterprise
@@ -10,13 +11,8 @@ defmodule Infin.MarketTest do
     @update_attrs %{name: "some updated name", nif: "some updated nif"}
     @invalid_attrs %{name: nil, nif: nil}
 
-    def enterprise_fixture(attrs \\ %{}) do
-      {:ok, enterprise} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Market.create_enterprise()
-
-      enterprise
+    def enterprise_fixture() do
+      insert(:enterprise)
     end
 
     test "list_enterprises/0 returns all enterprises" do
@@ -41,7 +37,10 @@ defmodule Infin.MarketTest do
 
     test "update_enterprise/2 with valid data updates the enterprise" do
       enterprise = enterprise_fixture()
-      assert {:ok, %Enterprise{} = enterprise} = Market.update_enterprise(enterprise, @update_attrs)
+
+      assert {:ok, %Enterprise{} = enterprise} =
+               Market.update_enterprise(enterprise, @update_attrs)
+
       assert enterprise.name == "some updated name"
       assert enterprise.nif == "some updated nif"
     end
