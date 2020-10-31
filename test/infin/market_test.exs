@@ -52,12 +52,6 @@ defmodule Infin.MarketTest do
       assert enterprise == Market.get_enterprise!(enterprise.id)
     end
 
-    test "delete_enterprise/1 deletes the enterprise" do
-      enterprise = enterprise_fixture()
-      assert {:ok, %Enterprise{}} = Market.delete_enterprise(enterprise)
-      assert_raise Ecto.NoResultsError, fn -> Market.get_enterprise!(enterprise.id) end
-    end
-
     test "change_enterprise/1 returns a enterprise changeset" do
       enterprise = enterprise_fixture()
       assert %Ecto.Changeset{} = Market.change_enterprise(enterprise)

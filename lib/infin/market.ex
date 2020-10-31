@@ -74,22 +74,6 @@ defmodule Infin.Market do
   end
 
   @doc """
-  Deletes a enterprise.
-
-  ## Examples
-
-      iex> delete_enterprise(enterprise)
-      {:ok, %Enterprise{}}
-
-      iex> delete_enterprise(enterprise)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_enterprise(%Enterprise{} = enterprise) do
-    Repo.delete(enterprise)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking enterprise changes.
 
   ## Examples
