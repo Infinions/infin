@@ -2,6 +2,7 @@ defmodule Infin.Factory do
   use ExMachina.Ecto, repo: Infin.Repo
 
   alias Infin.Companies.{Company, Category}
+  alias Infin.Invoices.Invoice
 
   def company_factory do
     %Company{
@@ -15,6 +16,12 @@ defmodule Infin.Factory do
     %Category{
       name: sequence("Category"),
       company_id: build(:company)
+    }
+  end
+
+  def invoice_factory do
+    %Invoice{
+      id_document: sequence("123")
     }
   end
 end
