@@ -7,6 +7,6 @@ defmodule Infin.Repo.Migrations.CreateInvoicesTags do
       add :tag_id, references(:tags)
     end
 
-    create unique_index(:invoices_tag, [:invoice_id, :tag_id])
+    create unique_index(:invoices_tags, [:invoice_id, :tag_id])
   end
 end
