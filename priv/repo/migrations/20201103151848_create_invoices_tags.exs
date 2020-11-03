@@ -3,8 +3,8 @@ defmodule Infin.Repo.Migrations.CreateInvoicesTags do
 
   def change do
     create table(:invoices_tags) do
-      add :invoice_id, :string
-      add :tag_id, :string
+      add :invoice_id, references(:invoices)
+      add :tag_id, references(:tags)
 
       timestamps()
     end
