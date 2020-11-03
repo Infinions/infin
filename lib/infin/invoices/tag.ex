@@ -2,9 +2,12 @@ defmodule Infin.Invoices.Tag do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "tag" do
+  alias Infin.Invoices.Invoice
+
+  schema "tags" do
     field :name, :string
 
+    many_to_many :invoices, Invoice, join_through: "invoices_tags"
     timestamps()
   end
 
