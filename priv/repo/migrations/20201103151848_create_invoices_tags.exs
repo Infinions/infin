@@ -8,5 +8,7 @@ defmodule Infin.Repo.Migrations.CreateInvoicesTags do
 
       timestamps()
     end
+
+    create unique_index(:invoices_tag, [:invoice_id, :tag_id])
   end
 end
