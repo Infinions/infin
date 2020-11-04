@@ -10,10 +10,15 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
   </head>
-  <body>
+  <%= if @conn.request_path == "/" do %>
+    <body>
+  <% else %>
+    <body class="has-navbar-fixed-top">
+  <% end %>
     <div id="page-container">
       <div id="content-wrap">
         <%= render "_navbar.html", assigns %>
+        <%= render_existing view_module(@conn), "landing_hero.html", assigns %>
         <div class="bd-lead">
           <%= @inner_content %>
         </div>
