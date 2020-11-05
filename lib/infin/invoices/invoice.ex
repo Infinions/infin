@@ -31,8 +31,8 @@ defmodule Infin.Invoices.Invoice do
     field :consumer_comm, :boolean
     field :is_foreign, :boolean
 
-    belongs_to :company, Infin.Companies.Company
-
+    belongs_to :company_seller, Infin.Companies.Company, foreign_key: :company_seller_id
+    belongs_to :company_buyer, Infin.Companies.Company, foreign_key: :company_buyer_id
 
     many_to_many :tags, Tag, join_through: "invoices_tags"
     timestamps()
