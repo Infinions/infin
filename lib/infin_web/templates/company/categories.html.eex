@@ -1,0 +1,19 @@
+<div class="mb-6">
+  <div class="container py-4">
+    <p class="is-size-3 mb-5"><%= @company.name %> Categories</p>
+    <div class="panel">
+    <%= for category <- @company.categories do %>
+      <div class="panel-block is-block py-3 px-4">
+      <div class="media">
+          <div class="media-content is-vcentered"><%= link category.name, to: Routes.category_path(@conn, :show, category) %></span></div>
+          <div class="media-right">
+            <%= link "Delete", to: Routes.category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure?"], class: "button is-primary is-outlined" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
+  </div>
+<div class="buttons">
+<%= link "New Category", to: Routes.category_path(@conn, :new), class: "button is-primary" %>
+</div>

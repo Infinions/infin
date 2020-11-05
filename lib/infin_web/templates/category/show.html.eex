@@ -1,12 +1,2 @@
-<h1>Show Category</h1>
-
-<ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @category.name %>
-  </li>
-
-</ul>
-
-<span><%= link "Back", to: Routes.category_path(@conn, :index) %></span>
+<p class="is-size-3 mb-5">Category</p>
+<%= render "form.html", Map.put(assigns, :action, Routes.category_path(@conn, :update, @category)) %>
