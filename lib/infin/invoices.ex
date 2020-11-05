@@ -7,6 +7,7 @@ defmodule Infin.Invoices do
   alias Infin.Repo
 
   alias Infin.Invoices.Invoice
+  alias Infin.Invoices.Tag
 
   @doc """
   Returns the list of invoices.
@@ -104,6 +105,11 @@ defmodule Infin.Invoices do
 
   alias Infin.Invoices.Tag
 
+  @doc false
+  def list_company_tags(company_id) do
+    Repo.all(from t in Tag, where: t.company_id == ^company_id)
+  end
+
   @doc """
   Returns the list of tag.
 
@@ -133,6 +139,8 @@ defmodule Infin.Invoices do
   """
   def get_tag!(id), do: Repo.get!(Tag, id)
 
+  def get_tag(id), do: Repo.get(Tag, id)
+
   @doc """
   Creates a tag.
 
@@ -148,6 +156,14 @@ defmodule Infin.Invoices do
   def create_tag(attrs \\ %{}) do
     %Tag{}
     |> Tag.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_tag(attrs, company_id) do
+    tag = %{:name => attrs["name"], :company_id => company_id}
+
+    %Tag{}
+    |> Tag.changeset(tag)
     |> Repo.insert()
   end
 
@@ -196,5 +212,14 @@ defmodule Infin.Invoices do
   """
   def change_tag(%Tag{} = tag, attrs \\ %{}) do
     Tag.changeset(tag, attrs)
+  end
+
+
+  def change_tag_company(tag, company) do
+    tag
+    |> Repo.preload(:company)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:company, company)
+    |> Repo.update!()
   end
 end

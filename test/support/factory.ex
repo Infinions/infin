@@ -27,7 +27,8 @@ defmodule Infin.Factory do
 
   def tag_factory do
     %Tag{
-      name: sequence("tag")
+      name: sequence("Tag"),
+      company_id: build(:company)
     }
   end
 end

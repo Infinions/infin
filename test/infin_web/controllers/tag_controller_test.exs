@@ -2,6 +2,7 @@ defmodule InfinWeb.TagControllerTest do
   use InfinWeb.ConnCase
 
   import Infin.Factory
+  alias Infin.Invoices
 
   setup :register_and_log_in_user
 
@@ -9,8 +10,9 @@ defmodule InfinWeb.TagControllerTest do
   @update_attrs %{name: "some updated name"}
   @invalid_attrs %{name: nil}
 
-  def fixture() do
-    insert(:tag)
+  def fixture(:tag) do
+    company = insert(:company)
+    insert(:tag, company_id: company.id)
   end
 
   describe "index" do
@@ -47,16 +49,20 @@ defmodule InfinWeb.TagControllerTest do
   describe "edit tag" do
     setup [:create_tag]
 
-    test "renders form for editing chosen tag", %{conn: conn, tag: tag} do
-      conn = get(conn, Routes.tag_path(conn, :edit, tag))
-      assert html_response(conn, 200) =~ "Edit Tag"
+    test "renders form for editing chosen tag", %{conn: conn, tag: tag, user: user} do
+      Invoices.change_tag_company(tag, user.company)
+
+      conn = get(conn, Routes.tag_path(conn, :show, tag))
+      assert html_response(conn, 200) =~ "Show Tag"
     end
   end
 
   describe "update tag" do
     setup [:create_tag]
 
-    test "redirects when data is valid", %{conn: conn, tag: tag} do
+    test "redirects when data is valid", %{conn: conn, tag: tag, user: user} do
+      Invoices.change_tag_company(tag, user.company)
+
       conn = put(conn, Routes.tag_path(conn, :update, tag), tag: @update_attrs)
       assert redirected_to(conn) == Routes.tag_path(conn, :show, tag)
 
@@ -64,26 +70,27 @@ defmodule InfinWeb.TagControllerTest do
       assert html_response(conn, 200) =~ "some updated name"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, tag: tag} do
+    test "renders errors when data is invalid", %{conn: conn, tag: tag, user: user} do
+      Invoices.change_tag_company(tag, user.company)
+
       conn = put(conn, Routes.tag_path(conn, :update, tag), tag: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Tag"
+      assert html_response(conn, 200) =~ "Show Tag"
     end
   end
 
   describe "delete tag" do
     setup [:create_tag]
 
-    test "deletes chosen tag", %{conn: conn, tag: tag} do
+    test "deletes chosen tag", %{conn: conn, tag: tag, user: user} do
+      Invoices.change_tag_company(tag, user.company)
+
       conn = delete(conn, Routes.tag_path(conn, :delete, tag))
       assert redirected_to(conn) == Routes.tag_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get(conn, Routes.tag_path(conn, :show, tag))
-      end
     end
   end
 
   defp create_tag(_) do
-    tag = fixture()
+    tag = fixture(:tag)
     %{tag: tag}
   end
 end
