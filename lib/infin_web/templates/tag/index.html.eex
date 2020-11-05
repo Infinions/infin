@@ -9,7 +9,7 @@
     </tr>
   </thead>
   <tbody>
-<%= for tag <- @tag do %>
+<%= for tag <- @tags do %>
     <tr>
       <td><%= tag.name %></td>
 

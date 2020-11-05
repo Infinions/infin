@@ -7,6 +7,7 @@ defmodule Infin.Companies.Company do
     field :nif, :string, null: false
     has_many :users, Infin.Accounts.User
     has_many :categories, Infin.Companies.Category
+    has_many :tags, Infin.Invoices.Tag
 
     timestamps()
   end
