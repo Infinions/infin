@@ -3,7 +3,6 @@ defmodule InfinWeb.InvoiceControllerTest do
 
   import Infin.Factory
 
-
   setup :register_and_log_in_user
 
   @create_attrs %{id_document: "some id_document"}
@@ -77,6 +76,7 @@ defmodule InfinWeb.InvoiceControllerTest do
     test "deletes chosen invoice", %{conn: conn, invoice: invoice} do
       conn = delete(conn, Routes.invoice_path(conn, :delete, invoice))
       assert redirected_to(conn) == Routes.invoice_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.invoice_path(conn, :show, invoice))
       end

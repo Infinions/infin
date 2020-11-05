@@ -8,7 +8,6 @@ defmodule Infin.Factory do
     %Company{
       name: sequence("Company"),
       nif: sequence("123456789")
-
     }
   end
 

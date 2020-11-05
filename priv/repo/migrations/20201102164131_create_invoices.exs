@@ -7,6 +7,5 @@ defmodule Infin.Repo.Migrations.CreateInvoices do
 
       timestamps()
     end
-
   end
 end

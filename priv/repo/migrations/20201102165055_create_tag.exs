@@ -7,6 +7,5 @@ defmodule Infin.Repo.Migrations.CreateTag do
 
       timestamps()
     end
-
   end
 end

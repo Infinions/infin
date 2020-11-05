@@ -76,6 +76,7 @@ defmodule InfinWeb.TagControllerTest do
     test "deletes chosen tag", %{conn: conn, tag: tag} do
       conn = delete(conn, Routes.tag_path(conn, :delete, tag))
       assert redirected_to(conn) == Routes.tag_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.tag_path(conn, :show, tag))
       end
