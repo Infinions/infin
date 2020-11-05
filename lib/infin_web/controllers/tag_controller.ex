@@ -36,6 +36,9 @@ defmodule InfinWeb.TagController do
           company_id == tag.company_id ->
             changeset = Invoices.change_tag(tag)
             render(conn, "show.html", tag: tag, changeset: changeset)
+
+          true ->
+            index(conn, %{}, company_id)
         end
     end
   end
