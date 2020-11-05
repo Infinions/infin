@@ -91,12 +91,16 @@ defmodule Infin.InvoicesTest do
   describe "tag" do
     alias Infin.Invoices.Tag
 
-    @valid_attrs %{name: "some name"}
     @update_attrs %{name: "some updated name"}
-    @invalid_attrs %{name: nil}
+    @invalid_attrs %{name: nil, company_id: nil}
+
+    def company_fixture() do
+      insert(:company)
+    end
 
     def tag_fixture() do
-      insert(:tag)
+      company = insert(:company)
+      insert(:tag, company_id: company.id)
     end
 
     test "list_tag/0 returns all tag" do
@@ -110,7 +114,9 @@ defmodule Infin.InvoicesTest do
     end
 
     test "create_tag/1 with valid data creates a tag" do
-      assert {:ok, %Tag{} = tag} = Invoices.create_tag(@valid_attrs)
+      company = company_fixture()
+      attrs =%{name: "some name", company_id: company.id}
+      assert {:ok, %Tag{} = tag} = Invoices.create_tag(attrs)
       assert tag.name == "some name"
     end
 

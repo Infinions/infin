@@ -83,6 +83,6 @@ defmodule InfinWeb.Router do
     resources "/companies", CompanyController, only: [:show, :update]
     resources "/categories", CategoryController, except: [:edit]
     resources "/invoices", InvoiceController
-    resources "/tag", TagController
+    resources "/tags", TagController, except: [:edit]
   end
 end
