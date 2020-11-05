@@ -41,7 +41,34 @@ defmodule Infin.Invoices.Invoice do
   @doc false
   def changeset(invoice, attrs) do
     invoice
-    |> cast(attrs, [:id_document])
+    |> cast(attrs, [
+      :id_document,
+      :registration_orig,
+      :registration_orig_desc,
+      :doc_type,
+      :doc_type_dec,
+      :doc_number,
+      :doc_hash,
+      :doc_emition_date,
+      :total_value,
+      :total_base_value,
+      :total_tax_value,
+      :total_benef_prov_value,
+      :total_benef_sector_value,
+      :total_gen_exp_value,
+      :benef_state,
+      :benef_state_desc,
+      :benef_state_emit,
+      :benef_state_emit_desc,
+      :normal_tax_exists,
+      :emit_activity,
+      :emit_activity_desc,
+      :prof_activity,
+      :prof_activity_desc,
+      :merchant_comm,
+      :consumer_comm,
+      :is_foreign
+    ])
     |> validate_required([:id_document])
   end
 end
