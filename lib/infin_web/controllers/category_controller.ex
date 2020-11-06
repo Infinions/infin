@@ -14,10 +14,10 @@ defmodule InfinWeb.CategoryController do
       {:ok, category} ->
         conn
         |> put_flash(:info, "Category created successfully.")
-        |> redirect(to: Routes.category_path(conn, :show, category))
+        |> redirect(to: Routes.category_path(conn, :show, category, company_id: company_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, company_id: company_id)
     end
   end
 
@@ -50,10 +50,10 @@ defmodule InfinWeb.CategoryController do
               {:ok, category} ->
                 conn
                 |> put_flash(:info, "Category updated successfully.")
-                |> redirect(to: Routes.category_path(conn, :show, category))
+                |> redirect(to: Routes.category_path(conn, :show, category, company_id: company_id))
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                render(conn, "show.html", category: category, changeset: changeset)
+                render(conn, "show.html", category: category, changeset: changeset, company_id: company_id)
             end
 
           true ->
