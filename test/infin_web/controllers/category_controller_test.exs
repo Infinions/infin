@@ -16,13 +16,6 @@ defmodule InfinWeb.CategoryControllerTest do
     insert(:category, company_id: company.id)
   end
 
-  describe "index" do
-    test "lists all categories", %{conn: conn} do
-      conn = get(conn, Routes.category_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Categories"
-    end
-  end
-
   describe "new category" do
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.category_path(conn, :new))
