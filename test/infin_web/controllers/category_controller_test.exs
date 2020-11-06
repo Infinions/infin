@@ -31,14 +31,14 @@ defmodule InfinWeb.CategoryControllerTest do
   end
 
   describe "create category" do
-    test "redirects to show when data is valid", %{conn: conn} do
+    test "redirects to show when data is valid", %{conn: conn, user: user} do
       conn = post(conn, Routes.category_path(conn, :create), category: @create_attrs)
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.category_path(conn, :show, id)
+      assert %{id: _id} = redirected_params(conn)
+      assert redirected_to(conn) == Routes.company_path(conn, :show, user.company)
 
-      conn = get(conn, Routes.category_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Category"
+      conn = get(conn, Routes.category_path(conn, :show, user.company.id))
+      assert html_response(conn, 200) =~ "Listing Categories"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -65,7 +65,7 @@ defmodule InfinWeb.CategoryControllerTest do
       Companies.change_category_company(category, user.company)
 
       conn = put(conn, Routes.category_path(conn, :update, category), category: @update_attrs)
-      assert redirected_to(conn) == Routes.category_path(conn, :show, category)
+      assert redirected_to(conn) == Routes.company_path(conn, :show, user.company)
 
       conn = get(conn, Routes.category_path(conn, :show, category))
       assert html_response(conn, 200) =~ "some updated name"
@@ -86,7 +86,7 @@ defmodule InfinWeb.CategoryControllerTest do
       Companies.change_category_company(category, user.company)
 
       conn = delete(conn, Routes.category_path(conn, :delete, category))
-      assert redirected_to(conn) == Routes.category_path(conn, :index)
+      assert redirected_to(conn) == Routes.company_path(conn, :show, user.company)
     end
   end
 
