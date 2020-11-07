@@ -16,9 +16,16 @@
       <%= error_tag f, :name %>
     </div>
   </div>
-  <div class="field">
-    <div class="control">
-      <%= submit "Save", class: "button is-primary" %>
+
+  <div class="level mt-5">
+    <div class="level-left">
+      <%= submit "Save", class: "button is-primary level-item" %>
+    </div>
+    <div class="level-right">
+      <%= if contains_category? assigns do %>
+        <%= link "Back", to: Routes.company_path(@conn, :show, @company_id), class: "button level-item" %>
+        <%= link "Delete", to: Routes.category_path(@conn, :delete, @category), method: :delete, data: [confirm: "Are you sure?"], class: "button is-danger level-item" %>
+      <% end %>
     </div>
   </div>
 <% end %>

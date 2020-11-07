@@ -1,25 +1,11 @@
-<h1>Listing Categories</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for category <- @categories do %>
-    <tr>
-      <td><%= category.name %></td>
-
-      <td>
-        <span><%= link "Show", to: Routes.category_path(@conn, :show, category) %></span>
-        <span><%= link "Delete", to: Routes.category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Category", to: Routes.category_path(@conn, :new) %></span>
+<div class="container py-5">
+  <p class="is-size-4 mb-5">Categories</p>
+  <div class="panel">
+    <%= for category <- @company.categories do %>
+      <%= link category.name, to: Routes.category_path(@conn, :show, category), class: "panel-block is-block py-3 px-4" %>
+    <% end %>
+  </div>
+  <div class="buttons">
+    <%= link "New Category", to: Routes.category_path(@conn, :new), class: "button is-primary" %>
+  </div>
+</div>

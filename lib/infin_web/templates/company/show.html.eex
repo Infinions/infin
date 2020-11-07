@@ -1,4 +1,8 @@
-<p class="is-size-3 mb-5"><%= @company.name %> Settings</p>
+<p class="is-size-3"><%= @company.name %></p>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
-<%= render "categories.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
+<div class="container py-5">
+  <p class="is-size-4 mb-5">Settings</p>
+  <%= render "form.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
+</div>
+
+<%= render InfinWeb.CategoryView, "index.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
