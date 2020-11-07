@@ -17,7 +17,7 @@ defmodule InfinWeb.CategoryController do
         |> redirect(to: Routes.category_path(conn, :show, category, company_id: company_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, company_id: company_id)
+        render(conn, "new.html", company_id: company_id, changeset: changeset)
     end
   end
 
@@ -53,7 +53,7 @@ defmodule InfinWeb.CategoryController do
                 |> redirect(to: Routes.category_path(conn, :show, category, company_id: company_id))
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                render(conn, "show.html", category: category, changeset: changeset, company_id: company_id)
+                render(conn, "show.html", category: category, company_id: company_id, changeset: changeset)
             end
 
           true ->
@@ -71,15 +71,14 @@ defmodule InfinWeb.CategoryController do
         cond do
           company_id == category.company_id ->
             {:ok, _category} = Companies.delete_category(category)
+            conn
+            |> put_flash(:info, "Category deleted successfully.")
+            |> redirect(to: Routes.company_path(conn, :show, company_id))
 
           true ->
             CompanyController.show(conn, %{}, company_id)
         end
     end
-
-    conn
-    |> put_flash(:info, "Category deleted successfully.")
-    |> redirect(to: Routes.company_path(conn, :show, company_id))
   end
 
   def action(conn, _) do
