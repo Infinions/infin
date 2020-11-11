@@ -6,15 +6,23 @@ defmodule Infin.Companies.Company do
     field :name, :string, null: false
     field :nif, :string, null: false
     has_many :users, Infin.Accounts.User
+    has_many :categories, Infin.Companies.Category
 
     timestamps()
   end
 
   @doc false
-  def changeset(company, attrs) do
+  def registration_changeset(company, attrs) do
     company
     |> cast(attrs, [:name, :nif])
     |> validate_required([:name, :nif])
     |> unique_constraint(:nif)
+  end
+
+  @doc false
+  def changeset(company, attrs) do
+    company
+    |> cast(attrs, [:name])
+    |> validate_required(:name)
   end
 end

@@ -1,0 +1,31 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= label f, :name, "Name", class: "label" %>
+    <div class="control">
+      <%= if has_error(f, :name) do %>
+        <%= text_input f, :name, required: true, class: "input is-danger" %>
+      <% else %>
+        <%= text_input f, :name, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :name %>
+    </div>
+  </div>
+
+  <div class="level mt-5">
+    <div class="level-left">
+      <%= submit "Save", class: "button is-primary level-item" %>
+    </div>
+    <div class="level-right">
+      <%= if contains_category? assigns do %>
+        <%= link "Back", to: Routes.company_path(@conn, :show, @company_id), class: "button level-item" %>
+        <%= link "Delete", to: Routes.category_path(@conn, :delete, @category), method: :delete, data: [confirm: "Are you sure?"], class: "button is-danger level-item" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

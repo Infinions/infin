@@ -1,0 +1,11 @@
+<div class="container py-5">
+  <p class="is-size-4 mb-5">Categories</p>
+  <div class="panel">
+    <%= for category <- @company.categories do %>
+      <%= link category.name, to: Routes.category_path(@conn, :show, category), class: "panel-block is-block py-3 px-4" %>
+    <% end %>
+  </div>
+  <div class="buttons">
+    <%= link "New Category", to: Routes.category_path(@conn, :new), class: "button is-primary" %>
+  </div>
+</div>

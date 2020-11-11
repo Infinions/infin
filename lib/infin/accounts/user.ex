@@ -8,7 +8,7 @@ defmodule Infin.Accounts.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
-    belongs_to :company, Infin.Companies.Company
+    belongs_to :company, Infin.Companies.Company, on_replace: :nilify
 
     timestamps()
   end
@@ -23,37 +23,11 @@ defmodule Infin.Accounts.User do
   """
   def registration_changeset(user, attrs) do
     user
-    |> cast(to_company_form(attrs), [:email, :password])
+    |> cast(attrs, [:email, :password])
     |> validate_confirmation(:password, message: "does not match password")
     |> cast_assoc(:company, required: true)
     |> validate_email()
     |> validate_password()
-  end
-
-  defp to_company_form(%{"nif" => nif, "name" => name} = attrs),
-    do: Map.put(attrs, "company", %{"nif" => nif, "name" => name})
-
-  defp to_company_form(%{nif: nif, name: name} = attrs),
-    do: Map.put(attrs, :company, %{nif: nif, name: name})
-
-  defp to_company_form(%{} = attrs), do: attrs
-
-  def copy_company_errors(%Ecto.Changeset{} = changeset) do
-    cond do
-      Map.has_key?(changeset.changes, :company) ->
-        company = changeset.changes.company
-
-        Enum.reduce(company.errors, changeset, fn err, acc ->
-          key = Kernel.elem(err, 0)
-          pre_message = Kernel.elem(err, 1)
-          message = Kernel.elem(pre_message, 0)
-
-          Ecto.Changeset.add_error(acc, key, message)
-        end)
-
-      true ->
-        changeset
-    end
   end
 
   defp validate_email(changeset) do
@@ -106,15 +80,6 @@ defmodule Infin.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_confirmation(:password, message: "does not match password")
     |> validate_password()
-  end
-
-  @doc """
-  A user changeset for changing the company.
-  """
-  def company_changeset(user, attrs) do
-    user
-    |> cast(attrs, [:company_id])
-    |> validate_required([:company_id])
   end
 
   @doc """
