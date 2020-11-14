@@ -1,6 +1,5 @@
-
-<div class="columns is-flex is-centered">
-  <div class="card">
+<div class="columns is-flex is-centered mt-5">
+  <div class="column card is-half">
     <div class="card-content px-6 py-6">
       <p class="is-size-3 mb-5 has-text-centered">Register</p>
       <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f_account -> %>
