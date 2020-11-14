@@ -15,15 +15,11 @@
   <% else %>
     <body class="has-navbar-fixed-top">
   <% end %>
-    <div id="page-container">
-      <div id="content-wrap">
-        <%= render "_navbar.html", assigns %>
-        <%= render_existing view_module(@conn), "landing_hero.html", assigns %>
-        <div class="bd-lead">
-          <%= @inner_content %>
-        </div>
-      </div>
-      <%= render "_footer.html", assigns %>
+    <div class="page-container">
+      <%= render "_navbar.html", assigns %>
+      <%= render_existing view_module(@conn), "landing_hero.html", assigns %>
+      <%= @inner_content %>
     </div>
+    <%= render "_footer.html", assigns %>
   </body>
 </html>
