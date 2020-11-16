@@ -52,28 +52,38 @@ defmodule InfinWeb.InvoiceController do
           company_id == invoice.company_id ->
             changeset = Invoices.change_invoice(invoice)
             render(conn, "edit.html", invoice: invoice, changeset: changeset)
+
           true ->
             index(conn, {}, company_id)
         end
     end
   end
 
-  def update(conn, %{"id" => id, "invoice" => invoice_params}, _company_id) do
-    invoice = Invoices.get_invoice!(id)
+  def update(conn, %{"id" => id, "invoice" => invoice_params}, company_id) do
+    case Invoices.get_invoice(id) do
+      nil ->
+        index(conn, %{}, company_id)
 
-    case Invoices.update_invoice(invoice, invoice_params) do
-      {:ok, invoice} ->
-        conn
-        |> put_flash(:info, "Invoice updated successfully.")
-        |> redirect(to: Routes.invoice_path(conn, :show, invoice))
+      invoice ->
+        cond do
+          company_id == invoice.company_id ->
+            case Invoices.update_invoice(invoice, invoice_params) do
+              {:ok, invoice} ->
+                conn
+                |> put_flash(:info, "Invoice updated successfully.")
+                |> redirect(to: Routes.invoice_path(conn, :show, invoice))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", invoice: invoice, changeset: changeset)
+              {:error, %Ecto.Changeset{} = changeset} ->
+                render(conn, "edit.html", invoice: invoice, changeset: changeset)
+            end
+            true ->
+              index(conn, %{}, company_id)
+        end
     end
   end
 
   def delete(conn, %{"id" => id}, company_id) do
-    case Invoices.get_invoices(id) do
+    case Invoices.get_invoice(id) do
       nil ->
         index(conn, %{}, company_id)
 

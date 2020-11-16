@@ -47,7 +47,7 @@ defmodule Infin.Factory do
       consumer_comm: true,
       is_foreign: true,
       company_seller_id: build(:company),
-      company_buyer_id: build(:company)
+      company_id: build(:company)
     }
   end
 
