@@ -22,6 +22,10 @@ defmodule Infin.Invoices do
     Repo.all(Invoice)
   end
 
+  def list_company_invoices(company_id) do
+    Repo.all(from i in Invoice, where: i.company_id == ^company_id)
+  end
+
   @doc """
   Gets a single invoice.
 
@@ -38,6 +42,8 @@ defmodule Infin.Invoices do
   """
   def get_invoice!(id), do: Repo.get!(Invoice, id)
 
+  def get_invoice(id), do: Repo.get(Invoice, id)
+
   @doc """
   Creates a invoice.
 
@@ -53,6 +59,14 @@ defmodule Infin.Invoices do
   def create_invoice(attrs \\ %{}) do
     %Invoice{}
     |> Invoice.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_invoice(attrs, company_id) do
+    invoice =  %{:id_document => attrs["id_document"], :company_id => company_id}
+
+    %Invoice{}
+    |> Invoice.changeset(invoice)
     |> Repo.insert()
   end
 

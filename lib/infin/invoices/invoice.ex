@@ -32,7 +32,7 @@ defmodule Infin.Invoices.Invoice do
     field :is_foreign, :boolean
 
     belongs_to :company_seller, Infin.Companies.Company, foreign_key: :company_seller_id
-    belongs_to :company_buyer, Infin.Companies.Company, foreign_key: :company_buyer_id
+    belongs_to :company, Infin.Companies.Company, foreign_key: :company_id
 
     many_to_many :tags, Tag, join_through: "invoices_tags"
     timestamps()
@@ -67,8 +67,10 @@ defmodule Infin.Invoices.Invoice do
       :prof_activity_desc,
       :merchant_comm,
       :consumer_comm,
-      :is_foreign
+      :is_foreign,
+      :company_id,
+      :company_seller_id
     ])
-    |> validate_required([:id_document])
+    |> validate_required([:id_document, :company_id])
   end
 end
