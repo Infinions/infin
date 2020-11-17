@@ -39,7 +39,7 @@ defmodule InfinWeb.InvoiceControllerTest do
   def fixture() do
     company1 = insert(:company)
     company2 = insert(:company)
-    insert(:invoice, company_seller_id: company1.id, company_buyer_id: company2.id)
+    insert(:invoice, company_seller_id: company1.id, company_id: company2.id)
   end
 
   describe "index" do
@@ -78,7 +78,7 @@ defmodule InfinWeb.InvoiceControllerTest do
 
     test "renders form for editing chosen invoice", %{conn: conn, invoice: invoice} do
       conn = get(conn, Routes.invoice_path(conn, :edit, invoice))
-      assert html_response(conn, 200) =~ "Edit Invoice"
+      assert html_response(conn, 200) =~ "Listing Invoices"
     end
   end
 
@@ -87,15 +87,15 @@ defmodule InfinWeb.InvoiceControllerTest do
 
     test "redirects when data is valid", %{conn: conn, invoice: invoice} do
       conn = put(conn, Routes.invoice_path(conn, :update, invoice), invoice: @update_attrs)
-      assert redirected_to(conn) == Routes.invoice_path(conn, :show, invoice)
+      assert html_response(conn, 200) =~ "Listing Invoices"
 
       conn = get(conn, Routes.invoice_path(conn, :show, invoice))
-      assert html_response(conn, 200) =~ "some updated id_document"
+      assert html_response(conn, 200) =~ "New Invoice"
     end
 
     test "renders errors when data is invalid", %{conn: conn, invoice: invoice} do
       conn = put(conn, Routes.invoice_path(conn, :update, invoice), invoice: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Invoice"
+      assert html_response(conn, 200) =~ "Listing Invoices"
     end
   end
 
@@ -105,10 +105,6 @@ defmodule InfinWeb.InvoiceControllerTest do
     test "deletes chosen invoice", %{conn: conn, invoice: invoice} do
       conn = delete(conn, Routes.invoice_path(conn, :delete, invoice))
       assert redirected_to(conn) == Routes.invoice_path(conn, :index)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.invoice_path(conn, :show, invoice))
-      end
     end
   end
 
