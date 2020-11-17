@@ -93,6 +93,12 @@
     margin: -1rem 0 2rem;
 }
 
-.bd-lead {
-    padding: 1.5rem;
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.page-container {
+    flex: 1;
 }

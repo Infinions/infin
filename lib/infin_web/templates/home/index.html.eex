@@ -1,0 +1,134 @@
+<div class="container is-fluid">
+  <section class="section">
+    <div class="container has-text-centered py-4">
+      <h2 class="title mb-6">What's So Great About Infin?</h2>
+      <div class="columns">
+        <div class="column">
+          <div class="level">
+            <div class="level-item">
+              <figure class="image is-128x128">
+                <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/josegomes.jpg") %>" alt="José Gomes profile photo" />
+              </figure>
+            </div>
+          </div>
+          <p class="block">Lovely product, very good, very nice.</p>
+          <h5 class="title is-5">José Gomes</h5>
+          <p class="subtitle">CEO at Finiam</p>
+        </div>
+        <div class="column">
+          <div class="level">
+            <div class="level-item">
+              <figure class="image is-128x128">
+                <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/lauraesteves.jpg") %>" alt="Laura Esteves profile photo" />
+              </figure>
+            </div>
+          </div>
+          <p class="block">Amazing service, I need this in my company.</p>
+          <h5 class="title is-5">Laura Esteves</h5>
+          <p class="subtitle">COO at Subvisual</p>
+        </div>
+        <div class="column">
+          <div class="level">
+            <div class="level-item">
+              <figure class="image is-128x128">
+                <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/franciscomaia.jpg") %>" alt="Francisco Maia profile photo" />
+              </figure>
+            </div>
+          </div>
+          <p class="block">Incredible work, can't live with this no more.</p>
+          <h5 class="title is-5">Francisco Maia</h5>
+          <p class="subtitle">CEO at Keyruptive</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container has-text-centered py-4">
+      <h2 class="title mb-6">Our plans</h2>
+      <div class="columns">
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <h3 class="title is-4">Small Fin</h3>
+              <p class="block">Join our us on the road to automation.</p>
+              <h4 class="title is-spaced is-5">
+                €2.99
+                <small>Per user / monthly</small>
+              </h4>
+              <button class="button is-primary is-outlined" type="button">Contact Sales</button>
+            </div>
+          </div>
+        </div>
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <h3 class="title is-4">Premium Fin</h3>
+              <p class="block">We build what you need, everything from 0 to 100.</p>
+              <h4 class="title is-spaced is-5">
+                €9.99
+                <small>Per user / monthly</small>
+              </h4>
+              <button class="button is-primary is-outlined" type="button">Contact Sales</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container py-4">
+      <h2 class="title has-text-centered mb-6">Contact the Infinions</h2>
+      <div class="columns">
+        <div class="column is-6">
+          <h4 class="title is-spaced is-4">Let's talk about the future of financials</h4>
+          <p class="subtitle">We're here to answer your questions and discuss the automation of your company financial processes.</p>
+          <div>
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-24x24">
+                  <i class="fas fa-map-marker-alt"></i>
+                </figure>
+              </div>
+              <div class="media-content">
+                <div class="content">
+                  <p>Departamento de Informática - Universidade do Minho, Braga</p>
+                </div>
+              </div>
+            </div>
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-24x24">
+                  <i class="fas fa-envelope"></i>
+                </figure>
+              </div>
+              <div class="media-content">
+                <div class="content">
+                  <p>contact@infin.io</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="column is-5 is-offset-1">
+          <form>
+            <div class="field">
+              <div class="control">
+                <input class="input" type="email" placeholder="Email" />
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <textarea class="textarea" rows="5" placeholder="Write something..."></textarea>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button class="button is-primary is-fullwidth" type="submit">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

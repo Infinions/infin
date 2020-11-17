@@ -1,7 +1,8 @@
-@import './footer.scss';
+@import './navbar.scss';
 
 @import 'bulma';
-
+@import 'bulma-switch';
 /* This file is for your main application css. */
 @import "../node_modules/nprogress/nprogress.css";
 @import './phoenix.scss';
+@import './landing.scss';

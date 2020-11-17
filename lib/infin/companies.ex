@@ -118,6 +118,10 @@ defmodule Infin.Companies do
     Company.changeset(company, attrs)
   end
 
+  def preload_company_categories(%Company{} = company) do
+    Repo.preload(company, :categories)
+  end
+
   alias Infin.Companies.Category
 
   @doc """

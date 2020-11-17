@@ -17,12 +17,6 @@ defmodule InfinWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", InfinWeb do
-    pipe_through :browser
-
-    live "/", PageLive, :index
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", InfinWeb do
   #   pipe_through :api
@@ -71,6 +65,8 @@ defmodule InfinWeb.Router do
   scope "/", InfinWeb do
     pipe_through [:browser]
 
+    get "/", HomeController, :index
+
     delete "/users/log_out", UserSessionController, :delete
     get "/users/confirm", UserConfirmationController, :new
     post "/users/confirm", UserConfirmationController, :create
@@ -81,8 +77,8 @@ defmodule InfinWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     resources "/companies", CompanyController, only: [:show, :update]
-    resources "/categories", CategoryController, except: [:edit]
     resources "/invoices", InvoiceController
     resources "/tags", TagController, except: [:edit]
+    resources "/categories", CategoryController, except: [:index, :edit]
   end
 end
