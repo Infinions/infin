@@ -8,7 +8,6 @@ defmodule Infin.InvoicesTest do
   describe "invoices" do
     alias Infin.Invoices.Invoice
 
-
     @update_attrs %{id_document: "some updated id_document"}
     @invalid_attrs %{id_document: nil}
 
@@ -30,7 +29,14 @@ defmodule Infin.InvoicesTest do
 
     test "create_invoice/1 with valid data creates a invoice" do
       company = company_fixture()
-      attrs = %{id_document: "some id_document", company_id: company.id}
+
+      attrs = %{
+        id_document: "some id_document",
+        doc_emition_date: "12/12/12",
+        total_value: "123",
+        company_id: company.id
+      }
+
       assert {:ok, %Invoice{} = invoice} = Invoices.create_invoice(attrs)
       assert invoice.id_document == "some id_document"
     end
@@ -90,7 +96,7 @@ defmodule Infin.InvoicesTest do
 
     test "create_tag/1 with valid data creates a tag" do
       company = company_fixture()
-      attrs =%{name: "some name", company_id: company.id}
+      attrs = %{name: "some name", company_id: company.id}
       assert {:ok, %Tag{} = tag} = Invoices.create_tag(attrs)
       assert tag.name == "some name"
     end

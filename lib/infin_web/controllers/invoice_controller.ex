@@ -76,8 +76,9 @@ defmodule InfinWeb.InvoiceController do
               {:error, %Ecto.Changeset{} = changeset} ->
                 render(conn, "edit.html", invoice: invoice, changeset: changeset)
             end
-            true ->
-              index(conn, %{}, company_id)
+
+          true ->
+            index(conn, %{}, company_id)
         end
     end
   end

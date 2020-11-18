@@ -25,10 +25,15 @@ defmodule InfinWeb.CategoryControllerTest do
 
   describe "create category" do
     test "redirects to show when data is valid", %{conn: conn, user: user} do
-      conn = post(conn, Routes.category_path(conn, :create, company_id: user.company.id), category: @create_attrs)
+      conn =
+        post(conn, Routes.category_path(conn, :create, company_id: user.company.id),
+          category: @create_attrs
+        )
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.category_path(conn, :show, id, company_id: user.company.id)
+
+      assert redirected_to(conn) ==
+               Routes.category_path(conn, :show, id, company_id: user.company.id)
 
       conn = get(conn, Routes.category_path(conn, :show, id, company_id: user.company.id))
       assert html_response(conn, 200) =~ "Category"
@@ -36,7 +41,11 @@ defmodule InfinWeb.CategoryControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
-      conn = post(conn, Routes.category_path(conn, :create, company_id: user.company.id), category: @invalid_attrs)
+      conn =
+        post(conn, Routes.category_path(conn, :create, company_id: user.company.id),
+          category: @invalid_attrs
+        )
+
       assert html_response(conn, 200) =~ "New Category"
     end
   end
@@ -47,8 +56,13 @@ defmodule InfinWeb.CategoryControllerTest do
     test "redirects when data is valid", %{conn: conn, category: category, user: user} do
       Companies.change_category_company(category, user.company)
 
-      conn = put(conn, Routes.category_path(conn, :update, category, company_id: user.company.id), category: @update_attrs)
-      assert redirected_to(conn) == Routes.category_path(conn, :show, category, company_id: user.company.id)
+      conn =
+        put(conn, Routes.category_path(conn, :update, category, company_id: user.company.id),
+          category: @update_attrs
+        )
+
+      assert redirected_to(conn) ==
+               Routes.category_path(conn, :show, category, company_id: user.company.id)
 
       conn = get(conn, Routes.category_path(conn, :show, category, company_id: user.company.id))
       assert html_response(conn, 200) =~ "some updated name"
@@ -57,7 +71,11 @@ defmodule InfinWeb.CategoryControllerTest do
     test "renders errors when data is invalid", %{conn: conn, category: category, user: user} do
       Companies.change_category_company(category, user.company)
 
-      conn = put(conn, Routes.category_path(conn, :update, category, company_id: user.company.id), category: @invalid_attrs)
+      conn =
+        put(conn, Routes.category_path(conn, :update, category, company_id: user.company.id),
+          category: @invalid_attrs
+        )
+
       assert html_response(conn, 200) =~ "Category"
     end
   end

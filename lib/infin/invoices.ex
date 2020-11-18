@@ -63,7 +63,7 @@ defmodule Infin.Invoices do
   end
 
   def create_invoice(attrs, company_id) do
-    invoice =  %{
+    invoice = %{
       :id_document => attrs["id_document"],
       :total_value => attrs["total_value"],
       :doc_emition_date => attrs["doc_emition_date"],
@@ -232,7 +232,6 @@ defmodule Infin.Invoices do
   def change_tag(%Tag{} = tag, attrs \\ %{}) do
     Tag.changeset(tag, attrs)
   end
-
 
   def change_tag_company(tag, company) do
     tag
