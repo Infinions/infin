@@ -9,6 +9,14 @@
   <%= text_input f, :id_document %>
   <%= error_tag f, :id_document %>
 
+  <%= label f, :doc_emition_date %>
+  <%= text_input f, :doc_emition_date %>
+  <%= error_tag f, :doc_emition_date %>
+
+  <%= label f, :total_value %>
+  <%= text_input f, :total_value %>
+  <%= error_tag f, :total_value %>
+
   <div>
     <%= submit "Save" %>
   </div>

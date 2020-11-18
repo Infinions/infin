@@ -71,6 +71,6 @@ defmodule Infin.Invoices.Invoice do
       :company_id,
       :company_seller_id
     ])
-    |> validate_required([:id_document, :company_id])
+    |> validate_required([:id_document, :doc_emition_date, :total_value, :company_id])
   end
 end

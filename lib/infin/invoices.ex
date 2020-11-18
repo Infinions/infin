@@ -63,7 +63,12 @@ defmodule Infin.Invoices do
   end
 
   def create_invoice(attrs, company_id) do
-    invoice =  %{:id_document => attrs["id_document"], :company_id => company_id}
+    invoice =  %{
+      :id_document => attrs["id_document"],
+      :total_value => attrs["total_value"],
+      :doc_emition_date => attrs["doc_emition_date"],
+      :company_id => company_id
+    }
 
     %Invoice{}
     |> Invoice.changeset(invoice)
