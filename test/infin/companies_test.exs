@@ -88,7 +88,7 @@ defmodule Infin.CompaniesTest do
 
     test "create_category/1 with valid data creates a category" do
       company = company_fixture()
-      attrs =%{name: "some name", company_id: company.id}
+      attrs = %{name: "some name", company_id: company.id}
       assert {:ok, %Category{} = category} = Companies.create_category(attrs)
       assert category.name == "some name"
     end

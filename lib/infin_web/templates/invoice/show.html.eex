@@ -1,0 +1,21 @@
+<h1>Show Invoice</h1>
+
+<ul>
+
+  <li>
+    <strong>Id document:</strong>
+    <%= @invoice.id_document %>
+  </li>
+  <li>
+    <strong>Date:</strong>
+    <%= @invoice.doc_emition_date %>
+  </li>
+  <li>
+    <strong>Value:</strong>
+    <%= @invoice.total_value %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.invoice_path(@conn, :edit, @invoice) %></span>
+<span><%= link "Back", to: Routes.invoice_path(@conn, :index) %></span>

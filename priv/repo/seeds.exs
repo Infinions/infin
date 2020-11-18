@@ -11,6 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 alias Infin.Accounts.User
 alias Infin.Companies.Category
+alias Infin.Invoices.Tag
 alias Infin.Repo
 
 Repo.insert!(
@@ -52,4 +53,24 @@ Repo.insert!(
 Repo.insert!(
   %Category{}
   |> Category.changeset(%{"name" => "Travel", "company_id" => "2"})
+)
+
+Repo.insert!(
+  %Tag{}
+  |> Category.changeset(%{"name" => "Election Day", "company_id" => "1"})
+)
+
+Repo.insert!(
+  %Tag{}
+  |> Category.changeset(%{"name" => "Parking tickets", "company_id" => "1"})
+)
+
+Repo.insert!(
+  %Tag{}
+  |> Category.changeset(%{"name" => "Office chairs", "company_id" => "2"})
+)
+
+Repo.insert!(
+  %Tag{}
+  |> Category.changeset(%{"name" => "Christmas Party", "company_id" => "2"})
 )

@@ -13,9 +13,7 @@ defmodule Infin.AccountsFixtures do
       |> Enum.into(%{
         email: unique_user_email(),
         password: valid_user_password(),
-        company: %{ name: "#{System.unique_integer()}",
-                    nif: "#{System.unique_integer()}"
-                  }
+        company: %{name: "#{System.unique_integer()}", nif: "#{System.unique_integer()}"}
       })
       |> Infin.Accounts.register_user()
 
