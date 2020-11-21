@@ -1,21 +1,3 @@
-<h1>Show Invoice</h1>
+<p class="is-size-3 mb-5">Invoice</p>
 
-<ul>
-
-  <li>
-    <strong>Id document:</strong>
-    <%= @invoice.id_document %>
-  </li>
-  <li>
-    <strong>Date:</strong>
-    <%= @invoice.doc_emission_date %>
-  </li>
-  <li>
-    <strong>Value:</strong>
-    <%= @invoice.total_value %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.invoice_path(@conn, :edit, @invoice) %></span>
-<span><%= link "Back", to: Routes.invoice_path(@conn, :index) %></span>
+<%= render "form.html", Map.put(assigns, :action, Routes.invoice_path(@conn, :update, @invoice)) %>

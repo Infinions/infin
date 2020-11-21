@@ -1,26 +1,11 @@
-<h1>Listing Invoices</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Id document</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for invoice <- @invoices do %>
-    <tr>
-      <td><%= invoice.id_document %></td>
-
-      <td>
-        <span><%= link "Show", to: Routes.invoice_path(@conn, :show, invoice) %></span>
-        <span><%= link "Edit", to: Routes.invoice_path(@conn, :edit, invoice) %></span>
-        <span><%= link "Delete", to: Routes.invoice_path(@conn, :delete, invoice), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Invoice", to: Routes.invoice_path(@conn, :new) %></span>
+<div class="container py-5">
+  <p class="is-size-4 mb-5">Listing Invoices</p>
+  <div class="panel">
+    <%= for invoice <- @invoices do %>
+      <%= link invoice.id_document, to: Routes.invoice_path(@conn, :show, invoice), class: "panel-block is-block py-3 px-4" %>
+    <% end %>
+  </div>
+  <div class="buttons">
+    <%= link "New Invoice", to: Routes.invoice_path(@conn, :new), class: "button is-primary" %>
+  </div>
+</div>

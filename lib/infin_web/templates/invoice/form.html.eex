@@ -5,19 +5,51 @@
     </div>
   <% end %>
 
-  <%= label f, :id_document %>
-  <%= text_input f, :id_document %>
-  <%= error_tag f, :id_document %>
+  <div class="field">
+    <%= label f, :id_document, "Id Document", class: "label" %>
+    <div class="control">
+      <%= if has_error(f, :id_document) do %>
+        <%= text_input f, :id_document, required: true, class: "input is-danger" %>
+      <% else %>
+        <%= text_input f, :id_document, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :id_document %>
+    </div>
+  </div>
 
-  <%= label f, :doc_emission_date %>
-  <%= text_input f, :doc_emission_date %>
-  <%= error_tag f, :doc_emission_date %>
+  <div class="field">
+    <%= label f, :doc_emition_date, "Emition Date", class: "label" %>
+    <div class="control">
+      <%= if has_error(f, :doc_emition_date) do %>
+        <%= date_input f, :doc_emition_date, required: true, class: "input is-danger invoice-date-picker" %>
+      <% else %>
+        <%= date_input f, :doc_emition_date, required: true, class: "input invoice-date-picker" %>
+      <% end %>
+      <%= error_tag f, :doc_emition_date %>
+    </div>
+  </div>
 
-  <%= label f, :total_value %>
-  <%= text_input f, :total_value %>
-  <%= error_tag f, :total_value %>
+  <div class="field">
+    <%= label f, :total_value, "Total Value", class: "label" %>
+    <div class="control">
+      <%= if has_error(f, :total_value) do %>
+        <%= text_input f, :total_value, required: true, class: "input is-danger" %>
+      <% else %>
+        <%= text_input f, :total_value, required: true, class: "input" %>
+      <% end %>
+      <%= error_tag f, :total_value %>
+    </div>
+  </div>
 
-  <div>
-    <%= submit "Save" %>
+  <div class="level mt-5">
+    <div class="level-left">
+      <%= submit "Save", class: "button is-primary level-item" %>
+    </div>
+    <div class="level-right">
+      <%= if contains_invoice? assigns do %>
+        <%= link "Back", to: Routes.invoice_path(@conn, :index), class: "button level-item" %>
+        <%= link "Delete", to: Routes.invoice_path(@conn, :delete, @invoice), method: :delete, data: [confirm: "Are you sure?"], class: "button is-danger level-item" %>
+      <% end %>
+    </div>
   </div>
 <% end %>
