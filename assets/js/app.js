@@ -4,6 +4,7 @@
 import "../css/app.scss"
 
 import "./nav"
+import "./register"
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
