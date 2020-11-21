@@ -1,11 +1,10 @@
 import bulmaCalendar from 'bulma-calendar'
+import $ from "jquery";
 
-document.addEventListener('DOMContentLoaded', function () {
-
-    // Initialize all input of type date
+$(() => {
     bulmaCalendar.attach('.invoice-date-picker', {
         type: 'date',
-        dateFormat: 'DD/MM/YYYY',
+        dateFormat: 'YYYY-MM-DD',
         displayMode: 'dialog',
         startDate: new Date()
     });
