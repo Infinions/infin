@@ -7,7 +7,10 @@
 
   <div class="field">
     <%= label f, :id_document, "Id Document", class: "label" %>
-    <div class="control">
+    <div class="control has-icons-left">
+      <span class="icon is-small is-left">
+        <i class="fas fa-file-alt"></i>
+      </span>
       <%= if has_error(f, :id_document) do %>
         <%= text_input f, :id_document, required: true, class: "input is-danger" %>
       <% else %>
@@ -31,7 +34,10 @@
 
   <div class="field">
     <%= label f, :total_value, "Total Value", class: "label" %>
-    <div class="control">
+    <div class="control has-icons-left">
+      <span class="icon is-small is-left">
+        <i class="fas fa-file-invoice-dollar"></i>
+      </span>
       <%= if has_error(f, :total_value) do %>
         <%= text_input f, :total_value, required: true, class: "input is-danger" %>
       <% else %>
