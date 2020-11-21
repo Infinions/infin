@@ -58,7 +58,10 @@ defmodule InfinWeb.InvoiceController do
                 |> redirect(to: Routes.invoice_path(conn, :show, invoice))
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                render(conn, "edit.html", invoice: invoice, changeset: changeset)
+                render(conn, "show.html",
+                invoice: invoice,
+                  changeset: changeset
+                )
             end
 
           true ->
