@@ -119,21 +119,17 @@
         <% end %>
       </div>
 
-      <div class="step-content has-text-centered">
-        <div class="field is-grouped py-1">
-          <div class="control is-expanded">
-            <%= submit "Register", class: "button is-primary is-fullwidth" %>
-          </div>
-        </div>
+      <div class="step-content has-text-centered mt-5">
+        <%= submit "Register", class: "button is-primary is-fullwidth" %>
       </div>
     </div>
 
-    <div class="steps-actions">
-      <div class="steps-action">
-        <a href="#" data-nav="previous" class="button is-light">Previous</a>
+    <div class="steps-actions columns mb-5">
+      <div class="steps-action column is-half">
+        <a href="#" data-nav="previous" class="button is-light is-fullwidth">Previous</a>
       </div>
-      <div class="steps-action">
-        <a href="#" data-nav="next" class="button is-light">Next</a>
+      <div class="steps-action column is-half">
+        <a href="#" data-nav="next" class="button is-light  is-fullwidth">Next</a>
       </div>
     </div>
   </div>

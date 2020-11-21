@@ -106,3 +106,11 @@ body {
 .footer {
     padding: 2rem 1.5rem 3rem;
 }
+
+.steps {
+    .steps-actions {
+        .steps-action.column {
+            margin: 0;
+        }
+    }
+}
