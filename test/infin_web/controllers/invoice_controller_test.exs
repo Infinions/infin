@@ -73,15 +73,6 @@ defmodule InfinWeb.InvoiceControllerTest do
     end
   end
 
-  describe "edit invoice" do
-    setup [:create_invoice]
-
-    test "renders form for editing chosen invoice", %{conn: conn, invoice: invoice} do
-      conn = get(conn, Routes.invoice_path(conn, :edit, invoice))
-      assert html_response(conn, 200) =~ "Listing Invoices"
-    end
-  end
-
   describe "update invoice" do
     setup [:create_invoice]
 
