@@ -13,7 +13,7 @@ defmodule InfinWeb.InvoiceControllerTest do
     doc_type_dec: "string",
     doc_number: "string",
     doc_hash: "string",
-    doc_emition_date: "string",
+    doc_emission_date: "string",
     total_value: 100,
     total_base_value: 80,
     total_tax_value: 12,

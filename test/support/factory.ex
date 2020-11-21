@@ -27,7 +27,7 @@ defmodule Infin.Factory do
       doc_type_dec: sequence("string"),
       doc_number: sequence("string"),
       doc_hash: sequence("string"),
-      doc_emition_date: sequence("string"),
+      doc_emission_date: sequence("string"),
       total_value: :rand.uniform(100),
       total_base_value: :rand.uniform(80),
       total_tax_value: :rand.uniform(1),

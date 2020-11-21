@@ -10,7 +10,7 @@ defmodule Infin.Repo.Migrations.CreateInvoices do
       add :doc_type_dec, :string
       add :doc_number, :string
       add :doc_hash, :string
-      add :doc_emition_date, :string
+      add :doc_emission_date, :string
       add :total_value, :integer
       add :total_base_value, :integer
       add :total_tax_value, :integer

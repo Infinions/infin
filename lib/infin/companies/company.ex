@@ -8,7 +8,7 @@ defmodule Infin.Companies.Company do
 
     has_many :users, Infin.Accounts.User
     has_many :categories, Infin.Companies.Category
-    has_many :buyer_invoice, Infin.Invoices.Invoice, foreign_key: :company_buyer_id
+    has_many :invoices, Infin.Invoices.Invoice
     has_many :seller_invoice, Infin.Invoices.Invoice, foreign_key: :company_seller_id
     has_many :tags, Infin.Invoices.Tag
 
