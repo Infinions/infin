@@ -11,7 +11,7 @@ defmodule Infin.Invoices.Invoice do
     field :doc_type_dec, :string
     field :doc_number, :string
     field :doc_hash, :string
-    field :doc_emition_date, :string
+    field :doc_emission_date, :string
     field :total_value, :integer
     field :total_base_value, :integer
     field :total_tax_value, :integer
@@ -49,7 +49,7 @@ defmodule Infin.Invoices.Invoice do
       :doc_type_dec,
       :doc_number,
       :doc_hash,
-      :doc_emition_date,
+      :doc_emission_date,
       :total_value,
       :total_base_value,
       :total_tax_value,
@@ -71,6 +71,6 @@ defmodule Infin.Invoices.Invoice do
       :company_id,
       :company_seller_id
     ])
-    |> validate_required([:id_document, :doc_emition_date, :total_value, :company_id])
+    |> validate_required([:id_document, :doc_emission_date, :total_value, :company_id])
   end
 end

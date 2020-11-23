@@ -91,7 +91,7 @@ defmodule InfinWeb.InvoiceController do
       invoice ->
         cond do
           company_id == invoice.company_id ->
-            {:ok, _invoice} = Invocies.delete_invoice(invoice)
+            {:ok, _invoice} = Invoices.delete_invoice(invoice)
 
           true ->
             index(conn, %{}, company_id)

@@ -66,7 +66,7 @@ defmodule Infin.Invoices do
     invoice = %{
       :id_document => attrs["id_document"],
       :total_value => attrs["total_value"],
-      :doc_emition_date => attrs["doc_emition_date"],
+      :doc_emission_date => attrs["doc_emission_date"],
       :company_id => company_id
     }
 

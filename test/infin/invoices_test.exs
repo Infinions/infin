@@ -32,7 +32,7 @@ defmodule Infin.InvoicesTest do
 
       attrs = %{
         id_document: "some id_document",
-        doc_emition_date: "12/12/12",
+        doc_emission_date: "12/12/12",
         total_value: "123",
         company_id: company.id
       }
