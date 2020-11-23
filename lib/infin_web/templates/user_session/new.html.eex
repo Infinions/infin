@@ -1,4 +1,4 @@
-<div class="columns is-flex is-centered mt-5">
+<div class="columns is-flex is-centered my-5">
   <div class="column card is-half">
     <div class="card-content px-6 py-6">
       <p class="is-size-3 mb-5 has-text-centered">Log in</p>

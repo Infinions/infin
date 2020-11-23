@@ -12,10 +12,11 @@
   </head>
   <%= if @conn.request_path == "/" do %>
     <body>
+      <div class="page-container">
   <% else %>
     <body class="has-navbar-fixed-top">
+      <div class="page-container my-5">
   <% end %>
-    <div class="page-container">
       <%= render "_navbar.html", assigns %>
       <%= render_existing view_module(@conn), "landing_hero.html", assigns %>
       <%= @inner_content %>

@@ -1,0 +1,56 @@
+<section class="section">
+  <div class="container py-4">
+    <h2 class="title has-text-centered mb-6">Contact the Infinions</h2>
+    <div class="columns">
+      <div class="column is-6">
+        <h4 class="title is-spaced is-4">Let's talk about the future of financials</h4>
+        <p class="subtitle">We're here to answer your questions and discuss the automation of your company financial processes.</p>
+        <div>
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-24x24">
+                <i class="fas fa-map-marker-alt"></i>
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <p>Departamento de Informática - Universidade do Minho, Braga</p>
+              </div>
+            </div>
+          </div>
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-24x24">
+                <i class="fas fa-envelope"></i>
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <p>contact@infin.io</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-5 is-offset-1">
+        <form>
+          <div class="field">
+            <div class="control">
+              <input class="input" type="email" placeholder="Email" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <textarea class="textarea" rows="5" placeholder="Write something..."></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary is-fullwidth" type="submit">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
