@@ -6,6 +6,7 @@ defmodule InfinWeb.InvoiceController do
 
   def index(conn, _params, company_id) do
     invoices = Invoices.list_company_invoices(company_id)
+    import_invoices()
     render(conn, "index.html", invoices: invoices)
   end
 
@@ -88,6 +89,19 @@ defmodule InfinWeb.InvoiceController do
     conn
     |> put_flash(:info, "Invoice deleted successfully.")
     |> redirect(to: Routes.invoice_path(conn, :index))
+  end
+
+  def import_invoices() do
+    expected = %{"nif" => "asd", "password" => "asd",
+    "startDate" => "2020-01-01",
+    "endDate"=> "2020-11-18"}
+    enumerable = Jason.encode!(expected) |> String.split("")
+    headers = %{"Content-type" => "application/json"}
+    response = HTTPoison.post("localhost:6000/invoices", {:stream, enumerable}, headers)
+    {:ok, %HTTPoison.Response{body: body}} = response
+
+
+    IO.inspect(body)
   end
 
   def action(conn, _) do
