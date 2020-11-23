@@ -72,5 +72,6 @@ defmodule Infin.Invoices.Invoice do
       :company_seller_id
     ])
     |> validate_required([:id_document, :doc_emission_date, :total_value, :company_id])
+    |>unique_constraint(:id_document)
   end
 end

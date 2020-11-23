@@ -4,9 +4,11 @@ defmodule InfinWeb.InvoiceController do
   alias Infin.Invoices
   alias Infin.Invoices.Invoice
 
+
+  @pass
   def index(conn, _params, company_id) do
     invoices = Invoices.list_company_invoices(company_id)
-    import_invoices()
+    import_invoices_pt(company_id)
     render(conn, "index.html", invoices: invoices)
   end
 
@@ -91,17 +93,21 @@ defmodule InfinWeb.InvoiceController do
     |> redirect(to: Routes.invoice_path(conn, :index))
   end
 
-  def import_invoices() do
-    expected = %{"nif" => "asd", "password" => "asd",
-    "startDate" => "2020-01-01",
-    "endDate"=> "2020-11-18"}
+  def import_invoices_pt(company_id) do
+    expected = %{
+      "nif" => "269016694",
+      "password" => @pass,
+      "startDate" => "2020-01-01",
+      "endDate" => "2020-11-18"
+    }
+
     enumerable = Jason.encode!(expected) |> String.split("")
     headers = %{"Content-type" => "application/json"}
     response = HTTPoison.post("localhost:6000/invoices", {:stream, enumerable}, headers)
     {:ok, %HTTPoison.Response{body: body}} = response
+    object = Jason.decode!(body)
 
-
-    IO.inspect(body)
+    Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
   end
 
   def action(conn, _) do

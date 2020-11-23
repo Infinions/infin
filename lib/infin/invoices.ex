@@ -8,6 +8,7 @@ defmodule Infin.Invoices do
 
   alias Infin.Invoices.Invoice
   alias Infin.Invoices.Tag
+  alias Infin.Companies
 
   @doc """
   Returns the list of invoices.
@@ -74,6 +75,24 @@ defmodule Infin.Invoices do
     |> Invoice.changeset(invoice)
     |> Repo.insert()
   end
+
+  def insert_fectched_invoices_pt(invoices, company_id) do
+    Enum.map(invoices, fn invoice ->
+      if !Companies.get_company_by_nif(to_string(invoice["nifEmitente"])) do
+        Companies.create_company(%{:nif => to_string(invoice["nifEmitente"]), :name => invoice["nomeEmitente"]})
+      end
+      document = %{
+        :id_document => to_string(invoice["idDocumento"]),
+        :total_value => invoice["valorTotal"],
+        :doc_emission_date => invoice["dataEmissaoDocumento"],
+        :company_id => company_id
+        #:company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"]))
+      }
+      create_invoice(document)
+       end
+     )
+  end
+
 
   @doc """
   Updates a invoice.
