@@ -7,6 +7,7 @@ defmodule Infin.Repo.Migrations.AddCompanyToInvoice do
       add :company_id, references(:companies)
     end
 
-    create unique_index(:invoices, [:company_seller_id, :company_id])
+    create index(:invoices, :company_id)
+    create index(:invoices, :company_seller_id)
   end
 end
