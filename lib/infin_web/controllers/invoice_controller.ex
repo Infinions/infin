@@ -4,12 +4,11 @@ defmodule InfinWeb.InvoiceController do
   alias Infin.Invoices
   alias Infin.Invoices.Invoice
 
-
-  @pass "hello"
+  @pass ""
 
   def index(conn, _params, company_id) do
-    import_invoices_pt(company_id)
     invoices = Invoices.list_company_invoices(company_id)
+    import_invoices_pt(conn, company_id)
     render(conn, "index.html", invoices: invoices)
   end
 
@@ -38,8 +37,8 @@ defmodule InfinWeb.InvoiceController do
       invoice ->
         cond do
           company_id == invoice.company_id ->
-            Invoices.preload_invoice_company_seller(invoice)
-            render(conn, "show.html", invoice: invoice)
+            changeset = Invoices.change_invoice(invoice)
+            render(conn, "show.html", invoice: invoice, changeset: changeset)
 
           true ->
             index(conn, {}, company_id)
@@ -80,7 +79,7 @@ defmodule InfinWeb.InvoiceController do
 
               {:error, %Ecto.Changeset{} = changeset} ->
                 render(conn, "show.html",
-                invoice: invoice,
+                  invoice: invoice,
                   changeset: changeset
                 )
             end
@@ -111,7 +110,7 @@ defmodule InfinWeb.InvoiceController do
     |> redirect(to: Routes.invoice_path(conn, :index))
   end
 
-  def import_invoices_pt(company_id) do
+  def import_invoices_pt(conn, company_id) do
     expected = %{
       "nif" => "269016694",
       "password" => @pass,
@@ -121,11 +120,23 @@ defmodule InfinWeb.InvoiceController do
 
     enumerable = Jason.encode!(expected) |> String.split("")
     headers = %{"Content-type" => "application/json"}
-    response = HTTPoison.post("localhost:6000/invoices", {:stream, enumerable}, headers)
-    {:ok, %HTTPoison.Response{body: body}} = response
-    object = Jason.decode!(body)
 
-    Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
+    case HTTPoison.post("localhost:6000/invoices", {:stream, enumerable}, headers) do
+      {:ok, response} ->
+        if response.status_code == 200 do
+          %HTTPoison.Response{body: body} = response
+          object = Jason.decode!(body)
+          Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
+        else
+          conn
+        |> put_flash(:info, "Service not avalaible")
+        #|> redirect(to: Routes.invoice_path(conn, :index))
+        end
+      _ ->
+        conn
+        |> put_flash(:info, "Service not avalaible")
+        #|> redirect(to: Routes.invoice_path(conn, :index))
+      end
   end
 
   def action(conn, _) do

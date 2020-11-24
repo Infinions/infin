@@ -24,7 +24,7 @@ defmodule Infin.Invoices do
   end
 
   def list_company_invoices(company_id) do
-    Repo.all(from i in Invoice, where: i.company_id == ^company_id)
+    Repo.all(from i in Invoice, where: i.company_id == ^company_id, preload: [:company_seller])
   end
 
   @doc """
@@ -65,8 +65,8 @@ defmodule Infin.Invoices do
 
   def create_invoice(attrs, company_id) do
 
-    if !Companies.get_company_by_nif(to_string(attrs["nifEmitente"])) do
-      Companies.create_company(%{:nif => to_string(attrs["nifEmitente"]), :name => attrs["nomeEmitente"]})
+    if !Companies.get_company_by_nif(to_string(attrs["emit_tax_id"])) do
+      Companies.create_company(%{:nif => to_string(attrs["emit_tax_id"]), :name => attrs["emit_name"]})
     end
 
     invoice = %{
@@ -74,7 +74,7 @@ defmodule Infin.Invoices do
       :total_value => attrs["total_value"],
       :doc_emission_date => attrs["doc_emission_date"],
       :company_id => company_id,
-      :company_seller_id => Companies.get_company_by_nif(to_string(attrs["nifEmitente"])).id
+      :company_seller_id => Companies.get_company_by_nif(to_string(attrs["emit_tax_id"])).id
     }
 
     %Invoice{}
@@ -98,10 +98,6 @@ defmodule Infin.Invoices do
       create_invoice(document)
        end
      )
-  end
-
-  def preload_invoice_company_seller(%Invoice{} = invoice) do
-    Repo.preload(invoice, :company_seller)
   end
 
   @doc """
