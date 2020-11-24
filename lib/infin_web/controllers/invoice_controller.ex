@@ -34,24 +34,8 @@ defmodule InfinWeb.InvoiceController do
       invoice ->
         cond do
           company_id == invoice.company_id ->
-            render(conn, "show.html", invoice: invoice)
-
-          true ->
-            index(conn, {}, company_id)
-        end
-    end
-  end
-
-  def edit(conn, %{"id" => id}, company_id) do
-    case Invoices.get_invoice(id) do
-      nil ->
-        index(conn, %{}, company_id)
-
-      invoice ->
-        cond do
-          company_id == invoice.company_id ->
             changeset = Invoices.change_invoice(invoice)
-            render(conn, "edit.html", invoice: invoice, changeset: changeset)
+            render(conn, "show.html", invoice: invoice, changeset: changeset)
 
           true ->
             index(conn, {}, company_id)
@@ -74,7 +58,10 @@ defmodule InfinWeb.InvoiceController do
                 |> redirect(to: Routes.invoice_path(conn, :show, invoice))
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                render(conn, "edit.html", invoice: invoice, changeset: changeset)
+                render(conn, "show.html",
+                invoice: invoice,
+                  changeset: changeset
+                )
             end
 
           true ->

@@ -64,21 +64,12 @@ defmodule InfinWeb.InvoiceControllerTest do
       assert redirected_to(conn) == Routes.invoice_path(conn, :show, id)
 
       conn = get(conn, Routes.invoice_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Invoice"
+      assert html_response(conn, 200) =~ "Invoice"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.invoice_path(conn, :create), invoice: @invalid_attrs)
       assert html_response(conn, 200) =~ "New Invoice"
-    end
-  end
-
-  describe "edit invoice" do
-    setup [:create_invoice]
-
-    test "renders form for editing chosen invoice", %{conn: conn, invoice: invoice} do
-      conn = get(conn, Routes.invoice_path(conn, :edit, invoice))
-      assert html_response(conn, 200) =~ "Listing Invoices"
     end
   end
 
