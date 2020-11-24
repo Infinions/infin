@@ -124,6 +124,10 @@ defmodule Infin.Companies do
     Repo.preload(company, :categories)
   end
 
+  def preload_company_invoices(%Company{} = company) do
+    Repo.preload(company, :invoices)
+  end
+
   alias Infin.Companies.Category
 
   @doc """

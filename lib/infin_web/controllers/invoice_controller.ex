@@ -5,10 +5,11 @@ defmodule InfinWeb.InvoiceController do
   alias Infin.Invoices.Invoice
 
 
-  @pass
+  @pass "hello"
+
   def index(conn, _params, company_id) do
-    invoices = Invoices.list_company_invoices(company_id)
     import_invoices_pt(company_id)
+    invoices = Invoices.list_company_invoices(company_id)
     render(conn, "index.html", invoices: invoices)
   end
 
@@ -30,6 +31,23 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def show(conn, %{"id" => id}, company_id) do
+    case Invoices.get_invoice(id) do
+      nil ->
+        index(conn, %{}, company_id)
+
+      invoice ->
+        cond do
+          company_id == invoice.company_id ->
+            Invoices.preload_invoice_company_seller(invoice)
+            render(conn, "show.html", invoice: invoice)
+
+          true ->
+            index(conn, {}, company_id)
+        end
+    end
+  end
+
+  def edit(conn, %{"id" => id}, company_id) do
     case Invoices.get_invoice(id) do
       nil ->
         index(conn, %{}, company_id)
