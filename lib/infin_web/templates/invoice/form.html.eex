@@ -21,14 +21,14 @@
   </div>
 
   <div class="field">
-    <%= label f, :doc_emition_date, "Emition Date", class: "label" %>
+    <%= label f, :doc_emission_date, "Emition Date", class: "label" %>
     <div class="control">
-      <%= if has_error(f, :doc_emition_date) do %>
-        <%= date_input f, :doc_emition_date, required: true, class: "input is-danger invoice-date-picker" %>
+      <%= if has_error(f, :doc_emission_date) do %>
+        <%= date_input f, :doc_emission_date, required: true, class: "input is-danger invoice-date-picker" %>
       <% else %>
-        <%= date_input f, :doc_emition_date, required: true, class: "input invoice-date-picker" %>
+        <%= date_input f, :doc_emission_date, required: true, class: "input invoice-date-picker" %>
       <% end %>
-      <%= error_tag f, :doc_emition_date %>
+      <%= error_tag f, :doc_emission_date %>
     </div>
   </div>
 
@@ -44,6 +44,36 @@
         <%= text_input f, :total_value, required: true, class: "input" %>
       <% end %>
       <%= error_tag f, :total_value %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label f, :emit_tax_id, "Emitter Tax Id", class: "label is-floating-label" %>
+    <div class="control has-icons-left">
+      <span class="icon is-small is-left">
+        <i class="fas fa-id-badge"></i>
+      </span>
+      <%= if has_error(f, :emit_tax_id) do %>
+        <%= text_input f, :emit_tax_id, required: true, class: "input is-danger with-floating-label" %>
+      <% else %>
+        <%= text_input f, :emit_tax_id, required: true, class: "input with-floating-label" %>
+      <% end %>
+      <%= error_tag f, :emit_tax_id %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= label f, :emit_name, "Emitter Name", class: "label is-floating-label" %>
+    <div class="control has-icons-left">
+      <span class="icon is-small is-left">
+        <i class="fas fa-user"></i>
+      </span>
+      <%= if has_error(f, :emit_name) do %>
+        <%= text_input f, :emit_name, required: true, class: "input is-danger with-floating-label" %>
+      <% else %>
+        <%= text_input f, :emit_name, required: true, class: "input with-floating-label" %>
+      <% end %>
+      <%= error_tag f, :emit_name %>
     </div>
   </div>
 
