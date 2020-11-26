@@ -16,7 +16,8 @@ config :infin, InfinWeb.Endpoint,
   secret_key_base: "LoWbMfM6GY8E1PRJLaqWw3vebQtl71vBKBUccoEvVPprYT7UyGqBFTkmn73SeHaa",
   render_errors: [view: InfinWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Infin.PubSub,
-  live_view: [signing_salt: "ZtkrwQ6M"]
+  live_view: [signing_salt: "ZtkrwQ6M"],
+  pt_finances: "localhost:3000"
 
 # Configures Elixir's Logger
 config :logger, :console,

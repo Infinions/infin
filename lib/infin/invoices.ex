@@ -64,9 +64,11 @@ defmodule Infin.Invoices do
   end
 
   def create_invoice(attrs, company_id) do
-
     if !Companies.get_company_by_nif(to_string(attrs["emit_tax_id"])) do
-      Companies.create_company(%{:nif => to_string(attrs["emit_tax_id"]), :name => attrs["emit_name"]})
+      Companies.create_company(%{
+        :nif => to_string(attrs["emit_tax_id"]),
+        :name => attrs["emit_name"]
+      })
     end
 
     invoice = %{
@@ -86,8 +88,12 @@ defmodule Infin.Invoices do
   def insert_fectched_invoices_pt(invoices, company_id) do
     Enum.map(invoices, fn invoice ->
       if !Companies.get_company_by_nif(to_string(invoice["nifEmitente"])) do
-        Companies.create_company(%{:nif => to_string(invoice["nifEmitente"]), :name => invoice["nomeEmitente"]})
+        Companies.create_company(%{
+          :nif => to_string(invoice["nifEmitente"]),
+          :name => invoice["nomeEmitente"]
+        })
       end
+
       document = %{
         :id_document => to_string(invoice["idDocumento"]),
         :total_value => invoice["valorTotal"],
@@ -95,9 +101,9 @@ defmodule Infin.Invoices do
         :company_id => company_id,
         :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id
       }
+
       create_invoice(document)
-       end
-     )
+    end)
   end
 
   @doc """

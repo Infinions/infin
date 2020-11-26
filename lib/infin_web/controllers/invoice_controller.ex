@@ -3,12 +3,10 @@ defmodule InfinWeb.InvoiceController do
 
   alias Infin.Invoices
   alias Infin.Invoices.Invoice
-
-  @pass ""
+  alias Infin.Companies
 
   def index(conn, _params, company_id) do
     invoices = Invoices.list_company_invoices(company_id)
-    import_invoices_pt(conn, company_id)
     render(conn, "index.html", invoices: invoices)
   end
 
@@ -110,33 +108,42 @@ defmodule InfinWeb.InvoiceController do
     |> redirect(to: Routes.invoice_path(conn, :index))
   end
 
-  def import_invoices_pt(conn, company_id) do
+  def import_invoices_pt(conn, params, company_id) do
     expected = %{
-      "nif" => "269016694",
-      "password" => @pass,
-      "startDate" => "2020-01-01",
-      "endDate" => "2020-11-18"
+      "nif" => Companies.get_company!(company_id).nif,
+      "password" => params["passoword"],
+      "startDate" => params["start_date"],
+      "endDate" => params["end_date"]
     }
 
     enumerable = Jason.encode!(expected) |> String.split("")
     headers = %{"Content-type" => "application/json"}
 
-    case HTTPoison.post("localhost:6000/invoices", {:stream, enumerable}, headers) do
+    case HTTPoison.post(
+           Application.get_env(:infin, InfinWeb.Endpoint)[:pt_finances] <> "/invoices",
+           {:stream, enumerable},
+           headers
+         ) do
       {:ok, response} ->
         if response.status_code == 200 do
           %HTTPoison.Response{body: body} = response
           object = Jason.decode!(body)
           Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
+
+          conn
+          |> put_flash(:info, "Invoices imported")
+          |> redirect(to: Routes.invoice_path(conn, :index))
         else
           conn
-        |> put_flash(:info, "Service not avalaible")
-        #|> redirect(to: Routes.invoice_path(conn, :index))
+          |> put_flash(:error, "Service not avalaible")
+          |> redirect(to: Routes.invoice_path(conn, :index))
         end
+
       _ ->
         conn
-        |> put_flash(:info, "Service not avalaible")
-        #|> redirect(to: Routes.invoice_path(conn, :index))
-      end
+        |> put_flash(:error, "Service not avalaible")
+        |> redirect(to: Routes.invoice_path(conn, :index))
+    end
   end
 
   def action(conn, _) do

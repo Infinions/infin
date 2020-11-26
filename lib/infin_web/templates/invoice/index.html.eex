@@ -7,4 +7,5 @@
   </div>
   <div class="buttons">
     <%= link "New Invoice", to: Routes.invoice_path(@conn, :new), class: "button is-primary" %>
+    <%= button "Import", to: Routes.invoice_path(@conn, :import_invoices_pt), class: "button is-primary" %>
   </div>

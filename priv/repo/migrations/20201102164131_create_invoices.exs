@@ -32,6 +32,7 @@ defmodule Infin.Repo.Migrations.CreateInvoices do
 
       timestamps()
     end
+
     create index(:invoices, :id_document)
   end
 end
