@@ -5,7 +5,6 @@ defmodule InfinWeb.CompanyController do
 
   def show(conn, _params, current_user_company) do
     current_user_company = Companies.preload_company_categories(current_user_company)
-    IO.inspect(current_user_company)
     changeset = Companies.change_company(current_user_company)
     render(conn, "show.html", company: current_user_company, changeset: changeset)
   end
