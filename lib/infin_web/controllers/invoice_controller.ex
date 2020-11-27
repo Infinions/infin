@@ -125,18 +125,25 @@ defmodule InfinWeb.InvoiceController do
            headers
          ) do
       {:ok, response} ->
-        if response.status_code == 200 do
-          %HTTPoison.Response{body: body} = response
-          object = Jason.decode!(body)
-          Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
+        case response.status_code do
+          200 ->
+            %HTTPoison.Response{body: body} = response
+            object = Jason.decode!(body)
+            Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
 
-          conn
-          |> put_flash(:info, "Invoices imported")
-          |> redirect(to: Routes.invoice_path(conn, :index))
-        else
-          conn
-          |> put_flash(:error, "Service not avalaible")
-          |> redirect(to: Routes.invoice_path(conn, :index))
+            conn
+            |> put_flash(:info, "Invoices imported")
+            |> redirect(to: Routes.invoice_path(conn, :index))
+
+          400 ->
+            conn
+            |> put_flash(:error, "Password incorrect")
+            |> redirect(to: Routes.invoice_path(conn, :index))
+
+          _ ->
+            conn
+            |> put_flash(:error, "Service not avalaible")
+            |> redirect(to: Routes.invoice_path(conn, :index))
         end
 
       _ ->
