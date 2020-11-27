@@ -37,6 +37,8 @@ defmodule Infin.Companies do
   """
   def get_company!(id), do: Repo.get!(Company, id)
 
+  def get_company(id), do: Repo.get(Company, id)
+
   @doc """
   Gets a single company.
 

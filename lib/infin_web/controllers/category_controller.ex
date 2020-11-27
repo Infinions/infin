@@ -38,7 +38,10 @@ defmodule InfinWeb.CategoryController do
             )
 
           true ->
-            CompanyController.show(conn, %{}, company_id)
+            company = Companies.get_company(company_id)
+
+            conn
+            |> redirect(to: Routes.company_path(conn, :show, company))
         end
     end
   end
@@ -68,7 +71,10 @@ defmodule InfinWeb.CategoryController do
             end
 
           true ->
-            CompanyController.show(conn, %{}, company_id)
+            company = Companies.get_company(company_id)
+
+            conn
+            |> redirect(to: Routes.company_path(conn, :show, company))
         end
     end
   end
@@ -76,7 +82,10 @@ defmodule InfinWeb.CategoryController do
   def delete(conn, %{"id" => id}, company_id) do
     case Companies.get_category(id) do
       nil ->
-        CompanyController.show(conn, %{}, company_id)
+        company = Companies.get_company(company_id)
+
+        conn
+        |> redirect(to: Routes.company_path(conn, :show, company))
 
       category ->
         cond do
@@ -88,7 +97,10 @@ defmodule InfinWeb.CategoryController do
             |> redirect(to: Routes.company_path(conn, :show, company_id))
 
           true ->
-            CompanyController.show(conn, %{}, company_id)
+            company = Companies.get_company(company_id)
+
+            conn
+            |> redirect(to: Routes.company_path(conn, :show, company))
         end
     end
   end
