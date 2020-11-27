@@ -120,7 +120,7 @@ defmodule InfinWeb.InvoiceController do
     headers = %{"Content-type" => "application/json"}
 
     case HTTPoison.post(
-           Application.get_env(:infin, InfinWeb.Endpoint)[:pt_finances] <> "/invoices",
+           Application.get_env(:infin, InfinWeb.Endpoint)[:pt_finances_url] <> "/invoices",
            {:stream, enumerable},
            headers
          ) do

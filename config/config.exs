@@ -17,7 +17,7 @@ config :infin, InfinWeb.Endpoint,
   render_errors: [view: InfinWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Infin.PubSub,
   live_view: [signing_salt: "ZtkrwQ6M"],
-  pt_finances: "localhost:3000"
+  pt_finances_url: "localhost:3000"
 
 # Configures Elixir's Logger
 config :logger, :console,
