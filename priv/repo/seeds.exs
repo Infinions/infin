@@ -57,20 +57,20 @@ Repo.insert!(
 
 Repo.insert!(
   %Tag{}
-  |> Category.changeset(%{"name" => "Election Day", "company_id" => "1"})
+  |> Tag.changeset(%{"name" => "Election Day", "company_id" => "1"})
 )
 
 Repo.insert!(
   %Tag{}
-  |> Category.changeset(%{"name" => "Parking tickets", "company_id" => "1"})
+  |> Tag.changeset(%{"name" => "Parking tickets", "company_id" => "1"})
 )
 
 Repo.insert!(
   %Tag{}
-  |> Category.changeset(%{"name" => "Office chairs", "company_id" => "2"})
+  |> Tag.changeset(%{"name" => "Office chairs", "company_id" => "2"})
 )
 
 Repo.insert!(
   %Tag{}
-  |> Category.changeset(%{"name" => "Christmas Party", "company_id" => "2"})
+  |> Tag.changeset(%{"name" => "Christmas Party", "company_id" => "2"})
 )
