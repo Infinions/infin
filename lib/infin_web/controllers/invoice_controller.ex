@@ -44,23 +44,6 @@ defmodule InfinWeb.InvoiceController do
     end
   end
 
-  def edit(conn, %{"id" => id}, company_id) do
-    case Invoices.get_invoice(id) do
-      nil ->
-        index(conn, %{}, company_id)
-
-      invoice ->
-        cond do
-          company_id == invoice.company_id ->
-            changeset = Invoices.change_invoice(invoice)
-            render(conn, "show.html", invoice: invoice, changeset: changeset)
-
-          true ->
-            index(conn, {}, company_id)
-        end
-    end
-  end
-
   def update(conn, %{"id" => id, "invoice" => invoice_params}, company_id) do
     case Invoices.get_invoice(id) do
       nil ->
