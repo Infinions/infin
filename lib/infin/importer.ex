@@ -4,7 +4,6 @@ defmodule Infin.Importer do
   """
 
   import Ecto.Query, warn: false
-  alias Infin.Repo
 
   alias Infin.Companies
 

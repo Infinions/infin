@@ -3,7 +3,6 @@ defmodule InfinWeb.InvoiceController do
 
   alias Infin.Invoices
   alias Infin.Invoices.Invoice
-  alias Infin.Companies
   alias Infin.Importer
 
   def index(conn, _params, company_id) do
