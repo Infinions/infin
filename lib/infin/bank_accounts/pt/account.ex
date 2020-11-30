@@ -16,7 +16,7 @@ defmodule Infin.BankAccounts.PT.Account do
     field :authorized_balance, :string
     field :expected_balance, :string
 
-    belongs_to :bank, Infin.BankAccounts.PT.Bank, on_replace: :nilify
+    belongs_to :bank, Infin.BankAccounts.PT.Bank
 
     timestamps()
   end
