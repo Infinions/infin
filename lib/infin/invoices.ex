@@ -27,7 +27,7 @@ defmodule Infin.Invoices do
     Repo.all(
       from i in Invoice,
         where: i.company_id == ^company_id,
-        preload: [:company_seller, :tags, :category]
+        preload: [:company_seller, :category]
     )
   end
 
