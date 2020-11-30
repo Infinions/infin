@@ -58,8 +58,5 @@
         </div>
         <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new)%>
       <% end %>
-    </div>
-    </div>
-  </div>
   </div>
 </div>

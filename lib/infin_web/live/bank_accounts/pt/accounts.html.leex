@@ -1,0 +1,24 @@
+<div class="box">
+  <article class="media">
+    <div class="media-left">
+      <%= if @account.bank.logo_location == "default.png" do %>
+        <figure class="image is-128x128">
+          <img src="<%= Routes.static_path(@socket, "/images/bank.jpg") %>" alt="<%= @account.bank.name %> logo">
+        </figure>
+      <% else %>
+        <figure style="height: auto" class="image is-128x128">
+          <img src="<%= @account.bank.logo_location %>" alt="<%= @account.bank.name %> logo">
+        </figure>
+      <% end %>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <p class="title"><strong><%= @account.name %></strong></p>
+        <p><strong>Bank: </strong><%= @account.bank.name %> (<%= @account.bank.aspsp_cde %>)</p>
+        <p><strong>IBAN: </strong><%= @account.iban %></p>
+        <p><strong>Authorized: </strong><%= Decimal.new(@account.authorized_balance) |> Decimal.div(100) |> Decimal.round(2) %> <%= @account.currency %></p>
+        <p><strong>Expected: </strong><%= Decimal.new(@account.expected_balance) |> Decimal.div(100) |> Decimal.round(2) %> <%= @account.currency %></p>
+      </div>
+    </div>
+  </article>
+</div>
