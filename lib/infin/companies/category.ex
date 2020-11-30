@@ -4,7 +4,9 @@ defmodule Infin.Companies.Category do
 
   schema "categories" do
     field :name, :string
+
     belongs_to :company, Infin.Companies.Company, on_replace: :nilify
+    has_many :invoices, Infin.Invoices.Invoice, on_replace: :nilify
 
     timestamps()
   end
