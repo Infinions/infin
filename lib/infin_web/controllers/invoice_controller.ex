@@ -3,7 +3,6 @@ defmodule InfinWeb.InvoiceController do
 
   alias Infin.Invoices
   alias Infin.Invoices.Invoice
-  alias Infin.Companies
 
   def index(conn, _params, company_id) do
     invoices = Invoices.list_company_invoices(company_id)
@@ -89,51 +88,6 @@ defmodule InfinWeb.InvoiceController do
     conn
     |> put_flash(:info, "Invoice deleted successfully.")
     |> redirect(to: Routes.invoice_path(conn, :index))
-  end
-
-  def import_invoices_pt(conn, params, company_id) do
-    expected = %{
-      "nif" => Companies.get_company!(company_id).nif,
-      "password" => params["passoword"],
-      "startDate" => params["start_date"],
-      "endDate" => params["end_date"]
-    }
-
-    enumerable = Jason.encode!(expected) |> String.split("")
-    headers = %{"Content-type" => "application/json"}
-
-    case HTTPoison.post(
-           Application.get_env(:infin, InfinWeb.Endpoint)[:pt_finances_url] <> "/invoices",
-           {:stream, enumerable},
-           headers
-         ) do
-      {:ok, response} ->
-        case response.status_code do
-          200 ->
-            %HTTPoison.Response{body: body} = response
-            object = Jason.decode!(body)
-            Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
-
-            conn
-            |> put_flash(:info, "Invoices imported")
-            |> redirect(to: Routes.invoice_path(conn, :index))
-
-          400 ->
-            conn
-            |> put_flash(:error, "Password incorrect")
-            |> redirect(to: Routes.invoice_path(conn, :index))
-
-          _ ->
-            conn
-            |> put_flash(:error, "Service not avalaible")
-            |> redirect(to: Routes.invoice_path(conn, :index))
-        end
-
-      _ ->
-        conn
-        |> put_flash(:error, "Service not avalaible")
-        |> redirect(to: Routes.invoice_path(conn, :index))
-    end
   end
 
   def action(conn, _) do
