@@ -24,7 +24,7 @@ defmodule Infin.Invoices do
   end
 
   def list_company_invoices(company_id) do
-    Repo.all(from i in Invoice, where: i.company_id == ^company_id, preload: [:company_seller])
+    Repo.all(from i in Invoice, where: i.company_id == ^company_id, preload: [:company_seller, :tags])
   end
 
   @doc """
@@ -44,6 +44,12 @@ defmodule Infin.Invoices do
   def get_invoice!(id), do: Repo.get!(Invoice, id)
 
   def get_invoice(id), do: Repo.get(Invoice, id)
+
+  def get_invoice_with_relations(id) do
+    id
+    |> get_invoice()
+    |> Repo.preload([:company_seller, :tags])
+  end
 
   @doc """
   Creates a invoice.
