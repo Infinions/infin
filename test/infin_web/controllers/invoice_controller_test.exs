@@ -31,10 +31,12 @@ defmodule InfinWeb.InvoiceControllerTest do
     prof_activity_desc: "string",
     merchant_comm: false,
     consumer_comm: true,
-    is_foreign: true
+    is_foreign: true,
+    emit_tax_id: "123",
+    emit_name: "hello"
   }
   @update_attrs %{id_document: "some updated id_document"}
-  @invalid_attrs %{id_document: nil}
+  @invalid_attrs %{id_document: nil, emit_tax_id: "123", emit_name: "hello" }
 
   def fixture() do
     company1 = insert(:company)

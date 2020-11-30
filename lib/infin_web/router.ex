@@ -76,6 +76,8 @@ defmodule InfinWeb.Router do
   scope "/manage", InfinWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    post "/pt/invoices/import", InvoiceController, :import_invoices_pt
+
     resources "/companies", CompanyController, only: [:show, :update]
     resources "/invoices", InvoiceController
     resources "/tags", TagController, except: [:edit]

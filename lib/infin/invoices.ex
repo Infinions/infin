@@ -8,6 +8,7 @@ defmodule Infin.Invoices do
 
   alias Infin.Invoices.Invoice
   alias Infin.Invoices.Tag
+  alias Infin.Companies
 
   @doc """
   Returns the list of invoices.
@@ -23,7 +24,7 @@ defmodule Infin.Invoices do
   end
 
   def list_company_invoices(company_id) do
-    Repo.all(from i in Invoice, where: i.company_id == ^company_id)
+    Repo.all(from i in Invoice, where: i.company_id == ^company_id, preload: [:company_seller])
   end
 
   @doc """
@@ -63,16 +64,46 @@ defmodule Infin.Invoices do
   end
 
   def create_invoice(attrs, company_id) do
+    unless Companies.get_company_by_nif(to_string(attrs["emit_tax_id"])) do
+      Companies.create_company(%{
+        :nif => to_string(attrs["emit_tax_id"]),
+        :name => attrs["emit_name"]
+      })
+    end
+
     invoice = %{
       :id_document => attrs["id_document"],
       :total_value => attrs["total_value"],
       :doc_emission_date => attrs["doc_emission_date"],
-      :company_id => company_id
+      :company_id => company_id,
+      :company_seller_id => Companies.get_company_by_nif(to_string(attrs["emit_tax_id"])).id
     }
 
     %Invoice{}
     |> Invoice.changeset(invoice)
     |> Repo.insert()
+  end
+
+  @spec insert_fectched_invoices_pt(any, any) :: [any]
+  def insert_fectched_invoices_pt(invoices, company_id) do
+    Enum.map(invoices, fn invoice ->
+      unless Companies.get_company_by_nif(to_string(invoice["nifEmitente"])) do
+        Companies.create_company(%{
+          :nif => to_string(invoice["nifEmitente"]),
+          :name => invoice["nomeEmitente"]
+        })
+      end
+
+      document = %{
+        :id_document => to_string(invoice["idDocumento"]),
+        :total_value => invoice["valorTotal"],
+        :doc_emission_date => invoice["dataEmissaoDocumento"],
+        :company_id => company_id,
+        :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id
+      }
+
+      create_invoice(document)
+    end)
   end
 
   @doc """
