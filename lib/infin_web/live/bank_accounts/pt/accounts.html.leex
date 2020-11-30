@@ -49,7 +49,7 @@
               <tr>
                 <td data-label="Date"><%= transaction.booking_date %></td>
                 <td data-label="Id"><%= transaction.remittance_information %></td>
-                <td data-label="Amount"><%= Decimal.new(transaction.amount) |> Decimal.div(100) |> Decimal.round(2) %> <%= @account.currency %></td>
+                <td data-label="Amount" align="right"><%= Decimal.new(transaction.amount) |> Decimal.div(100) |> Decimal.round(2) %> <%= @account.currency %></td>
               </tr>
             <% end %>
           </tbody>
