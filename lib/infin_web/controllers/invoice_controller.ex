@@ -28,7 +28,7 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def show(conn, %{"id" => id}, company_id) do
-    case Invoices.get_invoice(id) do
+    case Invoices.get_invoice_with_relations(id) do
       nil ->
         index(conn, %{}, company_id)
 
@@ -45,7 +45,7 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def update(conn, %{"id" => id, "invoice" => invoice_params}, company_id) do
-    case Invoices.get_invoice(id) do
+    case Invoices.get_invoice_with_relations(id) do
       nil ->
         index(conn, %{}, company_id)
 
@@ -72,7 +72,7 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def delete(conn, %{"id" => id}, company_id) do
-    case Invoices.get_invoice(id) do
+    case Invoices.get_invoice_with_relations(id) do
       nil ->
         index(conn, %{}, company_id)
 

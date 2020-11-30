@@ -33,8 +33,9 @@ defmodule Infin.Invoices.Invoice do
 
     belongs_to :company_seller, Infin.Companies.Company, foreign_key: :company_seller_id
     belongs_to :company, Infin.Companies.Company, foreign_key: :company_id
-
+    belongs_to :category, Infin.Companies.Category
     many_to_many :tags, Tag, join_through: "invoices_tags"
+
     timestamps()
   end
 
