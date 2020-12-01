@@ -39,6 +39,17 @@ defmodule InfinWeb.BankAccountPTLive.Accounts do
     end
   end
 
+  @impl true
+  def handle_event("back", _value, socket) do
+    {:noreply, push_redirect(socket, to: Routes.bank_account_pt_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("delete", _value, socket) do
+    PT.delete_account(socket.assigns.company_id, socket.assigns.account.id)
+    {:noreply, push_redirect(socket, to: Routes.bank_account_pt_index_path(socket, :index))}
+  end
+
   ### PRIVATE ###
 
   defp return(status, socket, account, page_number) do

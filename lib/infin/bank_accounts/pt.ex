@@ -25,6 +25,10 @@ defmodule Infin.BankAccounts.PT do
     Repo.get_by(Account, [company_id: company_id, id: account_id]) |> Repo.preload([:bank])
   end
 
+  def delete_account(company_id, account_id) do
+    Repo.get_by(Account, [company_id: company_id, id: account_id]) |> Repo.delete!()
+  end
+
   def fetch_account(aspsp_cde, iban, consent_id) do
     envs = Application.get_env(:infin, InfinWeb.Endpoint)[:pt_sibsapimarket]
 

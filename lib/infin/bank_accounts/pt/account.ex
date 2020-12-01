@@ -18,6 +18,7 @@ defmodule Infin.BankAccounts.PT.Account do
 
     belongs_to :bank, Infin.BankAccounts.PT.Bank
     belongs_to :company, Infin.Companies.Company
+    has_many :transactions, Infin.BankAccounts.PT.Transaction, on_delete: :delete_all
 
     timestamps()
   end
