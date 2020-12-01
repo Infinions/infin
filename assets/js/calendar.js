@@ -2,7 +2,7 @@ import bulmaCalendar from 'bulma-calendar'
 import $ from "jquery";
 
 $(() => {
-    bulmaCalendar.attach('.invoice-date-picker', {
+    bulmaCalendar.attach('[type="date"]', {
         type: 'date',
         dateFormat: 'YYYY-MM-DD',
         displayMode: 'dialog',

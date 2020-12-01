@@ -2,10 +2,11 @@ defmodule InfinWeb.BankAccountPTLive.Consents do
   use InfinWeb, :live_view
 
   alias Infin.BankAccounts.PT
+  alias Infin.Accounts
 
   @impl true
-  def mount(_vars, _url, socket) do
-    {:ok, socket}
+  def mount(_vars, %{"user_token" => user_token}, socket) do
+    {:ok, assign(socket, company_id: Accounts.get_user_by_session_token(user_token).company_id)}
   end
 
   @impl true
@@ -43,7 +44,7 @@ defmodule InfinWeb.BankAccountPTLive.Consents do
       {:ok, account} = PT.get_consent(socket.assigns.bank, socket.assigns.account.iban, socket.assigns.account.consent_id)
       verify_consent(socket, account)
     else
-      {:ok, account} = PT.create_consent(socket.assigns.iban, socket.assigns.bank)
+      {:ok, account} = PT.create_consent(socket.assigns.company_id, socket.assigns.iban, socket.assigns.bank)
       {:noreply, assign(socket, account: account)}
     end
   end

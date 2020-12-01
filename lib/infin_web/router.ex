@@ -61,6 +61,7 @@ defmodule InfinWeb.Router do
     put "/users/settings/update_email", UserSettingsController, :update_email
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+    live "/pt/bank_accounts", BankAccountPTLive.Index, :index
     live "/pt/bank_accounts/banks", BankAccountPTLive.Banks, :index
     live "/pt/bank_accounts/consents", BankAccountPTLive.Consents, :index
     live "/pt/bank_accounts/accounts", BankAccountPTLive.Accounts, :index

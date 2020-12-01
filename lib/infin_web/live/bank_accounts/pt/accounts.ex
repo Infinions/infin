@@ -2,15 +2,16 @@ defmodule InfinWeb.BankAccountPTLive.Accounts do
   use InfinWeb, :live_view
 
   alias Infin.BankAccounts.PT
+  alias Infin.Accounts
 
   @impl true
-  def mount(_vars, _url, socket) do
-    {:ok, socket}
+  def mount(_vars, %{"user_token" => user_token}, socket) do
+    {:ok, assign(socket, company_id: Accounts.get_user_by_session_token(user_token).company_id)}
   end
 
   @impl true
   def handle_params(%{"id" => id}, _url, socket) do
-    account = PT.get_account(id)
+    account = PT.get_account(socket.assigns.company_id, id)
     return(:noreply, socket, account, 0)
   end
 

@@ -17,6 +17,7 @@ defmodule Infin.BankAccounts.PT.Account do
     field :expected_balance, :string
 
     belongs_to :bank, Infin.BankAccounts.PT.Bank
+    belongs_to :company, Infin.Companies.Company
 
     timestamps()
   end
@@ -24,16 +25,16 @@ defmodule Infin.BankAccounts.PT.Account do
   @doc false
   def from_consent_changeset(account, attrs) do
     account
-    |> cast(attrs, [:iban, :consent_id, :consent_status, :bank_id])
-    |> validate_required([:iban, :consent_id, :consent_status, :bank_id])
+    |> cast(attrs, [:iban, :consent_id, :consent_status, :bank_id, :company_id])
+    |> validate_required([:iban, :consent_id, :consent_status, :bank_id, :company_id])
     |> unique_constraint([:iban])
   end
 
   @doc false
   def from_account_changeset(account, attrs) do
     account
-    |> cast(attrs, [:iban, :api_id, :name, :currency, :account_type, :bank_id])
-    |> validate_required([:iban, :api_id, :name, :currency, :account_type, :authorized_balance, :expected_balance, :bank_id])
+    |> cast(attrs, [:iban, :api_id, :name, :currency, :account_type, :bank_id, :company_id])
+    |> validate_required([:iban, :api_id, :name, :currency, :account_type, :authorized_balance, :expected_balance, :bank_id, :company_id])
     |> unique_constraint(:api_id)
     |> unique_constraint(:iban)
   end

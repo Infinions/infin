@@ -5,7 +5,7 @@
       <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
         <tbody>
           <%= for bank <- @visible_banks do %>
-            <tr>
+            <tr class="mouse-click-hover" phx-click="select_bank" phx-value-aspspcde="<%= bank.aspsp_cde %>">
               <td class="is-vcentered">
                 <%= if bank.logo_location == "default.png" do %>
                   <figure class="image is-32x32">
@@ -19,13 +19,6 @@
               </td>
               <td data-label="Id"><%= bank.aspsp_cde %></td>
               <td data-label="Name"><%= bank.name %></td>
-              <td class="is-actions-cell">
-                <div class="buttons is-right">
-                  <button class="button is-small is-primary" type="button" phx-click="select_bank" phx-value-aspspcde="<%= bank.aspsp_cde %>">
-                    <span class="icon"><i class="fas fa-angle-double-right"></i></span>
-                  </button>
-                </div>
-              </td>
             </tr>
           <% end %>
         </tbody>

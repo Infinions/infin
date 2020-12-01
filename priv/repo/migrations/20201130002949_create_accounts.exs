@@ -10,10 +10,10 @@ defmodule Infin.Repo.Migrations.CreateAccounts do
       add :name, :string
       add :currency, :string
       add :account_type, :string
-      add :bic, :string
       add :expected_balance, :string
       add :authorized_balance, :string
       add :bank_id, references(:banks)
+      add :company_id, references(:companies)
 
       timestamps()
     end

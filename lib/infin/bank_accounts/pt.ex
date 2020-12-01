@@ -14,8 +14,15 @@ defmodule Infin.BankAccounts.PT do
     Repo.paginate(Bank, page: page_number)
   end
 
-  def get_account(account_id) do
-    Repo.get(Account, account_id) |> Repo.preload([:bank])
+  def list_accounts(company_id, page_number) do
+    Account
+      |> where(company_id: ^company_id)
+      |> preload(:bank)
+      |> Repo.paginate(page: page_number)
+  end
+
+  def get_account(company_id, account_id) do
+    Repo.get_by(Account, [company_id: company_id, id: account_id]) |> Repo.preload([:bank])
   end
 
   def fetch_account(aspsp_cde, iban, consent_id) do
@@ -95,7 +102,7 @@ defmodule Infin.BankAccounts.PT do
     end
   end
 
-  def create_consent(iban, aspsp_cde) do
+  def create_consent(company_id, iban, aspsp_cde) do
     envs = Application.get_env(:infin, InfinWeb.Endpoint)[:pt_sibsapimarket]
 
     headers = %{
@@ -134,7 +141,7 @@ defmodule Infin.BankAccounts.PT do
           200 ->
             {:ok, body} = {:ok, Jason.decode!(response.body)}
             bank = get_bank(aspsp_cde)
-            create_account(iban, bank.id, body)
+            create_account(company_id, iban, bank.id, body)
 
           _ ->
             {:err, Jason.decode!(response.body)}
@@ -158,12 +165,13 @@ defmodule Infin.BankAccounts.PT do
     end
   end
 
-  defp create_account(iban, bank_id, body) do
+  defp create_account(company_id, iban, bank_id, body) do
     %Account{
       iban: iban,
       consent_id: body["consentId"],
       consent_status: body["transactionStatus"],
-      bank_id: bank_id
+      bank_id: bank_id,
+      company_id: company_id
     }
     |> Account.upsert_by_iban(iban)
   end
