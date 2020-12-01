@@ -44,7 +44,7 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.get(
-          envs[:url] <> "/" <> aspsp_cde <> "/v1-0-3/accounts",
+          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts",
           headers
         ) do
       {:ok, response} ->
@@ -88,7 +88,7 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.get(
-          envs[:url] <> "/" <> aspsp_cde <> "/v1-0-3/consents/" <> consent_id <> "/status",
+          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/consents/#{consent_id}/status",
           headers
         ) do
       {:ok, response} ->
@@ -136,7 +136,7 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.post(
-          envs[:url] <> "/" <> aspsp_cde <> "/v1-0-3/consents?tppRedirectPreferred=false",
+          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/consents?tppRedirectPreferred=false",
           Jason.encode!(body),
           headers
         ) do
@@ -217,7 +217,7 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.get(
-          envs[:url] <> "/" <> aspsp_cde <> "/v1-0-3/accounts/" <> account_id <> "/balances",
+          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts/#{account_id}/balances",
           headers
         ) do
       {:ok, response} ->
@@ -254,7 +254,7 @@ defmodule Infin.BankAccounts.PT do
     today = Date.utc_today |> Date.to_iso8601
 
     case HTTPoison.get(
-          envs[:url] <> "/" <> aspsp_cde <> "/v1-0-3/accounts/" <> account.api_id <> "/transactions?dateFrom=" <> start_date <> "&dateTo=" <> today <> "&bookingStatus=booked",
+          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts/#{account.api_id}/transactions?dateFrom=#{start_date}&dateTo=#{today}&bookingStatus=booked",
           headers
         ) do
       {:ok, response} ->
