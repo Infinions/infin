@@ -17,6 +17,7 @@ defmodule Infin.BankAccounts.PT do
   def list_accounts(company_id, page_number) do
     Account
       |> where(company_id: ^company_id)
+      |> where([a], not is_nil(a.api_id))
       |> preload(:bank)
       |> Repo.paginate(page: page_number)
   end
