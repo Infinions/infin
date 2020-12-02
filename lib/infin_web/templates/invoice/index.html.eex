@@ -7,5 +7,31 @@
   </div>
   <div class="buttons">
     <%= link "New Invoice", to: Routes.invoice_path(@conn, :new), class: "button is-primary" %>
-    <%= button "Import", to: Routes.invoice_importer_path(@conn, :import_invoices_pt), class: "button is-primary" %>
+    <button class="button is-primary" id='modal-btn'>Import Invoices</button>
   </div>
+  <div class="modal">
+          <div class="modal-background"></div>
+          <div class="modal-content">
+          <%= form_for :invoice_importer, Routes.invoice_importer_path(@conn, :import_invoices_pt), fn f -> %>
+            <div class="field control">
+              <%= text_input f, :nif, value: @company.nif, required: true %>
+            <div class="field control">
+            </div>
+              <%= text_input f, :password, value: "", required: true %>
+            </div>
+            <div class="field control">
+              <%= date_input f, :start_date, required: true, class: "input invoice-date-picker", required: true %>
+            </div>
+            <div class="field control">
+              <%= date_input f,  :end_date, required: true, class: "input invoice-date-picker", required: true %>
+            </div>
+            <%= submit "Import" %>
+          <% end %>
+          </div>
+          </div>
+          <button class="modal-close is-large"
+                  aria-label="close">
+            Model
+          </button>
+        </div>
+</div>

@@ -25,7 +25,10 @@ defmodule Infin.Accounts.User do
     user
     |> cast(attrs, [:email, :password])
     |> validate_confirmation(:password, message: "does not match password")
-    |> cast_assoc(:company, required: true, with: &Infin.Companies.Company.registration_changeset/2)
+    |> cast_assoc(:company,
+      required: true,
+      with: &Infin.Companies.Company.registration_changeset/2
+    )
     |> validate_email()
     |> validate_password()
   end
