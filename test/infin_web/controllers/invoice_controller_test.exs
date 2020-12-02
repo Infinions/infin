@@ -36,7 +36,7 @@ defmodule InfinWeb.InvoiceControllerTest do
     emit_name: "hello"
   }
   @update_attrs %{id_document: "some updated id_document"}
-  @invalid_attrs %{id_document: nil, emit_tax_id: "123", emit_name: "hello" }
+  @invalid_attrs %{id_document: nil, emit_tax_id: "123", emit_name: "hello"}
 
   def fixture() do
     company1 = insert(:company)

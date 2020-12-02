@@ -3,10 +3,12 @@ defmodule InfinWeb.InvoiceController do
 
   alias Infin.Invoices
   alias Infin.Invoices.Invoice
+  alias Infin.Companies
 
   def index(conn, _params, company_id) do
     invoices = Invoices.list_company_invoices(company_id)
-    render(conn, "index.html", invoices: invoices)
+    company = Companies.get_company(company_id)
+    render(conn, "index.html", invoices: invoices, company: company)
   end
 
   def new(conn, _params, _company_id) do

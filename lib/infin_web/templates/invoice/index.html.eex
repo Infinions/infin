@@ -7,5 +7,51 @@
   </div>
   <div class="buttons">
     <%= link "New Invoice", to: Routes.invoice_path(@conn, :new), class: "button is-primary" %>
-    <%= button "Import", to: Routes.invoice_importer_path(@conn, :import_invoices_pt), class: "button is-primary" %>
+    <button class="button is-primary" id='modal-btn'>Import Invoices</button>
   </div>
+  <div class="modal pt-6">
+    <div class="modal-background"></div>
+      <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Invoice Importer</p>
+        <button class="delete" aria-label="close" id="close-btn"></button>
+      </header>
+      <section class="modal-card-body">
+      <%= form_for :invoice_importer, Routes.invoice_importer_path(@conn, :import_invoices_pt), fn f -> %>
+        <div class="field">
+        <label class="label">Tax ID</label>
+        <div class="control">
+          <%= text_input f, :nif, value: @company.nif, required: true, class: "input" %>
+        </div>
+        </div>
+        <div class="field">
+        <label class="label">Finances Password</label>
+        <div class="control">
+          <%= text_input f, :password, value: "", required: true, class: "input", type: "password" %>
+        </div>
+        </div>
+        <div class="field">
+        <label class="label">Start Date</label>
+        <div class="control">
+          <%= date_input f, :start_date, required: true, class: "input invoice-date-picker", required: true %>
+        </div>
+        </div>
+        <div class="field">
+        <label class="label">End Date</label>
+        <div class="control">
+          <%= date_input f,  :end_date, required: true, class: "input invoice-date-picker", required: true %>
+        </div>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <%= submit "Import", class: "button is-primary" %>
+    </footer>
+    <% end %>
+      </div>
+      </div>
+      <button class="modal-close is-large"
+              aria-label="close">
+        Model
+      </button>
+    </div>
+</div>

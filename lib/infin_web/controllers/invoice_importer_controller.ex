@@ -5,10 +5,11 @@ defmodule InfinWeb.InvoiceImporterController do
 
   def import_invoices_pt(conn, params, company_id) do
     case Importer.import_invoices_pt(
-           company_id,
-           params["password"],
-           params["start_date"],
-           params["end_date"]
+           params["invoice_importer"]["nif"],
+           params["invoice_importer"]["password"],
+           params["invoice_importer"]["start_date"],
+           params["invoice_importer"]["end_date"],
+           company_id
          ) do
       {:ok, message} ->
         conn

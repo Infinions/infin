@@ -4,12 +4,12 @@ defmodule Infin.Importer do
   """
 
   import Ecto.Query, warn: false
+  alias Infin.Invoices
 
-  alias Infin.Companies
 
-  def import_invoices_pt(company_id, password, start_date, end_date) do
+  def import_invoices_pt(nif, password, start_date, end_date, company_id) do
     expected = %{
-      "nif" => Companies.get_company!(company_id).nif,
+      "nif" => nif,
       "password" => password,
       "startDate" => start_date,
       "endDate" => end_date

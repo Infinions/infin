@@ -7,6 +7,7 @@ import "./nav"
 import "./register"
 
 import "./calendar"
+import "./modal"
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
