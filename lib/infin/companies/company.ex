@@ -10,6 +10,7 @@ defmodule Infin.Companies.Company do
     has_many :categories, Infin.Companies.Category
     has_many :invoices, Infin.Invoices.Invoice
     has_many :tags, Infin.Invoices.Tag
+    has_many :accounts, Infin.BankAccounts.PT.Account
 
     timestamps()
   end
