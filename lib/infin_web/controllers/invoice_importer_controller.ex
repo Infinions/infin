@@ -4,7 +4,6 @@ defmodule InfinWeb.InvoiceImporterController do
   alias Infin.Importer
 
   def import_invoices_pt(conn, params, company_id) do
-    IO.inspect(params)
     case Importer.import_invoices_pt(
            params["invoice_importer"]["nif"],
            params["invoice_importer"]["password"],

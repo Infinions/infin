@@ -14,7 +14,6 @@ defmodule Infin.Importer do
       "startDate" => start_date,
       "endDate" => end_date
     }
-    IO.inspect(expected)
 
     enumerable = Jason.encode!(expected) |> String.split("")
     headers = %{"Content-type" => "application/json"}

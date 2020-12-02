@@ -4,7 +4,7 @@ const modal =
 const btn =
     document.getElementById('modal-btn')
 const close =
-    document.querySelector('.modal-close')
+    document.getElementById('close-btn')
 
 btn.addEventListener('click',
     function () {

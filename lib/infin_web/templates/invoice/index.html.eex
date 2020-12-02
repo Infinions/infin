@@ -11,22 +11,40 @@
   </div>
   <div class="modal">
           <div class="modal-background"></div>
-          <div class="modal-content">
+          <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Invoice Importer</p>
+            <button class="delete" aria-label="close" id="close-btn"></button>
+          </header>
+          <section class="modal-card-body">
           <%= form_for :invoice_importer, Routes.invoice_importer_path(@conn, :import_invoices_pt), fn f -> %>
-            <div class="field control">
-              <%= text_input f, :nif, value: @company.nif, required: true %>
-            <div class="field control">
+            <div class="field">
+            <label class="label">Tax ID</label>
+            <div class="control">
+              <%= text_input f, :nif, value: @company.nif, required: true, class: "input" %>
             </div>
-              <%= text_input f, :password, value: "", required: true %>
             </div>
-            <div class="field control">
+            <div class="field">
+            <label class="label">Finances Password</label>
+            <div class="control">
+              <%= text_input f, :password, value: "", required: true, class: "input", type: "password" %>
+            </div>
+            </div>
+            <div class="field">
+            <label class="label">Start Date</label>
+            <div class="control">
               <%= date_input f, :start_date, required: true, class: "input invoice-date-picker", required: true %>
             </div>
-            <div class="field control">
+            </div>
+            <div class="field">
+            <label class="label">End Date</label>
+            <div class="control">
               <%= date_input f,  :end_date, required: true, class: "input invoice-date-picker", required: true %>
             </div>
-            <%= submit "Import" %>
+            </div>
+            <%= submit "Import", class: "button is-primary" %>
           <% end %>
+          </section>
           </div>
           </div>
           <button class="modal-close is-large"
