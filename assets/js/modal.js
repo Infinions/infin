@@ -1,25 +1,18 @@
+import $ from "jquery";
+
 // written to open or close the modal
-const modal =
-    document.querySelector('.modal');
-const btn =
-    document.getElementById('modal-btn')
-const close =
-    document.getElementById('close-btn')
+const modal = $('.modal');
 
-btn.addEventListener('click',
-    function () {
-        modal.style.display = 'block'
-    })
+$('#modal-btn').on('click', () => {
+    modal.show();
+})
 
-close.addEventListener('click',
-    function () {
-        modal.style.display = 'none'
-    })
+$('#close-btn').on('click', () => {
+    modal.hide();
+})
 
-window.addEventListener('click',
-    function (event) {
-        if (event.target.className ===
-            'modal-background') {
-            modal.style.display = 'none'
-        }
-    })
+$(window).on('click', event => {
+    if (event.target.className === 'modal-background') {
+        modal.hide();
+    }
+})
