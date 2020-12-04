@@ -19,16 +19,15 @@ defmodule Infin.Invoices do
       [%Invoice{}, ...]
 
   """
-  def list_invoices do
-    Repo.all(Invoice)
+  def list_invoices(params) do
+    Invoice
+    |> Repo.paginate(params)
   end
 
-  def list_company_invoices(company_id) do
-    Repo.all(
-      from i in Invoice,
-        where: i.company_id == ^company_id,
-        preload: [:company_seller, :category]
-    )
+  def list_company_invoices(company_id, params) do
+    Invoice
+    |> where([p], p.company_id == ^company_id)
+    |> Repo.paginate(params)
   end
 
   @doc """

@@ -39,43 +39,45 @@
         <i class="fas fa-file-invoice-dollar"></i>
       </span>
       <%= if has_error(f, :total_value) do %>
-        <%= text_input f, :total_value, required: true, class: "input is-danger" %>
+        <%= text_input f, :total_value, required: true, class: "input is-danger"%>
       <% else %>
-        <%= text_input f, :total_value, required: true, class: "input" %>
+        <%= text_input f, :total_value, required: true, class: "input", min: "0"%>
       <% end %>
       <%= error_tag f, :total_value %>
     </div>
   </div>
 
-  <div class="field">
-    <%= label f, :emit_tax_id, "Emitter Tax Id", class: "label is-floating-label" %>
-    <div class="control has-icons-left">
-      <span class="icon is-small is-left">
-        <i class="fas fa-id-badge"></i>
-      </span>
-      <%= if has_error(f, :emit_tax_id) do %>
-        <%= text_input f, :emit_tax_id, required: true, class: "input is-danger with-floating-label" %>
-      <% else %>
-        <%= text_input f, :emit_tax_id, required: true, class: "input with-floating-label" %>
-      <% end %>
-      <%= error_tag f, :emit_tax_id %>
+  <%= inputs_for f, :company_seller, fn f_company -> %>
+    <div class="field">
+      <%= label f_company, :nif, "Emitter Tax Id", class: "label is-floating-label" %>
+      <div class="control has-icons-left">
+        <span class="icon is-small is-left">
+          <i class="fas fa-id-badge"></i>
+        </span>
+        <%= if has_error(f_company, :nif) do %>
+          <%= text_input f_company, :nif, required: true, class: "input is-danger with-floating-label" %>
+        <% else %>
+          <%= text_input f_company, :nif, required: true, class: "input with-floating-label" %>
+        <% end %>
+        <%= error_tag f_company, :nif %>
+      </div>
     </div>
-  </div>
 
-  <div class="field">
-    <%= label f, :emit_name, "Emitter Name", class: "label is-floating-label" %>
-    <div class="control has-icons-left">
-      <span class="icon is-small is-left">
-        <i class="fas fa-user"></i>
-      </span>
-      <%= if has_error(f, :emit_name) do %>
-        <%= text_input f, :emit_name, required: true, class: "input is-danger with-floating-label" %>
-      <% else %>
-        <%= text_input f, :emit_name, required: true, class: "input with-floating-label" %>
-      <% end %>
-      <%= error_tag f, :emit_name %>
+    <div class="field">
+      <%= label f_company, :name, "Emitter Name", class: "label is-floating-label" %>
+      <div class="control has-icons-left">
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+        <%= if has_error(f_company, :name) do %>
+          <%= text_input f_company, :name, required: true, class: "input is-danger with-floating-label" %>
+        <% else %>
+          <%= text_input f_company, :name, required: true, class: "input with-floating-label" %>
+        <% end %>
+        <%= error_tag f_company, :name %>
+      </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="level mt-5">
     <div class="level-left">
@@ -83,7 +85,7 @@
     </div>
     <div class="level-right">
       <%= if contains_invoice? assigns do %>
-        <%= link "Back", to: Routes.invoice_path(@conn, :index), class: "button level-item" %>
+        <%= link "Back", to: Routes.invoice_path(@conn, :index, page: 1), class: "button level-item" %>
         <%= link "Delete", to: Routes.invoice_path(@conn, :delete, @invoice), method: :delete, data: [confirm: "Are you sure?"], class: "button is-danger level-item" %>
       <% end %>
     </div>

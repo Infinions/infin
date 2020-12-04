@@ -5,10 +5,10 @@ defmodule InfinWeb.InvoiceController do
   alias Infin.Invoices.Invoice
   alias Infin.Companies
 
-  def index(conn, _params, company_id) do
-    invoices = Invoices.list_company_invoices(company_id)
+  def index(conn, params, company_id) do
+    page = Invoices.list_company_invoices(company_id, params)
     company = Companies.get_company(company_id)
-    render(conn, "index.html", invoices: invoices, company: company)
+    render(conn, "index.html", invoices: page.entries, company: company, page: page)
   end
 
   def new(conn, _params, _company_id) do
@@ -31,7 +31,7 @@ defmodule InfinWeb.InvoiceController do
   def show(conn, %{"id" => id}, company_id) do
     case Invoices.get_invoice_with_relations(id) do
       nil ->
-        index(conn, %{}, company_id)
+        index(conn, %{"page" => 1}, company_id)
 
       invoice ->
         cond do
@@ -40,7 +40,7 @@ defmodule InfinWeb.InvoiceController do
             render(conn, "show.html", invoice: invoice, changeset: changeset)
 
           true ->
-            index(conn, {}, company_id)
+            index(conn, %{"page" => 1}, company_id)
         end
     end
   end
@@ -48,7 +48,7 @@ defmodule InfinWeb.InvoiceController do
   def update(conn, %{"id" => id, "invoice" => invoice_params}, company_id) do
     case Invoices.get_invoice_with_relations(id) do
       nil ->
-        index(conn, %{}, company_id)
+        index(conn, %{"page" => 1}, company_id)
 
       invoice ->
         cond do
@@ -67,7 +67,7 @@ defmodule InfinWeb.InvoiceController do
             end
 
           true ->
-            index(conn, %{}, company_id)
+            index(conn, %{"page" => 1}, company_id)
         end
     end
   end
