@@ -73,10 +73,10 @@ defmodule Infin.Invoices do
   end
 
   def create_invoice(attrs, company_id) do
-    unless Companies.get_company_by_nif(to_string(attrs["emit_tax_id"])) do
+    unless Companies.get_company_by_nif(attrs["company_seller"]["nif"]) do
       Companies.create_company(%{
-        :nif => to_string(attrs["emit_tax_id"]),
-        :name => attrs["emit_name"]
+        :nif => to_string(attrs["company_seller"]["nif"]),
+        :name => attrs["company_seller"]["name"]
       })
     end
 
@@ -85,7 +85,7 @@ defmodule Infin.Invoices do
       :total_value => attrs["total_value"],
       :doc_emission_date => attrs["doc_emission_date"],
       :company_id => company_id,
-      :company_seller_id => Companies.get_company_by_nif(to_string(attrs["emit_tax_id"])).id
+      :company_seller_id => Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id
     }
 
     %Invoice{}
