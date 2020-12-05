@@ -19,6 +19,10 @@ defmodule Infin.Invoices do
       [%Invoice{}, ...]
 
   """
+  def list_invoices() do
+    Repo.all(Invoice)
+  end
+
   def list_invoices(params) do
     Invoice
     |> Repo.paginate(params)
