@@ -17,7 +17,7 @@
                 <td data-label="id_document"><%= invoice.id_document %></td>
                 <td data-label="doc_emission_date"><%= invoice.doc_emission_date %></td>
                 <td data-label="total_value"><%= Decimal.new(invoice.total_value) |> Decimal.div(100) |> Decimal.round(2) %> EUR</td>
-                <td data-label="emitter_tax_id"><%= invoice.company_seller.name %></td>
+                <td data-label="emitter_tax_id"><%= invoice.company_seller.nif %></td>
                 <td data-label="emitter_name"><%= invoice.company_seller.name %></td>
                 <td class="has-text-centered" data-label="total_value">
                   <%= link ">", to: Routes.invoice_path(@conn, :show, invoice), class: "button is-primary" %>
