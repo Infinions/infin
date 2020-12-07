@@ -29,9 +29,11 @@ defmodule Infin.Invoices do
   end
 
   def list_company_invoices(company_id, params) do
-    Invoice
-    |> where([p], p.company_id == ^company_id)
-    |> Repo.paginate(params)
+    query =
+      from( i in Invoice,
+        where: i.company_id == ^company_id,
+        preload: [:company_seller, :category])
+    Repo.paginate(query, params)
   end
 
   @doc """
