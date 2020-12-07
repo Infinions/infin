@@ -17,7 +17,7 @@
 
   <div class="navbar-menu" id="navMenu">
     <div class="navbar-start">
-      <%= link "Invoices", to: Routes.invoice_path(@conn, :index), class: "navbar-item" %>
+      <%= link "Invoices", to: Routes.invoice_path(@conn, :index, page: 1), class: "navbar-item" %>
       <%= link "Bank Accounts", to: Routes.bank_account_pt_index_path(@conn, :index), class: "navbar-item" %>
     </div>
 
