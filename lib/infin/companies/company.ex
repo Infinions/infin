@@ -11,7 +11,7 @@ defmodule Infin.Companies.Company do
     has_many :invoices, Infin.Invoices.Invoice
     has_many :tags, Infin.Invoices.Tag
     has_many :accounts, Infin.BankAccounts.PT.Account
-    has_many :income, Infin.Revenue.Income
+    has_many :incomes, Infin.Revenue.Income
 
     timestamps()
   end

@@ -2,7 +2,7 @@ defmodule Infin.Revenue.Income do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "income" do
+  schema "incomes" do
     field :date, :string
     field :description, :string
     field :value, :integer
