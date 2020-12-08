@@ -65,7 +65,12 @@ defmodule Infin.MixProject do
     [
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
       "ecto.bootstrap": ["ecto.migrate", "run priv/repo/banks.exs"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs", "run priv/repo/banks.exs"],
+      "ecto.setup": [
+        "ecto.create",
+        "ecto.migrate",
+        "run priv/repo/seeds.exs",
+        "run priv/repo/banks.exs"
+      ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]

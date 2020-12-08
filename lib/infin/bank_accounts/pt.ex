@@ -16,25 +16,25 @@ defmodule Infin.BankAccounts.PT do
 
   def list_accounts(company_id, page_number) do
     Account
-      |> where(company_id: ^company_id)
-      |> where([a], not is_nil(a.api_id))
-      |> preload(:bank)
-      |> Repo.paginate(page: page_number)
+    |> where(company_id: ^company_id)
+    |> where([a], not is_nil(a.api_id))
+    |> preload(:bank)
+    |> Repo.paginate(page: page_number)
   end
 
   def get_account(company_id, account_id) do
-    Repo.get_by(Account, [company_id: company_id, id: account_id]) |> Repo.preload([:bank])
+    Repo.get_by(Account, company_id: company_id, id: account_id) |> Repo.preload([:bank])
   end
 
   def delete_account(company_id, account_id) do
-    Repo.get_by(Account, [company_id: company_id, id: account_id]) |> Repo.delete!()
+    Repo.get_by(Account, company_id: company_id, id: account_id) |> Repo.delete!()
   end
 
   def fetch_account(aspsp_cde, iban, consent_id) do
     envs = Application.get_env(:infin, InfinWeb.Endpoint)[:pt_sibsapimarket]
 
     headers = %{
-      "Date" => DateTime.utc_now |> DateTime.to_iso8601,
+      "Date" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "Content-type" => "application/json",
       "TPP-Transaction-ID" => "1",
       "TPP-Request-ID" => "1",
@@ -45,9 +45,9 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.get(
-          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts",
-          headers
-        ) do
+           "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts",
+           headers
+         ) do
       {:ok, response} ->
         case response.status_code do
           200 ->
@@ -72,14 +72,14 @@ defmodule Infin.BankAccounts.PT do
     bank = from(b in Bank, select: %{aspsp_cde: b.aspsp_cde}) |> Repo.get(account.bank_id)
 
     fetch_transactions_from_api(account, bank.aspsp_cde, start_date)
-      |> Enum.map(fn t -> upsert_transaction(account_id, t) end)
+    |> Enum.map(fn t -> upsert_transaction(account_id, t) end)
   end
 
   def get_consent(aspsp_cde, iban, consent_id) do
     envs = Application.get_env(:infin, InfinWeb.Endpoint)[:pt_sibsapimarket]
 
     headers = %{
-      "Date" => DateTime.utc_now |> DateTime.to_iso8601,
+      "Date" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "Content-type" => "application/json",
       "TPP-Transaction-ID" => "1",
       "TPP-Request-ID" => "1",
@@ -89,9 +89,9 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.get(
-          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/consents/#{consent_id}/status",
-          headers
-        ) do
+           "#{envs[:url]}/#{aspsp_cde}/v1-0-3/consents/#{consent_id}/status",
+           headers
+         ) do
       {:ok, response} ->
         case response.status_code do
           200 ->
@@ -111,7 +111,7 @@ defmodule Infin.BankAccounts.PT do
     envs = Application.get_env(:infin, InfinWeb.Endpoint)[:pt_sibsapimarket]
 
     headers = %{
-      "Date" => DateTime.utc_now |> DateTime.to_iso8601,
+      "Date" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "Content-type" => "application/json",
       "TPP-Transaction-ID" => "1",
       "TPP-Request-ID" => "1",
@@ -124,10 +124,10 @@ defmodule Infin.BankAccounts.PT do
     body = %{
       "access" => %{
         "balances" => [
-            %{"iban" => iban}
+          %{"iban" => iban}
         ],
         "transactions" => [
-            %{"iban" => iban}
+          %{"iban" => iban}
         ]
       },
       "recurringIndicator" => false,
@@ -137,10 +137,10 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.post(
-          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/consents?tppRedirectPreferred=false",
-          Jason.encode!(body),
-          headers
-        ) do
+           "#{envs[:url]}/#{aspsp_cde}/v1-0-3/consents?tppRedirectPreferred=false",
+           Jason.encode!(body),
+           headers
+         ) do
       {:ok, response} ->
         case response.status_code do
           200 ->
@@ -186,14 +186,16 @@ defmodule Infin.BankAccounts.PT do
 
     {expected, authorized} = get_balance(aspsp_cde, api_account["id"], account.consent_id)
 
-    account = Ecto.Changeset.change(account,
-      api_id: api_account["id"],
-      name: api_account["name"],
-      currency: api_account["currency"],
-      account_type: api_account["accountType"],
-      authorized_balance: authorized,
-      expected_balance: expected
-    )
+    account =
+      Ecto.Changeset.change(account,
+        api_id: api_account["id"],
+        name: api_account["name"],
+        currency: api_account["currency"],
+        account_type: api_account["accountType"],
+        authorized_balance: authorized,
+        expected_balance: expected
+      )
+
     Repo.update(account)
   end
 
@@ -207,7 +209,7 @@ defmodule Infin.BankAccounts.PT do
     envs = Application.get_env(:infin, InfinWeb.Endpoint)[:pt_sibsapimarket]
 
     headers = %{
-      "Date" => DateTime.utc_now |> DateTime.to_iso8601,
+      "Date" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "Content-type" => "application/json",
       "TPP-Transaction-ID" => "1",
       "TPP-Request-ID" => "1",
@@ -218,9 +220,9 @@ defmodule Infin.BankAccounts.PT do
     }
 
     case HTTPoison.get(
-          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts/#{account_id}/balances",
-          headers
-        ) do
+           "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts/#{account_id}/balances",
+           headers
+         ) do
       {:ok, response} ->
         case response.status_code do
           200 ->
@@ -229,6 +231,7 @@ defmodule Infin.BankAccounts.PT do
             expected = balance["expected"]["amount"]["content"]
             authorized = balance["expected"]["amount"]["content"]
             {expected, authorized}
+
           _ ->
             {:err, Jason.decode!(response.body)}
         end
@@ -242,7 +245,7 @@ defmodule Infin.BankAccounts.PT do
     envs = Application.get_env(:infin, InfinWeb.Endpoint)[:pt_sibsapimarket]
 
     headers = %{
-      "Date" => DateTime.utc_now |> DateTime.to_iso8601,
+      "Date" => DateTime.utc_now() |> DateTime.to_iso8601(),
       "Content-type" => "application/json",
       "TPP-Transaction-ID" => "1",
       "TPP-Request-ID" => "1",
@@ -252,17 +255,20 @@ defmodule Infin.BankAccounts.PT do
       "X-IBM-Client-Id" => envs[:apiKey]
     }
 
-    today = Date.utc_today |> Date.to_iso8601
+    today = Date.utc_today() |> Date.to_iso8601()
 
     case HTTPoison.get(
-          "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts/#{account.api_id}/transactions?dateFrom=#{start_date}&dateTo=#{today}&bookingStatus=booked",
-          headers
-        ) do
+           "#{envs[:url]}/#{aspsp_cde}/v1-0-3/accounts/#{account.api_id}/transactions?dateFrom=#{
+             start_date
+           }&dateTo=#{today}&bookingStatus=booked",
+           headers
+         ) do
       {:ok, response} ->
         case response.status_code do
           200 ->
             {:ok, body} = {:ok, Jason.decode!(response.body)}
             body["transactions"]["booked"]
+
           _ ->
             {:err, Jason.decode!(response.body)}
         end
@@ -280,7 +286,7 @@ defmodule Infin.BankAccounts.PT do
       booking_date: transaction["bookingDate"],
       value_date: transaction["valueDate"],
       remittance_information: transaction["remittanceInformationUnstructured"],
-      account_id: account_id,
+      account_id: account_id
     }
     |> Transaction.upsert_by_transaction_id(transaction["transactionId"])
   end

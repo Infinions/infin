@@ -27,7 +27,10 @@ defmodule InfinWeb.BankAccountPTLive.Banks do
 
   @impl true
   def handle_event("select_bank", %{"aspspcde" => aspspcde}, socket) do
-    {:noreply, push_redirect(socket, to: Routes.bank_account_pt_consents_path(socket, :index, aspspcde: aspspcde))}
+    {:noreply,
+     push_redirect(socket,
+       to: Routes.bank_account_pt_consents_path(socket, :index, aspspcde: aspspcde)
+     )}
   end
 
   ### PRIVATE ###
@@ -35,6 +38,11 @@ defmodule InfinWeb.BankAccountPTLive.Banks do
   defp return(status, socket, page_number) do
     page = PT.list_banks(page_number)
 
-    {status, assign(socket, current: page.page_number, count: page.total_pages, visible_banks: page.entries)}
+    {status,
+     assign(socket,
+       current: page.page_number,
+       count: page.total_pages,
+       visible_banks: page.entries
+     )}
   end
 end

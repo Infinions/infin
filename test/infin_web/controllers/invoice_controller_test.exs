@@ -38,10 +38,13 @@ defmodule InfinWeb.InvoiceControllerTest do
     }
   }
   @update_attrs %{id_document: "some updated id_document"}
-  @invalid_attrs %{id_document: nil, company_seller: %{
-    nif: "123",
-    name: "hello"
-  }}
+  @invalid_attrs %{
+    id_document: nil,
+    company_seller: %{
+      nif: "123",
+      name: "hello"
+    }
+  }
 
   def fixture() do
     company1 = insert(:company)

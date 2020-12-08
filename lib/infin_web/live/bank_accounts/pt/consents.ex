@@ -41,10 +41,18 @@ defmodule InfinWeb.BankAccountPTLive.Consents do
     Process.send_after(self(), :verify, 3000)
 
     if socket.assigns[:account] do
-      {:ok, account} = PT.get_consent(socket.assigns.bank, socket.assigns.account.iban, socket.assigns.account.consent_id)
+      {:ok, account} =
+        PT.get_consent(
+          socket.assigns.bank,
+          socket.assigns.account.iban,
+          socket.assigns.account.consent_id
+        )
+
       verify_consent(socket, account)
     else
-      {:ok, account} = PT.create_consent(socket.assigns.company_id, socket.assigns.iban, socket.assigns.bank)
+      {:ok, account} =
+        PT.create_consent(socket.assigns.company_id, socket.assigns.iban, socket.assigns.bank)
+
       {:noreply, assign(socket, account: account)}
     end
   end
@@ -54,8 +62,14 @@ defmodule InfinWeb.BankAccountPTLive.Consents do
   defp verify_consent(socket, account) do
     if account.consent_status == "ACCP" do
       case PT.fetch_account(socket.assigns.bank, account.iban, account.consent_id) do
-        {:ok, account} -> {:noreply, push_redirect(socket, to: Routes.bank_account_pt_accounts_path(socket, :index, id: account.id))}
-        {_, error} -> {:noreply, assign(socket, account: account, done: false, error_message: error)}
+        {:ok, account} ->
+          {:noreply,
+           push_redirect(socket,
+             to: Routes.bank_account_pt_accounts_path(socket, :index, id: account.id)
+           )}
+
+        {_, error} ->
+          {:noreply, assign(socket, account: account, done: false, error_message: error)}
       end
     else
       {:noreply, assign(socket, account: account, done: false)}

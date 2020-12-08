@@ -16,7 +16,11 @@ defmodule InfinWeb.BankAccountPTLive.Accounts do
   end
 
   @impl true
-  def handle_event("update_transactions", %{"transactions" => %{"start_date" => start_date}}, socket) do
+  def handle_event(
+        "update_transactions",
+        %{"transactions" => %{"start_date" => start_date}},
+        socket
+      ) do
     PT.fetch_transactions(socket.assigns.account.id, start_date)
     return(:noreply, socket, socket.assigns.account, 0)
   end
@@ -55,6 +59,12 @@ defmodule InfinWeb.BankAccountPTLive.Accounts do
   defp return(status, socket, account, page_number) do
     page = PT.list_transactions(account.id, page_number)
 
-    {status, assign(socket, account: account, current: page.page_number, count: page.total_pages, transactions: page.entries)}
+    {status,
+     assign(socket,
+       account: account,
+       current: page.page_number,
+       count: page.total_pages,
+       transactions: page.entries
+     )}
   end
 end

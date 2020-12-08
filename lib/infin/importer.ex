@@ -6,7 +6,6 @@ defmodule Infin.Importer do
   import Ecto.Query, warn: false
   alias Infin.Invoices
 
-
   def import_invoices_pt(nif, password, start_date, end_date, company_id) do
     expected = %{
       "nif" => nif,
