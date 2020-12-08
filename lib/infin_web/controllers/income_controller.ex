@@ -15,6 +15,9 @@ defmodule InfinWeb.IncomeController do
   end
 
   def create(conn, %{"income" => income_params}, company_id) do
+    value = Decimal.new(income_params["value"]) |> Decimal.mult(100) |> Decimal.round(0, :ceiling) |> Decimal.to_integer
+    income_params = Map.replace!(income_params, "value", value)
+
     case Revenue.create_income(income_params, company_id) do
       {:ok, income} ->
         conn
@@ -51,6 +54,9 @@ defmodule InfinWeb.IncomeController do
       income ->
         cond do
           company_id == income.company_id ->
+            value = Decimal.new(income_params["value"]) |> Decimal.mult(100) |> Decimal.round(0, :ceiling) |> Decimal.to_integer
+            income_params = Map.replace!(income_params, "value", value)
+
             case Revenue.update_income(income, income_params) do
               {:ok, income} ->
                 conn

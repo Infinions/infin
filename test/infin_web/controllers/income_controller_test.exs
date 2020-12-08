@@ -6,7 +6,7 @@ defmodule InfinWeb.IncomeControllerTest do
   setup :register_and_log_in_user
 
   @create_attrs %{date: "some date", description: "some description", value: 42}
-  @invalid_attrs %{date: nil, description: nil, value: nil}
+  @invalid_attrs %{date: nil, description: nil, value: "0.00"}
 
   def fixture() do
     company = insert(:company)

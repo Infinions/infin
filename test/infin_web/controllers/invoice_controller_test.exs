@@ -40,6 +40,7 @@ defmodule InfinWeb.InvoiceControllerTest do
   @update_attrs %{id_document: "some updated id_document"}
   @invalid_attrs %{
     id_document: nil,
+    total_value: "0.00",
     company_seller: %{
       nif: "123",
       name: "hello"

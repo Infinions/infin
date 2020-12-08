@@ -12,9 +12,9 @@
         <i class="fas fa-file-alt"></i>
       </span>
       <%= if has_error(f, :value) do %>
-        <%= text_input f, :value, required: true, class: "input is-danger" %>
+        <%= number_input f, :value, value: get_value(@changeset.data), step: "0.01", required: true, class: "input is-danger", min: "0" %>
       <% else %>
-        <%= text_input f, :value, required: true, class: "input", min: "0" %>
+        <%= number_input f, :value, value: get_value(@changeset.data), step: "0.01", required: true, class: "input", min: "0" %>
       <% end %>
       <%= error_tag f, :value %>
     </div>

@@ -33,15 +33,15 @@
   </div>
 
   <div class="field">
-    <%= label f, :total_value, "Total Value", class: "label" %>
+    <%= label f, :total_value, "Total Value (EUR)", class: "label" %>
     <div class="control has-icons-left">
       <span class="icon is-small is-left">
         <i class="fas fa-file-invoice-dollar"></i>
       </span>
       <%= if has_error(f, :total_value) do %>
-        <%= text_input f, :total_value, required: true, class: "input is-danger"%>
+        <%= number_input f, :total_value, value: get_total_value(@changeset.data), step: "0.01", required: true, class: "input is-danger", min: "0" %>
       <% else %>
-        <%= text_input f, :total_value, required: true, class: "input", min: "0"%>
+        <%= number_input f, :total_value, value: get_total_value(@changeset.data), step: "0.01", required: true, class: "input", min: "0" %>
       <% end %>
       <%= error_tag f, :total_value %>
     </div>
