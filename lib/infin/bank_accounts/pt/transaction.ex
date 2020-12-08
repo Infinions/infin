@@ -21,7 +21,15 @@ defmodule Infin.BankAccounts.PT.Transaction do
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:transaction_id, :creditor_name, :amount, :booking_date, :value_date, :remittance_information, :account_id])
+    |> cast(attrs, [
+      :transaction_id,
+      :creditor_name,
+      :amount,
+      :booking_date,
+      :value_date,
+      :remittance_information,
+      :account_id
+    ])
     |> validate_required([:transaction_id, :amount, :remittance_information, :account_id])
   end
 
@@ -30,7 +38,7 @@ defmodule Infin.BankAccounts.PT.Transaction do
       nil -> %Transaction{}
       transaction -> transaction
     end
-    |> Transaction.changeset(transaction |> Map.from_struct)
-    |> Repo.insert_or_update
+    |> Transaction.changeset(transaction |> Map.from_struct())
+    |> Repo.insert_or_update()
   end
 end

@@ -9,6 +9,5 @@ defmodule Infin.Repo.Migrations.CreateIncome do
 
       timestamps()
     end
-
   end
 end

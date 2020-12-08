@@ -6,6 +6,6 @@ defmodule Infin.Repo.Migrations.IncomeAddCompany do
       add :company_id, references(:companies)
     end
 
-    create unique_index(:income, :company_id)
+    create index(:income, :company_id)
   end
 end

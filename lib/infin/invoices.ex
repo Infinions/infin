@@ -30,9 +30,11 @@ defmodule Infin.Invoices do
 
   def list_company_invoices(company_id, params) do
     query =
-      from( i in Invoice,
+      from(i in Invoice,
         where: i.company_id == ^company_id,
-        preload: [:company_seller, :category])
+        preload: [:company_seller, :category]
+      )
+
     Repo.paginate(query, params)
   end
 
@@ -91,7 +93,8 @@ defmodule Infin.Invoices do
       :total_value => attrs["total_value"],
       :doc_emission_date => attrs["doc_emission_date"],
       :company_id => company_id,
-      :company_seller_id => Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id
+      :company_seller_id =>
+        Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id
     }
 
     %Invoice{}

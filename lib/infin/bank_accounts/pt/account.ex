@@ -35,7 +35,17 @@ defmodule Infin.BankAccounts.PT.Account do
   def from_account_changeset(account, attrs) do
     account
     |> cast(attrs, [:iban, :api_id, :name, :currency, :account_type, :bank_id, :company_id])
-    |> validate_required([:iban, :api_id, :name, :currency, :account_type, :authorized_balance, :expected_balance, :bank_id, :company_id])
+    |> validate_required([
+      :iban,
+      :api_id,
+      :name,
+      :currency,
+      :account_type,
+      :authorized_balance,
+      :expected_balance,
+      :bank_id,
+      :company_id
+    ])
     |> unique_constraint(:api_id)
     |> unique_constraint(:iban)
   end
@@ -45,7 +55,7 @@ defmodule Infin.BankAccounts.PT.Account do
       nil -> %Account{}
       account -> account
     end
-    |> Account.from_consent_changeset(account |> Map.from_struct)
-    |> Repo.insert_or_update
+    |> Account.from_consent_changeset(account |> Map.from_struct())
+    |> Repo.insert_or_update()
   end
 end

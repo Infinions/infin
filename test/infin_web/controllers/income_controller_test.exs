@@ -1,7 +1,6 @@
 defmodule InfinWeb.IncomeControllerTest do
   use InfinWeb.ConnCase
 
-
   import Infin.Factory
 
   setup :register_and_log_in_user

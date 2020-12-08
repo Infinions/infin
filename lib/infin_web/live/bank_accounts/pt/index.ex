@@ -37,7 +37,10 @@ defmodule InfinWeb.BankAccountPTLive.Index do
 
   @impl true
   def handle_event("open_account", %{"account_id" => account_id}, socket) do
-    {:noreply, push_redirect(socket, to: Routes.bank_account_pt_accounts_path(socket, :index, id: account_id))}
+    {:noreply,
+     push_redirect(socket,
+       to: Routes.bank_account_pt_accounts_path(socket, :index, id: account_id)
+     )}
   end
 
   ### PRIVATE ###
@@ -45,6 +48,7 @@ defmodule InfinWeb.BankAccountPTLive.Index do
   defp return(status, socket, company_id, page_number) do
     page = PT.list_accounts(company_id, page_number)
 
-    {status, assign(socket, current: page.page_number, count: page.total_pages, accounts: page.entries)}
+    {status,
+     assign(socket, current: page.page_number, count: page.total_pages, accounts: page.entries)}
   end
 end
