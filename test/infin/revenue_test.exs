@@ -3,20 +3,17 @@ defmodule Infin.RevenueTest do
 
   alias Infin.Revenue
 
+  import Infin.Factory
+
   describe "income" do
     alias Infin.Revenue.Income
 
-    @valid_attrs %{date: "some date", description: "some description", value: 42}
     @update_attrs %{date: "some updated date", description: "some updated description", value: 43}
     @invalid_attrs %{date: nil, description: nil, value: nil}
 
-    def income_fixture(attrs \\ %{}) do
-      {:ok, income} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Revenue.create_income()
-
-      income
+    def income_fixture() do
+      company = insert(:company)
+      insert(:income, company_id: company.id)
     end
 
     test "list_income/0 returns all income" do
@@ -30,7 +27,16 @@ defmodule Infin.RevenueTest do
     end
 
     test "create_income/1 with valid data creates a income" do
-      assert {:ok, %Income{} = income} = Revenue.create_income(@valid_attrs)
+      company = insert(:company)
+
+      attrs = %{
+        date: "some date",
+        description: "some description",
+        value: 42,
+        company_id: company.id
+      }
+
+      assert {:ok, %Income{} = income} = Revenue.create_income(attrs)
       assert income.date == "some date"
       assert income.description == "some description"
       assert income.value == 42
