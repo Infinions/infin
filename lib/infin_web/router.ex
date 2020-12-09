@@ -34,7 +34,7 @@ defmodule InfinWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: InfinWeb.Telemetry
+      live_dashboard "/metrics", metrics: InfinWeb.Telemetry
     end
   end
 
@@ -65,6 +65,8 @@ defmodule InfinWeb.Router do
     live "/pt/bank_accounts/banks", BankAccountPTLive.Banks, :index
     live "/pt/bank_accounts/consents", BankAccountPTLive.Consents, :index
     live "/pt/bank_accounts/accounts", BankAccountPTLive.Accounts, :index
+
+    live "/dashboard", DashboardLive.Dashboard, :index
   end
 
   scope "/", InfinWeb do

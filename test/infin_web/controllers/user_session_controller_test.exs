@@ -33,11 +33,10 @@ defmodule InfinWeb.UserSessionControllerTest do
       assert redirected_to(conn) =~ "/"
 
       # Now do a logged in request and assert on the menu
-      conn = get(conn, "/manage/invoices")
+      conn = get(conn, "/dashboard")
       response = html_response(conn, 200)
-      assert response =~ user.email
-      assert response =~ "#{user.email}</a>"
-      assert response =~ "Log out</a>"
+      assert response =~ "Invoices</a>"
+      assert response =~ "Incomes</a>"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
