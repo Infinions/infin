@@ -51,7 +51,8 @@ defmodule Infin.MixProject do
       {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false},
       {:ex_machina, "~> 2.4"},
       {:httpoison, "~> 1.7"},
-      {:scrivener_ecto, "~> 2.0"}
+      {:scrivener_ecto, "~> 2.0"},
+      {:xml_builder, "~> 2.1.4"}
     ]
   end
 
