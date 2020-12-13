@@ -30,10 +30,18 @@ defmodule InfinWeb.CategoryController do
         cond do
           company_id == category.company_id ->
             changeset = Companies.change_category(category)
-            render(conn, "show.html", category: category, company_id: company_id, changeset: changeset)
+
+            render(conn, "show.html",
+              category: category,
+              company_id: company_id,
+              changeset: changeset
+            )
 
           true ->
-            CompanyController.show(conn, %{}, company_id)
+            company = Companies.get_company(company_id)
+
+            conn
+            |> redirect(to: Routes.company_path(conn, :show, company))
         end
     end
   end
@@ -50,14 +58,23 @@ defmodule InfinWeb.CategoryController do
               {:ok, category} ->
                 conn
                 |> put_flash(:info, "Category updated successfully.")
-                |> redirect(to: Routes.category_path(conn, :show, category, company_id: company_id))
+                |> redirect(
+                  to: Routes.category_path(conn, :show, category, company_id: company_id)
+                )
 
               {:error, %Ecto.Changeset{} = changeset} ->
-                render(conn, "show.html", category: category, company_id: company_id, changeset: changeset)
+                render(conn, "show.html",
+                  category: category,
+                  company_id: company_id,
+                  changeset: changeset
+                )
             end
 
           true ->
-            CompanyController.show(conn, %{}, company_id)
+            company = Companies.get_company(company_id)
+
+            conn
+            |> redirect(to: Routes.company_path(conn, :show, company))
         end
     end
   end
@@ -65,18 +82,25 @@ defmodule InfinWeb.CategoryController do
   def delete(conn, %{"id" => id}, company_id) do
     case Companies.get_category(id) do
       nil ->
-        CompanyController.show(conn, %{}, company_id)
+        company = Companies.get_company(company_id)
+
+        conn
+        |> redirect(to: Routes.company_path(conn, :show, company))
 
       category ->
         cond do
           company_id == category.company_id ->
             {:ok, _category} = Companies.delete_category(category)
+
             conn
             |> put_flash(:info, "Category deleted successfully.")
             |> redirect(to: Routes.company_path(conn, :show, company_id))
 
           true ->
-            CompanyController.show(conn, %{}, company_id)
+            company = Companies.get_company(company_id)
+
+            conn
+            |> redirect(to: Routes.company_path(conn, :show, company))
         end
     end
   end

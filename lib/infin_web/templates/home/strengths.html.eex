@@ -1,0 +1,43 @@
+<section class="section">
+  <div class="container has-text-centered py-4">
+    <h2 class="title mb-6">What's So Great About Infin?</h2>
+    <div class="columns">
+      <div class="column">
+        <div class="level">
+          <div class="level-item">
+            <figure class="image is-128x128">
+              <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/josegomes.jpg") %>" alt="José Gomes profile photo" />
+            </figure>
+          </div>
+        </div>
+        <p class="block">Lovely product, very good, very nice.</p>
+        <h5 class="title is-5">José Gomes</h5>
+        <p class="subtitle">CEO at Finiam</p>
+      </div>
+      <div class="column">
+        <div class="level">
+          <div class="level-item">
+            <figure class="image is-128x128">
+              <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/lauraesteves.jpg") %>" alt="Laura Esteves profile photo" />
+            </figure>
+          </div>
+        </div>
+        <p class="block">Amazing service, I need this in my company.</p>
+        <h5 class="title is-5">Laura Esteves</h5>
+        <p class="subtitle">COO at Subvisual</p>
+      </div>
+      <div class="column">
+        <div class="level">
+          <div class="level-item">
+            <figure class="image is-128x128">
+              <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/franciscomaia.jpg") %>" alt="Francisco Maia profile photo" />
+            </figure>
+          </div>
+        </div>
+        <p class="block">Incredible work, can't live with this no more.</p>
+        <h5 class="title is-5">Francisco Maia</h5>
+        <p class="subtitle">CEO at Keyruptive</p>
+      </div>
+    </div>
+  </div>
+</section>

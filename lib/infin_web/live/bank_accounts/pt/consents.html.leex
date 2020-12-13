@@ -1,0 +1,52 @@
+<div class="columns is-flex is-centered my-5">
+  <div class="column card is-half">
+    <div class="card-content px-6 py-6">
+      <p class="is-size-3 mb-5 has-text-centered">Consent for <%= @bank %></p>
+
+      <%= f = form_for :consent, "#", [phx_submit: :save] %>
+         <%= if assigns[:error_message] do %>
+          <div class="notification is-danger">
+            <p><%= @error_message %></p>
+          </div>
+        <% end %>
+
+        <div class="field py-1">
+          <div class="control has-icons-left has-icons-right">
+            <span class="icon is-small is-left">
+              <i class="fas fa-receipt"></i>
+            </span>
+            <%= text_input f, :iban, required: true, placeholder: :IBAN, class: "input" %>
+          </div>
+        </div>
+
+        <div class="field py-1">
+          <div class="control has-icons-left has-icons-right">
+            <span class="icon is-small is-left">
+              <i class="fas fa-signature"></i>
+            </span>
+            <%= text_input f, :name, required: true, placeholder: "First and Last Name", class: "input" %>
+          </div>
+        </div>
+
+        <div class="columns">
+          <div class="column is-three-quarters">
+            <%= submit "Consent", class: "button is-primary is-fullwidth" %>
+          </div>
+          <div class="column is-one-quarter">
+            <button type="button" class="button is-fullwidth" phx-click="previous">Back</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<%= if assigns[:done] && @done do %>
+  <div class="pageloader is-active">
+    <div class="title">
+      <p>You would normally login into your bank account here</p>
+      <p>Wait a few seconds...</p>
+    </div>
+  </div>
+<% end %>

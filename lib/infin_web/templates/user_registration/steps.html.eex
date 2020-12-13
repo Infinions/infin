@@ -1,0 +1,136 @@
+<%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f_account -> %>
+
+  <%= if @changeset.action do %>
+    <div class="notification is-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="steps">
+    <div class="step-item is-active is-success">
+      <div class="step-marker">1</div>
+      <div class="step-details">
+        <p class="step-title">User</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-marker">2</div>
+      <div class="step-details">
+        <p class="step-title">Company</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-marker">3</div>
+      <div class="step-details">
+        <p class="step-title">Finish</p>
+      </div>
+    </div>
+
+
+    <div class="steps-content">
+      <div class="step-content has-text-centered is-active">
+        <div class="field py-1">
+          <div class="control has-icons-left has-icons-right">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+            <%= if has_error(f_account, :email) do %>
+              <%= email_input f_account, :email, required: true, placeholder: 'Email', class: "input is-danger" %>
+              <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+            <% else %>
+              <%= email_input f_account, :email, required: true, placeholder: 'Email', class: "input" %>
+            <% end %>
+            <%= error_tag f_account, :email %>
+          </div>
+        </div>
+
+        <div class="field py-1">
+          <div class="control has-icons-left has-icons-right ">
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+            <%= if has_error(f_account, :password) do %>
+              <%= password_input f_account, :password, required: true, placeholder: 'Password', class: "input is-danger" %>
+              <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+            <% else %>
+              <%= password_input f_account, :password, required: true, placeholder: 'Password', class: "input" %>
+            <% end %>
+            <%= error_tag f_account, :password %>
+          </div>
+        </div>
+
+        <div class="field py-1">
+          <div class="control has-icons-left has-icons-right">
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+            <%= if has_error(f_account, :password_confirmation) do %>
+              <%= password_input f_account, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input is-danger" %>
+              <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+            <% else %>
+              <%= password_input f_account, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input" %>
+            <% end %>
+            <%= error_tag f_account, :password_confirmation %>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-content has-text-centered">
+        <%= inputs_for f_account, :company, fn f_company -> %>
+          <div class="field py-1">
+            <div class="control has-icons-left has-icons-right">
+              <span class="icon is-small is-left">
+                <i class="fas fa-building"></i>
+              </span>
+              <%= if has_error(f_company, :name) do %>
+                <%= text_input f_company, :name, required: true, placeholder: 'Name', class: "input is-danger" %>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </span>
+              <% else %>
+                <%= text_input f_company, :name, required: true, placeholder: 'Name', class: "input" %>
+              <% end %>
+              <%= error_tag f_company, :name %>
+            </div>
+          </div>
+
+          <div class="field py-1">
+            <div class="control has-icons-left has-icons-right">
+              <span class="icon is-small is-left">
+                <i class="fas fa-file-invoice-dollar"></i>
+              </span>
+              <%= if has_error(f_company, :nif) do %>
+                <%= text_input f_company, :nif, required: true, placeholder: 'Tax Id', class: "input is-danger" %>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </span>
+              <% else %>
+                <%= text_input f_company, :nif, required: true, placeholder: 'Tax Id', class: "input" %>
+              <% end %>
+              <%= error_tag f_company, :nif %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="step-content has-text-centered mt-5">
+        <%= submit "Register", class: "button is-primary is-fullwidth" %>
+      </div>
+    </div>
+
+    <div class="steps-actions columns mb-5">
+      <div class="steps-action column is-half">
+        <a href="#" data-nav="previous" class="button is-light is-fullwidth">Previous</a>
+      </div>
+      <div class="steps-action column is-half">
+        <a href="#" data-nav="next" class="button is-light  is-fullwidth">Next</a>
+      </div>
+    </div>
+  </div>
+<% end %>

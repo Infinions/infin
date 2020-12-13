@@ -1,0 +1,12 @@
+<h1>Show Tag</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @tag.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Back", to: Routes.tag_path(@conn, :index) %></span>

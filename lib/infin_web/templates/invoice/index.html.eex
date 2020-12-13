@@ -1,0 +1,106 @@
+<div class="container py-5">
+  <p class="is-size-4 mb-5">Invoices</p>
+  <%= if length(@invoices) > 0 do %>
+    <div class="b-table has-pagination">
+      <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
+          <tbody>
+            <tr>
+              <td data-label="id_document"><b>Document</b></td>
+              <td data-label="doc_emission_date"><b>Emission Date</b></td>
+              <td data-label="total_value"><b>Total Value (EUR)</b></td>
+              <td data-label="emitter_tax_id"><b>Emitter Tax Id</b></td>
+              <td data-label="emitter_name"><b>Emitter Name</b></td>
+              <td class="has-text-centered"></td>
+            </tr>
+            <%= for invoice <- @invoices do %>
+              <tr>
+                  <td data-label="id_document"><%= invoice.id_document %></td>
+                  <td data-label="doc_emission_date"><%= invoice.doc_emission_date %></td>
+                  <td data-label="total_value"><%= get_total_value(invoice) %></td>
+                  <td data-label="emitter_tax_id"><%= invoice.company_seller.nif %></td>
+                  <td data-label="emitter_name"><%= invoice.company_seller.name %></td>
+                  <td class="has-text-centered" data-label="total_value">
+                    <%= link ">", to: Routes.invoice_path(@conn, :show, invoice), class: "button is-primary" %>
+                  </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="notification">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <div class="buttons has-addons">
+              <%= link "<",
+                class: "button",
+                disabled: @page.page_number == 1,
+                to: Routes.invoice_path(@conn, :index, page: @page.page_number - 1) %>
+              <%= link ">",
+                class: "button",
+                disabled: @page.page_number == @page.total_pages,
+                to: Routes.invoice_path(@conn, :index, page: @page.page_number + 1) %>
+            </div>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <small>Page <%= @page.page_number %> of <%= @page.total_pages %></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="notification">No invoices registered</div>
+  <% end %>
+  <div class="buttons">
+    <%= link "New Invoice", to: Routes.invoice_path(@conn, :new), class: "button is-primary" %>
+    <button class="button is-primary" id='modal-btn'>Import Invoices</button>
+  </div>
+  <div class="modal pt-6">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Invoice Importer</p>
+        <button class="delete" aria-label="close" id="close-btn"></button>
+      </header>
+      <section class="modal-card-body">
+        <%= form_for :invoice_importer, Routes.invoice_importer_path(@conn, :import_invoices_pt), fn f -> %>
+          <div class="field">
+            <label class="label">Tax ID</label>
+            <div class="control">
+              <%= text_input f, :nif, value: @company.nif, required: true, class: "input" %>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Finances Password</label>
+            <div class="control">
+              <%= text_input f, :password, value: "", required: true, class: "input", type: "password" %>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Start Date</label>
+            <div class="control">
+              <%= date_input f, :start_date, required: true, class: "input invoice-date-picker", required: true %>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">End Date</label>
+            <div class="control">
+              <%= date_input f,  :end_date, required: true, class: "input invoice-date-picker", required: true %>
+            </div>
+          </div>
+      </section>
+      <footer class="modal-card-foot">
+        <%= submit "Import", class: "button is-primary" %>
+      </footer>
+      <% end %>
+    </div>
+  </div>
+  <button class="modal-close is-large"
+    aria-label="close">
+    Model
+  </button>
+</div>

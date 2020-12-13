@@ -37,6 +37,8 @@ defmodule Infin.Companies do
   """
   def get_company!(id), do: Repo.get!(Company, id)
 
+  def get_company(id), do: Repo.get(Company, id)
+
   @doc """
   Gets a single company.
 
@@ -52,6 +54,8 @@ defmodule Infin.Companies do
 
   """
   def get_company_by_nif!(nif), do: Repo.get_by!(Company, nif: nif)
+
+  def get_company_by_nif(nif), do: Repo.get_by(Company, nif: nif)
 
   @doc """
   Creates a company.
@@ -120,6 +124,14 @@ defmodule Infin.Companies do
 
   def preload_company_categories(%Company{} = company) do
     Repo.preload(company, :categories)
+  end
+
+  def preload_company_invoices(%Company{} = company) do
+    Repo.preload(company, :invoices)
+  end
+
+  def preload_company_tags(%Company{} = company) do
+    Repo.preload(company, :tags)
   end
 
   alias Infin.Companies.Category

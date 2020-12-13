@@ -28,6 +28,12 @@ config :infin, InfinWeb.Endpoint,
       "--watch-stdin",
       cd: Path.expand("../assets", __DIR__)
     ]
+  ],
+  pt_sibsapimarket: [
+    url:
+      System.get_env("PT_SIBSAPIMARKET_HOST") ||
+        "https://site1.sibsapimarket.com:8445/sibs/apimarket-sb",
+    apiKey: System.get_env("PT_SIBSAPIMARKET_APIKEY") || "073286e4-055b-472b-96ad-7ddd484333ec"
   ]
 
 # ## SSL Support

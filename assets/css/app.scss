@@ -1,7 +1,11 @@
 @import './navbar.scss';
-@import './footer.scss';
 
 @import 'bulma';
+@import 'bulma-switch';
+@import 'bulma-pricingtable';
+@import 'bulma-steps';
+@import "bulma-pageloader";
+@import "bulma-calendar";
 
 /* This file is for your main application css. */
 @import "../node_modules/nprogress/nprogress.css";

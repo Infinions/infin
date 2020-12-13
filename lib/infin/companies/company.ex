@@ -5,8 +5,13 @@ defmodule Infin.Companies.Company do
   schema "companies" do
     field :name, :string, null: false
     field :nif, :string, null: false
+
     has_many :users, Infin.Accounts.User
     has_many :categories, Infin.Companies.Category
+    has_many :invoices, Infin.Invoices.Invoice
+    has_many :tags, Infin.Invoices.Tag
+    has_many :accounts, Infin.BankAccounts.PT.Account
+    has_many :incomes, Infin.Revenue.Income
 
     timestamps()
   end

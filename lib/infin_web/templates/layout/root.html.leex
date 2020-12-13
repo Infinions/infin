@@ -12,18 +12,15 @@
   </head>
   <%= if @conn.request_path == "/" do %>
     <body>
+      <div class="page-container">
   <% else %>
     <body class="has-navbar-fixed-top">
+      <div class="page-container my-5">
   <% end %>
-    <div id="page-container">
-      <div id="content-wrap">
-        <%= render "_navbar.html", assigns %>
-        <%= render_existing view_module(@conn), "landing_hero.html", assigns %>
-        <div class="bd-lead">
-          <%= @inner_content %>
-        </div>
-      </div>
-      <%= render "_footer.html", assigns %>
+      <%= render "_navbar.html", assigns %>
+      <%= render_existing view_module(@conn), "landing_hero.html", assigns %>
+      <%= @inner_content %>
     </div>
+    <%= render "_footer.html", assigns %>
   </body>
 </html>
