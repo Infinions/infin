@@ -85,6 +85,8 @@ defmodule InfinWeb.Router do
 
     post "/pt/invoices/import", InvoiceImporterController, :import_invoices_pt
 
+    post "/users/register", UserRegistrationController, :create
+
     resources "/companies", CompanyController, only: [:show, :update]
     resources "/invoices", InvoiceController
     resources "/tags", TagController, except: [:edit]
