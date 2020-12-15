@@ -79,6 +79,8 @@
     </div>
   <% end %>
 
+
+
   <div class="level mt-5">
     <div class="level-left">
       <%= submit "Save", class: "button is-primary level-item" %>

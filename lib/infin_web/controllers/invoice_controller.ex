@@ -8,6 +8,7 @@ defmodule InfinWeb.InvoiceController do
   def index(conn, params, company_id) do
     page = Invoices.list_company_invoices(company_id, params)
     company = Companies.get_company(company_id)
+    IO.inspect(page.entries)
     render(conn, "index.html", invoices: page.entries, company: company, page: page)
   end
 
@@ -100,6 +101,7 @@ defmodule InfinWeb.InvoiceController do
 
   def action(conn, _) do
     args = [conn, conn.params, conn.assigns.current_user.company.id]
+
     apply(__MODULE__, action_name(conn), args)
   end
 end

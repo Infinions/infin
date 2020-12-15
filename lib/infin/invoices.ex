@@ -32,7 +32,7 @@ defmodule Infin.Invoices do
     query =
       from(i in Invoice,
         where: i.company_id == ^company_id,
-        preload: [:company_seller, :category]
+        preload: [:company_seller, :category, :company, company: :categories]
       )
 
     Repo.paginate(query, params)
