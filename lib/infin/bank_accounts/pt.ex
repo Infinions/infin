@@ -23,11 +23,13 @@ defmodule Infin.BankAccounts.PT do
   end
 
   def get_account(company_id, account_id) do
-    Repo.get_by(Account, company_id: company_id, id: account_id) |> Repo.preload([:bank])
+    Repo.get_by(Account, company_id: company_id, id: account_id)
+    |> Repo.preload([:bank])
   end
 
   def delete_account(company_id, account_id) do
-    Repo.get_by(Account, company_id: company_id, id: account_id) |> Repo.delete!()
+    Repo.get_by(Account, company_id: company_id, id: account_id)
+    |> Repo.delete!()
   end
 
   def fetch_account(aspsp_cde, iban, consent_id) do
@@ -63,13 +65,28 @@ defmodule Infin.BankAccounts.PT do
     end
   end
 
+  def list_pending_transactions(company_id, page_number) do
+    account_ids =
+      Account |> where(company_id: ^company_id) |> select([:id]) |> Repo.all()
+      |> Enum.map(&(&1.id))
+
+    Transaction
+    |> where([t], t.account_id in ^account_ids)
+    |> Repo.paginate(page: page_number)
+  end
+
   def list_transactions(account_id, page_number) do
-    Transaction |> where(account_id: ^account_id) |> Repo.paginate(page: page_number)
+    Transaction
+    |> where(account_id: ^account_id)
+    |> Repo.paginate(page: page_number)
   end
 
   def fetch_transactions(account_id, start_date) do
     account = Repo.get(Account, account_id)
-    bank = from(b in Bank, select: %{aspsp_cde: b.aspsp_cde}) |> Repo.get(account.bank_id)
+
+    bank =
+      from(b in Bank, select: %{aspsp_cde: b.aspsp_cde})
+      |> Repo.get(account.bank_id)
 
     fetch_transactions_from_api(account, bank.aspsp_cde, start_date)
     |> Enum.map(fn t -> upsert_transaction(account_id, t) end)
@@ -184,7 +201,8 @@ defmodule Infin.BankAccounts.PT do
   defp update_account(aspsp_cde, api_account) do
     account = Repo.get_by(Account, iban: api_account["iban"])
 
-    {expected, authorized} = get_balance(aspsp_cde, api_account["id"], account.consent_id)
+    {expected, authorized} =
+      get_balance(aspsp_cde, api_account["id"], account.consent_id)
 
     account =
       Ecto.Changeset.change(account,
@@ -201,7 +219,10 @@ defmodule Infin.BankAccounts.PT do
 
   defp update_transaction_status(iban, result) do
     account = Repo.get_by(Account, iban: iban)
-    account = Ecto.Changeset.change(account, consent_status: result["transactionStatus"])
+
+    account =
+      Ecto.Changeset.change(account, consent_status: result["transactionStatus"])
+
     Repo.update(account)
   end
 

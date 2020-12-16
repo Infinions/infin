@@ -38,6 +38,13 @@ defmodule Infin.Invoices do
     Repo.paginate(query, params)
   end
 
+  def list_company_invoices_unassociated(company_id, page_number) do
+    Invoice
+    |> where(company_id: ^company_id)
+    |> preload([:company_seller])
+    |> Repo.paginate(page: page_number)
+  end
+
   @doc """
   Gets a single invoice.
 

@@ -1,35 +1,57 @@
-<section class="section">
-  <div class="container">
-    <div class="columns is-multiline">
-      <div class="column">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-header-title is-inline"><span>Expenses</span><span class="tag is-pulled-right">Monthly</span></h3>
-          </div>
-          <div class="card-content">
-            <h3 class="title"><%= @expenses %></h3>
-            <p class="mt-2 has-text-success">
-              <i class="fas fa-arrow-down"></i>
-              <span class="ml-2">7%</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="column">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-header-title is-inline"><span>Income</span><span class="tag is-pulled-right">Monthly</span></h3>
-          </div>
-          <div class="card-content">
-            <h3 class="title"><%= @income %></h3>
-            <p class="mt-2 has-text-success">
-              <i class="fas fa-arrow-up"></i>
-              <span class="ml-2">15%</span>
-            </p>
-          </div>
-        </div>
-      </div>
+<div class="tile is-parent">
+  <div class="tile is-child card">
+    <div class="card-header">
+      <h3 class="card-header-title is-inline"><span>Expenses</span><span class="tag is-pulled-right">Monthly</span></h3>
+    </div>
+    <div class="card-content">
+      <h3 class="title"><%= @expenses %></h3>
+      <%= if @expenses_change < 0 do %>
+        <p class="mt-2 has-text-success">
+          <i class="fas fa-arrow-down"></i>
+          <span class="ml-2"><%= @expenses_change %>%</span>
+        </p>
+      <% else %>
+        <%= if @expenses_change == 0 do %>
+          <p class="mt-2 has-text-warning">
+            <i class="fas fa-equals"></i>
+            <span class="ml-2"><%= @expenses_change %>%</span>
+          </p>
+        <% else %>
+          <p class="mt-2 has-text-danger">
+            <i class="fas fa-arrow-up"></i>
+            <span class="ml-2"><%= @expenses_change %>%</span>
+          </p>
+        <% end %>
+      <% end %>
     </div>
   </div>
-</section>
+</div>
+
+<div class="tile is-parent">
+  <div class="tile is-child card">
+    <div class="card-header">
+      <h3 class="card-header-title is-inline"><span>Income</span><span class="tag is-pulled-right">Monthly</span></h3>
+    </div>
+    <div class="card-content">
+      <h3 class="title"><%= @income %></h3>
+      <%= if @income_change > 0 do %>
+        <p class="mt-2 has-text-success">
+          <i class="fas fa-arrow-up"></i>
+          <span class="ml-2"><%= @income_change %>%</span>
+        </p>
+      <% else %>
+        <%= if @income_change == 0 do %>
+          <p class="mt-2 has-text-warning">
+            <i class="fas fa-equals"></i>
+            <span class="ml-2"><%= @income_change %>%</span>
+          </p>
+        <% else %>
+          <p class="mt-2 has-text-danger">
+            <i class="fas fa-arrow-down"></i>
+            <span class="ml-2"><%= @income_change %>%</span>
+          </p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

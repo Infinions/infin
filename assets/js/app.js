@@ -3,6 +3,8 @@
 // its own CSS file.
 import "../css/app.scss"
 
+import $ from "jquery";
+
 import "./nav"
 import "./register"
 
@@ -23,8 +25,33 @@ import { Socket } from "phoenix"
 import NProgress from "nprogress"
 import { LiveSocket } from "phoenix_live_view"
 
+let Hooks = {}
+
+Hooks.PendingModal = {
+  mounted(){
+    const modal = $('.pending-modal');
+
+    $('.open-pending-modal').on('click', () => {
+        modal.show();
+    });
+
+    $('#close-btn').on('click', () => {
+      modal.hide();
+    })
+
+    $(window).on('click', event => {
+      if (event.target.className === 'modal-background') {
+          modal.hide();
+      }
+    });
+  }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken } })
+let liveSocket = new LiveSocket("/live", Socket, {
+  params: {_csrf_token: csrfToken},
+  hooks: Hooks
+})
 
 // Show progress bar on live navigation and form submits
 window.addEventListener("phx:page-loading-start", info => NProgress.start())
