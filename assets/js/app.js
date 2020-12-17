@@ -8,7 +8,6 @@ import "./register"
 
 import "./calendar"
 import "./modal"
-import "./dropdown"
 
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
