@@ -22,40 +22,12 @@
                   <td data-label="emitter_tax_id"><%= invoice.company_seller.nif %></td>
                   <td data-label="emitter_name"><%= invoice.company_seller.name %></td>
                   <td data-label="category">
-                    <div class='columns is-mobile is-centered'>
-                      <div class='column'>
-                        <div class="dropdown">
-                          <div class="dropdown-trigger">
-                            <button class="button"
-                                    aria-haspopup="true"
-                                    aria-controls="dropdown-menu">
-                              <span>
-                              <%= if invoice.category == nil do %>
-                              Category
-                              <% else %>
-                                <%= invoice.category.name %>
-                              <% end %>
-                              <span class="icon is-small">
-                                <i class="fas fa-angle-down"
-                                   aria-hidden="true"></i>
-                              </span>
-                            </button>
-                          </div>
-
-                          <div class="dropdown-menu"
-                               id="dropdown-menu"
-                               role="menu">
-                            <div class="dropdown-content">
-                              <%= for category <- invoice.company.categories do %>
-                              <a href="#" class="dropdown-item">
-                                <%= category.name %>
-                              </a>
-                              <% end %>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                   </div>
+                    <%= if invoice.category == nil do%>
+                    <% else %>
+                      <span class="tag is-info is-medium">
+                        <%= invoice.category.name %>
+                      </span>
+                    <% end %>
                   </td>
                   <td class="has-text-centered" data-label="total_value">
                     <%= link ">", to: Routes.invoice_path(@conn, :show, invoice), class: "button is-primary" %>

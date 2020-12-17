@@ -94,7 +94,8 @@ defmodule Infin.Invoices do
       :doc_emission_date => attrs["doc_emission_date"],
       :company_id => company_id,
       :company_seller_id =>
-        Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id
+        Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id,
+      :category_id => attrs["category_id"]
     }
 
     %Invoice{}

@@ -8,21 +8,22 @@ defmodule InfinWeb.InvoiceController do
   def index(conn, params, company_id) do
     page = Invoices.list_company_invoices(company_id, params)
     company = Companies.get_company(company_id)
-    IO.inspect(page.entries)
     render(conn, "index.html", invoices: page.entries, company: company, page: page)
   end
 
-  def new(conn, _params, _company_id) do
+  def new(conn, _params, company_id) do
     changeset = Invoices.change_invoice(%Invoice{})
-    render(conn, "new.html", changeset: changeset)
+    categories = Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
+    render(conn, "new.html", changeset: changeset, categories: categories)
   end
 
   def create(conn, %{"invoice" => invoice_params}, company_id) do
     total_value = Decimal.new(invoice_params["total_value"]) |> Decimal.mult(100) |> Decimal.round(0, :ceiling) |> Decimal.to_integer
     invoice_params = Map.replace!(invoice_params, "total_value", total_value)
-
+    invoice_params = Map.replace!(invoice_params, "category_id", String.to_integer(invoice_params["category_id"]))
     case Invoices.create_invoice(invoice_params, company_id) do
       {:ok, invoice} ->
+        IO.inspect(invoice.category_id)
         conn
         |> put_flash(:info, "Invoice created successfully.")
         |> redirect(to: Routes.invoice_path(conn, :show, invoice))
@@ -40,8 +41,9 @@ defmodule InfinWeb.InvoiceController do
       invoice ->
         cond do
           company_id == invoice.company_id ->
+            categories = Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
             changeset = Invoices.change_invoice(invoice)
-            render(conn, "show.html", invoice: invoice, changeset: changeset)
+            render(conn, "show.html", invoice: invoice, changeset: changeset, categories: categories)
 
           true ->
             index(conn, %{"page" => 1}, company_id)
@@ -59,9 +61,10 @@ defmodule InfinWeb.InvoiceController do
           company_id == invoice.company_id ->
             total_value = Decimal.new(invoice_params["total_value"]) |> Decimal.mult(100) |> Decimal.round(0, :ceiling) |> Decimal.to_integer
             invoice_params = Map.replace!(invoice_params, "total_value", total_value)
-
+            invoice_params = Map.replace!(invoice_params, "category_id", String.to_integer(invoice_params["category_id"]))
             case Invoices.update_invoice(invoice, invoice_params) do
               {:ok, invoice} ->
+                IO.inspect(invoice.category_id)
                 conn
                 |> put_flash(:info, "Invoice updated successfully.")
                 |> redirect(to: Routes.invoice_path(conn, :show, invoice))
