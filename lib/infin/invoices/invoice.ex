@@ -70,7 +70,8 @@ defmodule Infin.Invoices.Invoice do
       :consumer_comm,
       :is_foreign,
       :company_id,
-      :company_seller_id
+      :company_seller_id,
+      :category_id
     ])
     |> validate_required([:id_document, :doc_emission_date, :total_value, :company_id])
     |> unique_constraint(:id_document)

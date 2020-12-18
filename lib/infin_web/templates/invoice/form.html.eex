@@ -78,6 +78,14 @@
       </div>
     </div>
   <% end %>
+  <div class="field">
+    <%= label f, :category_id, "Category", class: "label is-floating-label" %>
+    <div class="select is-fullwidth">
+    <%= select f , :category_id, @categories,  class: "is-focused is-fullwidth"%>
+    </div>
+  </div>
+
+
 
   <div class="level mt-5">
     <div class="level-left">
