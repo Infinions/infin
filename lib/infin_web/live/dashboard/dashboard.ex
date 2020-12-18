@@ -26,7 +26,8 @@ defmodule InfinWeb.DashboardLive.Dashboard do
     send_update(InfinWeb.DashboardLive.Pending,
       id: "#{socket.assigns.company_id}-pending",
       company_id: socket.assigns.company_id,
-      transactions_page_number: transactions_page_number
+      transactions_page_number: transactions_page_number,
+      invoices_page_number: 0
     )
 
     {:noreply,
