@@ -9,7 +9,7 @@ defmodule Infin.SaftExport.SaftExporter do
           "\n\txmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance"}, [
             generate_header(),
             element(:MasterFiles, [
-              generate_customer(),
+              generate_customer_list([1,2,3], []),
               generate_tax_table([1,2,3])
             ]),
             element(:SourceDocuments, [
@@ -19,7 +19,7 @@ defmodule Infin.SaftExport.SaftExporter do
 
     |> generate
 
-    File.write("saft.xml", content)
+    File.write("test.xml", content)
   end
 
 
@@ -77,6 +77,13 @@ defmodule Infin.SaftExport.SaftExporter do
     ])
 
     customer
+  end
+
+  def generate_customer_list([], final_list) do final_list end
+
+  def generate_customer_list([_head|tail], final_list) do
+    result_list = final_list ++ [generate_customer()]
+    generate_customer_list(tail, result_list)
   end
 
   #TODO: receive tax entry (app format) as argument to get the data from
