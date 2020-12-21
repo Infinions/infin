@@ -6,6 +6,8 @@ defmodule Infin.Importer do
   import Ecto.Query, warn: false
   alias Infin.Invoices
 
+  require Logger
+
   def import_invoices_pt(nif, password, start_date, end_date, company_id) do
     expected = %{
       "nif" => nif,
@@ -18,7 +20,7 @@ defmodule Infin.Importer do
     headers = %{"Content-type" => "application/json"}
 
     case HTTPoison.post(
-           Application.get_env(:infin, InfinWeb.Endpoint)[:pt_finances_url] <> "/invoices",
+           Application.get_env(:infin, InfinWeb.Endpoint)[:pt_invoices_url] <> "/invoices",
            {:stream, enumerable},
            headers
          ) do
@@ -31,13 +33,17 @@ defmodule Infin.Importer do
             {:ok, "Invoices imported"}
 
           400 ->
-            {:error, "Password incorrect"}
+            %HTTPoison.Response{body: body} = response
+            object = Jason.decode!(body)
+            {:error, object["message"]}
 
           _ ->
+            %{service: "pt_invoices", message: response} |> inspect() |> Logger.error
             {:error, "Service not available"}
         end
 
-      _ ->
+      {_, message} ->
+        message |> inspect() |> Logger.error
         {:error, "Service not available"}
     end
   end
