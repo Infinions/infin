@@ -1,4 +1,4 @@
-defmodule Infin.SaftExport.SaftExporter do
+defmodule Infin.SaftExporter do
 
   import XmlBuilder
 
@@ -19,7 +19,7 @@ defmodule Infin.SaftExport.SaftExporter do
 
     |> generate
 
-    File.write("test.xml", content)
+    File.write("saft.xml", content)
   end
 
 
