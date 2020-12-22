@@ -1,0 +1,27 @@
+<h1>Listing Pdfs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Pdf</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for pdf <- @pdfs do %>
+    <tr>
+      <td><%= pdf.title %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.pdf_path(@conn, :show, pdf) %></span>
+        <span><%= link "Edit", to: Routes.pdf_path(@conn, :edit, pdf) %></span>
+        <span><%= link "Delete", to: Routes.pdf_path(@conn, :delete, pdf), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Pdf", to: Routes.pdf_path(@conn, :new) %></span>

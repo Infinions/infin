@@ -1,0 +1,13 @@
+<h1>Show Pdf</h1>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @pdf.title %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.pdf_path(@conn, :edit, @pdf) %></span>
+<span><%= link "Back", to: Routes.pdf_path(@conn, :index) %></span>

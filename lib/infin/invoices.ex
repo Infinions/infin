@@ -59,7 +59,7 @@ defmodule Infin.Invoices do
   def get_invoice_with_relations(id) do
     id
     |> get_invoice()
-    |> Repo.preload([:company_seller, :tags, :category])
+    |> Repo.preload([:company_seller, :tags, :category, :pdf])
   end
 
   @doc """
@@ -95,7 +95,8 @@ defmodule Infin.Invoices do
       :company_id => company_id,
       :company_seller_id =>
         Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id,
-      :category_id => attrs["category_id"]
+      :category_id => attrs["category_id"],
+      :pdf_id => attrs["pdf_id"]
     }
 
     %Invoice{}
