@@ -1,5 +1,0 @@
-<h1>Edit Pdf</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.pdf_path(@conn, :update, @pdf)) %>
-
-<span><%= link "Back", to: Routes.pdf_path(@conn, :index) %></span>

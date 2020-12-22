@@ -96,7 +96,7 @@ defmodule Infin.Invoices do
       :company_seller_id =>
         Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id,
       :category_id => attrs["category_id"],
-      :pdf_id => attrs["pdf_id"]
+      :pdf_id => attrs["pdf"]
     }
 
     %Invoice{}
