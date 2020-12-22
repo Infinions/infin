@@ -2,18 +2,18 @@ defmodule Infin.SaftExport.SaftExporter do
 
   import XmlBuilder
 
-  def generate_XML() do
+  def generate_XML(invoice_list, customer_list) do
 
     content = element(:AuditFile,
         %{"\n\txmlns": "urn:OECD:StandardAuditFile-Tax:PT_1.04_01",
           "\n\txmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance"}, [
             generate_header(),
             element(:MasterFiles, [
-              generate_customer_list([1,2,3], []),
+              generate_customer_list(customer_list, []),
               generate_tax_table([1,2,3])
             ]),
             element(:SourceDocuments, [
-              generate_sales_invoices([1,2,3])
+              generate_sales_invoices(invoice_list)
             ])
           ])
 
@@ -59,14 +59,14 @@ defmodule Infin.SaftExport.SaftExporter do
     header
   end
 
-  #TODO: receive customer data (app format) as argument
-  def generate_customer() do
+
+  def generate_customer(customer) do
 
     customer = element(:Customer, [
       element(:CustomerID, ""),
-      element(:AccountID, ""),
+      element(:AccountID, customer.nif),
       element(:CustomerTaxID, ""),
-      element(:CompanyName, ""),
+      element(:CompanyName, customer.name),
       element(:BillingAddress, [
         element(:AddressDetail, ""),
         element(:City, ""),
@@ -81,8 +81,8 @@ defmodule Infin.SaftExport.SaftExporter do
 
   def generate_customer_list([], final_list) do final_list end
 
-  def generate_customer_list([_head|tail], final_list) do
-    result_list = final_list ++ [generate_customer()]
+  def generate_customer_list([head|tail], final_list) do
+    result_list = final_list ++ [generate_customer(head)]
     generate_customer_list(tail, result_list)
   end
 
@@ -128,10 +128,10 @@ defmodule Infin.SaftExport.SaftExporter do
   end
 
 
-  #TODO: receive an invoice (app format) as argument to get the data from
-  def generate_invoice() do
+
+  def generate_invoice(invoice) do
     invoice = element(:Invoice, [
-      element(:InvoiceNo, ""),
+      element(:InvoiceNo, invoice.id_document),
       element(:ATCUD, ""),
       element(:DocumentStatus, [
         element(:InvoiceStatus, ""),
@@ -139,18 +139,18 @@ defmodule Infin.SaftExport.SaftExporter do
         element(:SourceID, ""),
         element(:SourceBilling, ""),
       ]),
-      element(:Hash, ""),
+      element(:Hash, invoice.doc_hash),
       element(:HashControl, ""),
       element(:Period, ""),
-      element(:InvoiceDate, ""),
-      element(:InvoiceType, ""),
+      element(:InvoiceDate, invoice.doc_emission_date),
+      element(:InvoiceType, invoice.doc_type),
       element(:SpecialRegimes, [
         element(:SelfBillingIndicator, ""),
         element(:CashVATSchemeIndicator, ""),
         element(:ThirdPartiesBillingIndicator, ""),
       ]),
       element(:SourceID, ""),
-      element(:SystemEntryDate, ""),
+      element(:SystemEntryDate, invoice.doc_emission_date),
       element(:CustomerID, ""),
       element(:Line, [
         element(:LineNumber, ""),
@@ -171,16 +171,16 @@ defmodule Infin.SaftExport.SaftExporter do
         element(:SettlementAmount, ""),
       ]),
       element(:DocumentTotals, [
-        element(:TaxPayable, ""),
-        element(:NetTotal, ""),
-        element(:GrossTotal, ""),
+        element(:TaxPayable, Integer.to_string(invoice.total_tax_value)),
+        element(:NetTotal, Integer.to_string(invoice.total_base_value)),
+        element(:GrossTotal, Integer.to_string(invoice.total_value)),
         element(:Settlement, [
           element(:PaymentTerms, "")
         ]),
         element(:Payment, [
           element(:PaymentMechanism, ""),
-          element(:PaymentAmount, ""),
-          element(:PaymentDate, ""),
+          element(:PaymentAmount, Integer.to_string(invoice.total_value)),
+          element(:PaymentDate, invoice.doc_emission_date),
         ]),
       ]),
     ])
@@ -189,11 +189,10 @@ defmodule Infin.SaftExport.SaftExporter do
   end
 
 
-  #TODO: receive a list of invoices(app format) as argument
   def generate_invoice_list([], final_list) do final_list end
 
-  def generate_invoice_list([_head|tail], final_list) do
-    result_list = final_list ++ [generate_invoice()]
+  def generate_invoice_list([head|tail], final_list) do
+    result_list = final_list ++ [generate_invoice(head)]
     generate_invoice_list(tail, result_list)
   end
 
