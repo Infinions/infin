@@ -99,9 +99,6 @@ defmodule InfinWeb.InvoiceController do
             end
 
             invoice_params = check_for_pdf(conn, invoice_params)
-            if invoice_params["pdf"] != nil do
-              Invoices.update_invoice(invoice, %{"pdf_id" => invoice_params["pdf"]})
-            end
 
             case Invoices.update_invoice(invoice, invoice_params) do
               {:ok, invoice} ->
@@ -145,17 +142,19 @@ defmodule InfinWeb.InvoiceController do
   end
 
   defp check_for_pdf(conn, invoice_params) do
-    if invoice_params["pdf"] != nil do
+    if Map.has_key?(invoice_params, "pdf") do
       case Storage.create_pdf(%{pdf: invoice_params["pdf"]}) do
         {:ok, pdf} ->
-          IO.inspect(pdf.id)
-          %{invoice_params| "pdf" => pdf.id}
+          invoice_params = Map.put(invoice_params, "pdf_id", pdf.id)
+          IO.inspect(invoice_params)
 
         {:error, _changeset} ->
           conn
           |> put_flash(:error, "Error inserting pdf attachment.")
           |> redirect(to: Routes.invoice_path(conn, :new))
       end
+    else
+      invoice_params
     end
   end
 

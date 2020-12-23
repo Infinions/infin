@@ -26,6 +26,8 @@ defmodule InfinWeb.Endpoint do
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
+  plug Plug.Static, at: "/uploads", from: "uploads"
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
@@ -52,5 +54,4 @@ defmodule InfinWeb.Endpoint do
   plug Plug.Session, @session_options
   plug InfinWeb.Router
 
-  plug Plug.Static, at: "/uploads", from: "uploads"
 end

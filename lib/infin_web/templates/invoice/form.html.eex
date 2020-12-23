@@ -86,10 +86,13 @@
   </div>
 
   <div class="field">
+  <%= if contains_invoice? assigns do %>
+
     <%= if @invoice.pdf_id != nil do %>
     <a href="<%= Infin.Storage.File.url({ @invoice.pdf.pdf, @invoice.pdf }) %>" download>
     <%=@invoice.pdf.pdf.file_name %>
     </a>
+    <% end %>
     <%= file_input f, :pdf, class: "form-control" %>
     <%= error_tag f, :pdf %>
     <% else %>
