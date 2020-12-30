@@ -3,8 +3,6 @@
 // its own CSS file.
 import "../css/app.scss"
 
-import $ from "jquery";
-
 import "./nav"
 import "./register"
 
@@ -23,29 +21,8 @@ import "./modal"
 import "phoenix_html"
 import { Socket } from "phoenix"
 import NProgress from "nprogress"
-import { LiveSocket } from "phoenix_live_view"
-
-let Hooks = {}
-
-Hooks.PendingModal = {
-  mounted(){
-    const modal = $('.pending-modal');
-
-    $('.open-pending-modal').on('click', () => {
-        modal.show();
-    });
-
-    $('#close-btn').on('click', () => {
-      modal.hide();
-    })
-
-    $(window).on('click', event => {
-      if (event.target.className === 'modal-background') {
-          modal.hide();
-      }
-    });
-  }
-}
+import {LiveSocket} from "phoenix_live_view"
+import Hooks from "./hooks"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {

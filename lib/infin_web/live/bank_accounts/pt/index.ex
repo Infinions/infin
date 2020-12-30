@@ -1,7 +1,7 @@
 defmodule InfinWeb.BankAccountPTLive.Index do
   use InfinWeb, :live_view
 
-  alias Infin.BankAccounts.PT
+  alias Infin.BankAccounts.PT_Accounts
   alias Infin.Accounts
 
   @impl true
@@ -46,7 +46,7 @@ defmodule InfinWeb.BankAccountPTLive.Index do
   ### PRIVATE ###
 
   defp return(status, socket, company_id, page_number) do
-    page = PT.list_accounts(company_id, page_number)
+    page = PT_Accounts.list_accounts(company_id, page_number)
 
     {status,
      assign(socket, current: page.page_number, count: page.total_pages, accounts: page.entries)}

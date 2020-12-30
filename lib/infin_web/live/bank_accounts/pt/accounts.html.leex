@@ -45,11 +45,18 @@
       <div class="table-wrapper has-mobile-cards">
         <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
           <tbody>
+            <tr>
+              <td data-label="date"><b>Date</b></td>
+              <td data-label="description"><b>Description</b></td>
+              <td data-label="invoices"><b>Associated Invoices</b></td>
+              <td data-label="amount" align="right"><b>Amount</b></td>
+            </tr>
             <%= for transaction <- @transactions do %>
               <tr>
-                <td data-label="Date"><%= transaction.booking_date %></td>
-                <td data-label="Id"><%= transaction.remittance_information %></td>
-                <td data-label="Amount" align="right"><%= Decimal.new(transaction.amount) |> Decimal.div(100) |> Decimal.round(2) %> <%= @account.currency %></td>
+                <td data-label="date"><%= transaction.booking_date %></td>
+                <td data-label="description"><%= transaction.remittance_information %></td>
+                <td data-label="invoices"><%= raw(parse_list(transaction.invoices)) %></td>
+                <td data-label="amount" align="right"><%= Decimal.new(transaction.amount) |> Decimal.div(100) |> Decimal.round(2) %> <%= @account.currency %></td>
               </tr>
             <% end %>
           </tbody>
@@ -85,3 +92,40 @@
     <button type="button" class="button is-danger level-item" phx-click="delete">Delete</button>
   </div>
 </div>
+
+<%= if assigns[:invoice] do %>
+<div class="modal is-active pt-6">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Invoice <%= @invoice.id_document %></p>
+      <button class="delete" aria-label="close" phx-click="hide_invoice"></button>
+    </header>
+    <section class="modal-card-body">
+      <fieldset disabled>
+        <div class="field">
+          <label class="label">Value</label>
+          <div class="control">
+            <input class="input" value="<%= get_total_value(@invoice) %>€">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Date</label>
+          <div class="control">
+            <input class="input" value="<%= @invoice.doc_emission_date %>">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Seller</label>
+          <div class="control">
+            <input class="input" value="<%= @invoice.company_seller.name %> (<%= @invoice.company_seller.nif %>)">
+          </div>
+        </div>
+      </fieldset>
+    </section>
+    <footer class="modal-card-foot"></footer>
+  </div>
+</div>
+<% end %>

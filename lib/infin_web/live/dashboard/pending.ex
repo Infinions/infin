@@ -2,12 +2,12 @@ defmodule InfinWeb.DashboardLive.Pending do
   use Phoenix.LiveComponent
 
   alias Infin.Invoices
-  alias Infin.BankAccounts.PT
+  alias Infin.BankAccounts.PT_Transactions
 
   @impl true
   def update(assigns, socket) do
     transactions_page =
-      PT.list_pending_transactions(
+      PT_Transactions.list_pending_transactions(
         assigns.company_id,
         assigns.transactions_page_number
       )
