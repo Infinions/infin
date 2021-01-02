@@ -2,7 +2,7 @@
   <div class="tile is-parent">
     <%= live_component(@socket, InfinWeb.DashboardLive.Cards, id: "#{@company_id}-cards", company_id: @company_id) %>
   </div>
-  <div class="tile is-parent">
+  <div class="tile is-parent is-vertical">
     <%= live_component(@socket, InfinWeb.DashboardLive.Graph, id: "#{@company_id}-graph", company_id: @company_id) %>
   </div>
   <div class="tile is-parent">
