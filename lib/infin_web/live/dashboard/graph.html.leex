@@ -1,5 +1,55 @@
 <div class="tile is-child box">
-  <div class="notification is-info is-light has-text-centered" style="height: 500px">
-      <p class="is-size-3">Cool graph</p>
+  <div class="notification is-info is-light has-text-left" style="height: 500px">
+    <div id="nif" data-value="<%=@company_nif%>">
+    <div class="columns">
+      <div class="column">
+        <p class="is-size-4">Invoices Statistics</p>
+        <hr>
+        <div class="chart-container column">
+          <canvas id="lineChart"  width="500" height="300"></canvas>
+        </div>
+        <div class="dropdown is-hoverable is-fullwidth" align="left">
+          <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+              <span>Graphic Type</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+            <div class="dropdown-content">
+              <a class="dropdown-item" id="n_invoices_client">
+                Number of invoices / Client
+              </a>
+              <a class="dropdown-item" id="n_invoices_category">
+                Number of invoices / Category
+              </a>
+              <a class="dropdown-item" id="sum_invoices">
+                Sum of invoices
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <p class="is-size-4">Costs Prevision</p>
+        <hr>
+        <div class="chart-container column">
+          <canvas id="lineChartPrevisions"  width="500" height="300"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="tile is-child box">
+  <div class="notification is-info is-light has-text-centered" style="height: 450px">
+      <p class="is-size-4">Year Costs and earnings</p>
+      <hr>
+      <div class="chart-container is-inline-block">
+        <canvas id="pieChart" class="chart-container"  width="500" height="300"></canvas>
+      </div>
   </div>
 </div>
