@@ -9,6 +9,7 @@ defmodule Infin.Invoices do
   alias Infin.Invoices.Invoice
   alias Infin.Invoices.Tag
   alias Infin.Companies
+  alias Infin.BankAccounts.PT.InvoiceTransaction
 
   @doc """
   Returns the list of invoices.
@@ -36,6 +37,17 @@ defmodule Infin.Invoices do
       )
 
     Repo.paginate(query, params)
+  end
+
+  def list_company_invoices_unassociated(company_id, page_number) do
+    Invoice
+    |> where(company_id: ^company_id)
+    |> join(:left, [i], ti in InvoiceTransaction,
+      on: i.id == ti.invoice_id
+    )
+    |> where([i, ti], is_nil(ti.invoice_id))
+    |> preload([:company_seller])
+    |> Repo.paginate(page: page_number)
   end
 
   @doc """

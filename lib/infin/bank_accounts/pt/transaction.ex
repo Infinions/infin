@@ -6,7 +6,7 @@ defmodule Infin.BankAccounts.PT.Transaction do
   alias Infin.Repo
 
   schema "transactions" do
-    field :amount, :string
+    field :amount, :integer
     field :booking_date, :date
     field :creditor_name, :string
     field :remittance_information, :string

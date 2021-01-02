@@ -1,12 +1,25 @@
-<div class="buttons">
-  <%= if @current_user do %>
-    <%= link "#{@current_user.email}", to: Routes.user_settings_path(@conn, :edit), class: "button is-primary" %>
-    <%= if @current_user.company do %>
-        <%= link "#{@current_user.company.name}", to: Routes.company_path(@conn, :show, @current_user.company), class: "button is-primary" %>
-    <% end %>
-    <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "button is-light" %>
-  <% else %>
-    <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "button is-primary" %>
-    <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "button is-light" %>
-  <% end %>
-</div>
+<%= if @current_user do %>
+  <div class="navbar-item has-dropdown is-hoverable">
+    <a class="navbar-link">Settings</a>
+
+    <div class="navbar-dropdown">
+      <%= link "Bank Accounts", to: Routes.bank_account_pt_index_path(@conn, :index), class: "navbar-item" %>
+
+      <%= link "User", to: Routes.user_settings_path(@conn, :edit), class: "navbar-item" %>
+
+      <%= if @current_user.company do %>
+        <%= link "Company", to: Routes.company_path(@conn, :show, @current_user.company), class: "navbar-item" %>
+      <% end %>
+
+      <%= link "Log out", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "navbar-item" %>
+    </div>
+
+  </div>
+<% else %>
+  <div class="navbar-item">
+    <div class="buttons">
+      <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "button is-primary" %>
+      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "button is-light" %>
+    </div>
+  </div>
+<% end %>
