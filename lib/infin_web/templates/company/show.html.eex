@@ -5,7 +5,7 @@
   <%= render "form.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
 </div>
 
-    <button class="button is-primary" id='modal-btn'>Add User</button>
+<button class="button is-primary" id='modal-btn'>Add User</button>
 
 
 <%= render InfinWeb.CategoryView, "index.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
@@ -18,13 +18,7 @@
       <button class="delete" aria-label="close" id="close-btn"></button>
     </header>
     <section class="modal-card-body">
-      <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f_account -> %>
-
-      <%= if @changeset.action do %>
-      <div class="notification is-danger">
-        <p>Oops, something went wrong! Please check the errors below.</p>
-      </div>
-      <% end %>
+      <%= form_for @changeset, Routes.add_user_to_company_path(@conn, :add_user), fn fa -> %>
 
       <div class="steps-content">
         <div class="step-content has-text-centered is-active">
@@ -33,15 +27,15 @@
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
-              <%= if has_error(f_account, :email) do %>
-              <%= email_input f_account, :email, required: true, placeholder: 'Email', class: "input is-danger" %>
+              <%= if has_error(fa, :email) do %>
+              <%= email_input fa, :email, required: true, placeholder: 'Email', class: "input is-danger" %>
               <span class="icon is-small is-right">
                 <i class="fas fa-exclamation-triangle"></i>
               </span>
               <% else %>
-              <%= email_input f_account, :email, required: true, placeholder: 'Email', class: "input" %>
+              <%= email_input fa, :email, required: true, placeholder: 'Email', class: "input" %>
               <% end %>
-              <%= error_tag f_account, :email %>
+              <%= error_tag fa, :email %>
             </div>
           </div>
 
@@ -50,15 +44,15 @@
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
-              <%= if has_error(f_account, :password) do %>
-              <%= password_input f_account, :password, required: true, placeholder: 'Password', class: "input is-danger" %>
+              <%= if has_error(fa, :password) do %>
+              <%= password_input fa, :password, required: true, placeholder: 'Password', class: "input is-danger" %>
               <span class="icon is-small is-right">
                 <i class="fas fa-exclamation-triangle"></i>
               </span>
               <% else %>
-              <%= password_input f_account, :password, required: true, placeholder: 'Password', class: "input" %>
+              <%= password_input fa, :password, required: true, placeholder: 'Password', class: "input" %>
               <% end %>
-              <%= error_tag f_account, :password %>
+              <%= error_tag fa, :password %>
             </div>
           </div>
 
@@ -67,21 +61,21 @@
               <span class="icon is-small is-left">
                 <i class="fas fa-lock"></i>
               </span>
-              <%= if has_error(f_account, :password_confirmation) do %>
-              <%= password_input f_account, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input is-danger" %>
+              <%= if has_error(fa, :password_confirmation) do %>
+              <%= password_input fa, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input is-danger" %>
               <span class="icon is-small is-right">
                 <i class="fas fa-exclamation-triangle"></i>
               </span>
               <% else %>
-              <%= password_input f_account, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input" %>
+              <%= password_input fa, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input" %>
               <% end %>
-              <%= error_tag f_account, :password_confirmation %>
+              <%= error_tag fa, :password_confirmation %>
             </div>
           </div>
           <div class="step-content has-text-centered mt-5">
             <%= submit "Register", class: "button is-primary is-fullwidth" %>
           </div>
+          <% end %>
     </section>
-    <% end %>
   </div>
 </div>
