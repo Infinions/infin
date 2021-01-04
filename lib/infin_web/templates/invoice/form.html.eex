@@ -86,7 +86,7 @@
   </div>
 
   <div class="field">
-    <%= label f, :pdf, "Invoice PDF", class: "label is-floating-label" %>
+    <%= label f, :pdf, "Invoice File", class: "label is-floating-label" %>
     <div id="file" class="file has-name is-fullwidth">
       <label class="file-label">
         <%= file_input f, :pdf, class: "file-input", type: "file" %>

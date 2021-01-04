@@ -102,7 +102,6 @@ defmodule InfinWeb.InvoiceController do
 
             case Invoices.update_invoice(invoice, invoice_params) do
               {:ok, invoice} ->
-                IO.inspect(invoice)
                 conn
                 |> put_flash(:info, "Invoice updated successfully.")
                 |> redirect(to: Routes.invoice_path(conn, :show, invoice))
