@@ -82,12 +82,12 @@ function makeGraphic(type) {
     } else if (type == "sum_invoices") {
         actual_query = "{sum_invoices(nif: \"" + nif + "\", delta: \"M\")}"
     } else if (type == "predict_future") {
-        actual_query = "{predict_future(nif: \"" + nif + "\", time: 1, delta: \"M\")}"
+        actual_query = "{predict_future(nif: \"" + nif + "\", time: 4, delta: \"M\")}"
     }
 
     $.ajax({
         url: apiAccess,
-        async: false,
+        async: true,
         method: "POST",
         headers: {
             "Accept": "application/json",
@@ -155,7 +155,6 @@ function makeGraphic(type) {
     });
 }
 
-makeGraphic('predict_future');
 makeGraphic('sum_invoices');
 
 const category = document.querySelector('#n_invoices_category');
@@ -172,4 +171,14 @@ client.addEventListener('click', () => {
 
 sum.addEventListener('click', () => {
     makeGraphic('sum_invoices');
+});
+
+$(function(){
+    $("#prev").hide();
+    $("#preview").on("click", function(){
+        makeGraphic('predict_future');
+        $("#prev").show();
+        $("#preview").hide();
+    });
+    console.log("hide/show")
 });
