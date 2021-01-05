@@ -1,0 +1,56 @@
+<div class="container py-5">
+  <p class="is-size-4 mb-5">Costs</p>
+  <%= if length(@costs) > 0 do %>
+    <div class="b-table has-pagination">
+      <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
+          <tbody>
+            <tr>
+              <td data-label="value"><b>Total Value (EUR)</b></td>
+              <td data-label="date"><b>Date</b></td>
+              <td data-label="description"><b>Description</b></td>
+              <td class="has-text-centered"></td>
+            </tr>
+            <%= for cost <- @costs do %>
+              <tr>
+                  <td data-label="value"><%= get_value(cost) %></td>
+                  <td data-label="date"><%= cost.date %></td>
+                  <td data-label="description"><%= cost.description %></td>
+                  <td class="has-text-centered" data-label="total_value">
+                    <%= link ">", to: Routes.cost_path(@conn, :show, cost), class: "button is-primary" %>
+                  </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="notification">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <div class="buttons has-addons">
+              <%= link "<",
+                class: "button",
+                disabled: @page.page_number == 1,
+                to: Routes.cost_path(@conn, :index, page: @page.page_number - 1) %>
+              <%= link ">",
+                class: "button",
+                disabled: @page.page_number == @page.total_pages,
+                to: Routes.cost_path(@conn, :index, page: @page.page_number + 1) %>
+            </div>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <small>Page <%= @page.page_number %> of <%= @page.total_pages %></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="notification">No Costs registered</div>
+  <% end %>
+  <div class="buttons">
+    <%= link "New Cost", to: Routes.cost_path(@conn, :new), class: "button is-primary" %>
+  </div>
