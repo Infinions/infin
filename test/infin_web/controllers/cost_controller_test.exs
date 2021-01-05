@@ -24,7 +24,7 @@ defmodule InfinWeb.CostControllerTest do
   describe "new cost" do
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.cost_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Cost"
+      assert html_response(conn, 200) =~ "New Expense"
     end
   end
 
@@ -41,7 +41,7 @@ defmodule InfinWeb.CostControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.cost_path(conn, :create), cost: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Cost"
+      assert html_response(conn, 200) =~ "New Expense"
     end
   end
 
