@@ -25,7 +25,13 @@
               <option value="Y">Year</option>
             </select>
           </div>
-          <button id="preview" class="button">Show Prevision</button>
+          <div id="dropdown_options" class="select">
+            <select>
+              <option value="">Options</option>
+              <option value="true">Number</option>
+              <option value="false">Value</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
@@ -37,6 +43,7 @@
           <div class="chart-container is-inline-block">
             <canvas id="pieChart" class="chart-container"  width="500" height="300"></canvas>
           </div>
+          <button id="preview" class="button">Show Prevision</button>
         </div>
       </div>
     </div>

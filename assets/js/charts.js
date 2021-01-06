@@ -4,6 +4,7 @@ import $ from "jquery";
 var delta = 'M';
 var graph_type = "sum_invoices";
 var time = 7;
+var is_count = true;
 
 function lineChart(label_values, result){
     new Chart(document.getElementById("lineChart"), {
@@ -81,9 +82,9 @@ function makeGraphic() {
     var type = graph_type
     console.log(delta)
     if(type == "n_invoices_category") {
-        actual_query = "{n_invoices_category(nif: \"" + nif + "\", delta: \"" + delta + "\")}"
+        actual_query = "{n_invoices_category(nif: \"" + nif + "\", is_count: " + is_count + ", delta: \"" + delta + "\")}"
     } else if (type == "n_invoices_client") {
-        actual_query = "{n_invoices_client(nif: \"" + nif + "\", delta: \"" + delta + "\")}"
+        actual_query = "{n_invoices_client(nif: \"" + nif + "\", is_count: " + is_count + ", delta: \"" + delta + "\")}"
     } else if (type == "sum_invoices") {
         actual_query = "{sum_invoices(nif: \"" + nif + "\", delta: \"" + delta + "\")}"
     } else if (type == "predict_future") {
@@ -199,6 +200,15 @@ $('#dropdown_time').change(function() {
         } else if (value == 1) {
             time = 365
         }
+        makeGraphic();
+    }
+});
+
+$('#dropdown_options').change(function() {
+    var $option = $(this).find('option:selected');
+    var value = $option.val();
+    if(value !== ""){
+        is_count = value;
         makeGraphic();
     }
 });
