@@ -1,39 +1,37 @@
-<div class="tile is-child box">
-  <div class="notification is-info is-light has-text-centered" style="height: 500px">
-    <div id="nif" data-value="<%=@company_nif%>">
-      <div class="columns">
-        <div class="column">
+<div class="tile is-child">
+<div id="nif" data-value="<%=@company_nif%>">
+  <div class="columns">
+    <div class="column">
+      <div class="tile is-child box">
+        <div class="is-info is-light has-text-centered" style="height: 450px">
           <p class="is-size-4">Invoices Statistics</p>
           <hr>
           <div class="chart-container is-inline-block">
             <canvas id="lineChart" width="500" height="300"></canvas>
           </div>
-          <div class="dropdown is-hoverable is-fullwidth" align="left">
-            <div class="dropdown-trigger">
-              <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-                <span>Graphic Type</span>
-                <span class="icon is-small">
-                  <i class="fas fa-angle-down" aria-hidden="true"></i>
-                </span>
-              </button>
-            </div>
-            <div class="dropdown-menu" id="dropdown-menu4" role="menu">
-              <div class="dropdown-content">
-                <a class="dropdown-item" id="n_invoices_client">
-                  Number of invoices / Client
-                </a>
-                <a class="dropdown-item" id="n_invoices_category">
-                  Number of invoices / Category
-                </a>
-                <a class="dropdown-item" id="sum_invoices">
-                  Sum of invoices
-                </a>
-              </div>
-            </div>
+          <div id="dropdown_type" class="select">
+            <select>
+              <option value="">Graphic Type</option>
+              <option value="n_invoices_client">Invoices/Client</option>
+              <option value="n_invoices_category">Invoices/Category</option>
+              <option value="sum_invoices">Sum of invoices</option>
+            </select>
+          </div>
+          <div id="dropdown_delta" class="select">
+            <select>
+              <option value="">Delta Value</option>
+              <option value="D">Day</option>
+              <option value="M">Month</option>
+              <option value="Y">Year</option>
+            </select>
           </div>
           <button id="preview" class="button">Show Prevision</button>
         </div>
-        <div class="column">
+      </div>
+    </div>
+    <div class="column">
+      <div class="tile is-child box">
+        <div class="is-info is-light has-text-centered" style="height: 450px">
           <p class="is-size-4">Year Costs and earnings</p>
           <hr>
           <div class="chart-container is-inline-block">
@@ -44,13 +42,24 @@
     </div>
   </div>
 </div>
+</div>
 
 <div id="prev" class="tile is-child box" style="display:none">
-  <div class="notification is-info is-light has-text-centered" style="height: 450px">
+  <div class="is-info is-light has-text-centered" style="height: 550px">
     <p class="is-size-4">Costs Prevision</p>
     <hr>
     <div class="chart-container is-inline-block">
-      <canvas id="lineChartPrevisions"  width="500" height="300"></canvas>
+      <canvas id="lineChartPrevisions"  width="600" height="400"></canvas>
+    </div>
+    <br>
+    <div id="dropdown_time" class="select" align="bottom">
+      <select>
+        <option value="">Time</option>
+        <option value="7">7 days</option>
+        <option value="15">15 days</option>
+        <option value="6">6 months</option>
+        <option value="1">1 year</option>
+      </select>
     </div>
   </div>
 </div>
