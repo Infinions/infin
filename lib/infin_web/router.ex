@@ -85,7 +85,7 @@ defmodule InfinWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     post "/pt/invoices/import", InvoiceImporterController, :import_invoices_pt
-    post "/adduser", AddUserToCompanyController, :add_user
+    put "/adduser", AddUserToCompanyController, :add_user
 
 
     resources "/companies", CompanyController, only: [:show, :update]
