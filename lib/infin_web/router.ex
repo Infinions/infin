@@ -60,7 +60,7 @@ defmodule InfinWeb.Router do
     put "/users/settings/update_password", UserSettingsController, :update_password
     put "/users/settings/update_email", UserSettingsController, :update_email
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
-    post "/adduser", AddUserToCompanyController, :add_user
+    put "/adduser", AddUserToCompanyController, :add_user
 
     live "/pt/bank_accounts", BankAccountPTLive.Index, :index
     live "/pt/bank_accounts/banks", BankAccountPTLive.Banks, :index
@@ -85,7 +85,6 @@ defmodule InfinWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     post "/pt/invoices/import", InvoiceImporterController, :import_invoices_pt
-    put "/adduser", AddUserToCompanyController, :add_user
 
 
     resources "/companies", CompanyController, only: [:show, :update]
