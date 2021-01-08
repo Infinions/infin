@@ -92,6 +92,7 @@ defmodule InfinWeb.Router do
     resources "/tags", TagController, except: [:edit]
     resources "/categories", CategoryController, except: [:index, :edit]
     resources "/incomes", IncomeController
-
+    resources "/costs", CostController
+    
   end
 end

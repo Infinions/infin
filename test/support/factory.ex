@@ -4,6 +4,7 @@ defmodule Infin.Factory do
   alias Infin.Companies.{Company, Category}
   alias Infin.Invoices.{Invoice, Tag}
   alias Infin.Revenue.Income
+  alias Infin.Costs.Cost
 
   def company_factory do
     %Company{
@@ -61,6 +62,15 @@ defmodule Infin.Factory do
 
   def income_factory do
     %Income{
+      value: :rand.uniform(100),
+      date: sequence("string"),
+      description: sequence("string"),
+      company_id: build(:company)
+    }
+  end
+
+  def cost_factory do
+    %Cost{
       value: :rand.uniform(100),
       date: sequence("string"),
       description: sequence("string"),
