@@ -7,6 +7,7 @@ var time = 7;
 var is_count = true;
 
 function lineChart(label_values, result){
+
     new Chart(document.getElementById("lineChart"), {
         type: 'line',
         responsive: true,
@@ -22,7 +23,10 @@ function lineChart(label_values, result){
 }
 
 function barChart(label_values, data){
-    var myChart = new Chart(document.getElementById("lineChartPrevisions"), {
+    $("#progress").hide();
+    $("#prevision").show();
+
+    new Chart(document.getElementById("lineChartPrevisions"), {
         type: 'bar',
         data: {
             labels: label_values,
@@ -40,6 +44,7 @@ function barChart(label_values, data){
 }
 
 function pieChart(costs, earnings) {
+    $("#pieChartError").hide();
 
     new Chart(document.getElementById("pieChart"), {
         type: 'doughnut',
@@ -71,17 +76,15 @@ var dynamicColors = function() {
     var r = Math.floor(Math.random() * 255);
     var g = Math.floor(Math.random() * 255);
     var b = Math.floor(Math.random() * 255);
+
     return "rgb(" + r + "," + g + "," + b + ")";
 }
 
-function makeGraphic() {
-    var apiAccess = 'http://localhost:5600/graphql';
+function get_query(type) {
     var nif = $('#nif').data('value');
     var actual_query;
-    var result = [];
-    var type = graph_type
-    console.log(delta)
-    if(type == "n_invoices_category") {
+
+    if (type == "n_invoices_category") {
         actual_query = "{n_invoices_category(nif: \"" + nif + "\", is_count: " + is_count + ", delta: \"" + delta + "\")}"
     } else if (type == "n_invoices_client") {
         actual_query = "{n_invoices_client(nif: \"" + nif + "\", is_count: " + is_count + ", delta: \"" + delta + "\")}"
@@ -90,6 +93,65 @@ function makeGraphic() {
     } else if (type == "predict_future") {
         actual_query = "{predict_future(nif: \"" + nif + "\", time: " + time + ", delta: \"D\")}"
     }
+
+    return actual_query;
+}
+
+function graphicInvoices(data) {
+    var result = [];
+    var dict = {};
+
+    if ( data.categories !== undefined ) {
+        dict = data.categories
+    } else {
+        dict = data.companies
+    }
+
+    for (var key in dict) {
+        result.push({
+            data: dict[key],
+            label: key,
+            fill: false,
+            borderColor: dynamicColors(),
+            borderWidth: 2
+        });
+    }
+
+    lineChart(data.dates, result);
+}
+
+function graphicSumInvoices(data) {
+    $("#generalChartError").hide();
+    
+    var result = [];
+
+    result.push({
+        data: data.costs_values,
+        label: "Costs",
+        fill: false,
+        borderColor: dynamicColors(),
+        borderWidth: 2
+    });
+    result.push({
+        data: data.gains_values,
+        label: "Gains",
+        fill: false,
+        borderColor: dynamicColors(),
+        borderWidth: 2
+    });
+
+    lineChart(data.dates, result);
+}
+
+function show_error() {
+    $("#progress").hide();
+    $("#prevision").show();
+    $("#prevChartError").show();
+}
+
+function makeGraphic() {
+    var apiAccess = 'http://localhost:5600/graphql';
+    var type = graph_type;
 
     $.ajax({
         url: apiAccess,
@@ -100,62 +162,35 @@ function makeGraphic() {
             "Content-Type": "application/json"
         },
         data: JSON.stringify({
-            query: actual_query
+            query: get_query(type)
         }),
         dataType: 'json',
         success: function(data) {
             if(type == "n_invoices_category") {
                 data = JSON.parse(data.data.n_invoices_category)
-                for (var key in data.categories) {
-                    result.push({
-                        data: data.categories[key],
-                        label: key,
-                        fill: false,
-                        borderColor: dynamicColors(),
-                        borderWidth: 2
-                    });
+                if (data !== null) {
+                    graphicInvoices(data)
                 }
-                lineChart(data.dates, result);
-                result = [];
             } else if(type == "predict_future") {
-                console.log("im in")
                 data = JSON.parse(data.data.predict_future)
-                barChart(data.dates, data.total_value);
+                if (data !== null) {
+                    barChart(data.dates, data.total_value);
+                } else {
+                    show_error();
+                }
             } else if (type == "n_invoices_client") {
                 data = JSON.parse(data.data.n_invoices_client)
-                for (var key in data.companies) {
-                    result.push({
-                        data: data.companies[key],
-                        label: key,
-                        fill: false,
-                        borderColor: dynamicColors(),
-                        borderWidth: 2
-                    });
+                if (data !== null) {
+                    graphicInvoices(data)
                 }
-                lineChart(data.dates, result);
-                result = [];
             } else if (type == "sum_invoices") {
                 data = JSON.parse(data.data.sum_invoices);
-                result.push({
-                    data: data.costs_values,
-                    label: "Costs",
-                    fill: false,
-                    borderColor: dynamicColors(),
-                    borderWidth: 2
-                });
-                result.push({
-                    data: data.gains_values,
-                    label: "Gains",
-                    fill: false,
-                    borderColor: dynamicColors(),
-                    borderWidth: 2
-                });
-                console.log("line", data)
-                lineChart(data.dates, result);
-                result = [];
-                var total_costs = data.costs_values.reduce((a, b) => a + b, 0);
-                var total_gains = data.gains_values.reduce((a, b) => a + b, 0);
-                pieChart(total_costs, total_gains);
+                if (data !== null && data.dates.length > 0) {
+                    graphicSumInvoices(data)
+                    var total_costs = data.costs_values.reduce((a, b) => a + b, 0);
+                    var total_gains = data.gains_values.reduce((a, b) => a + b, 0);
+                    pieChart(total_costs, total_gains);
+                }
             }
         }
     });
@@ -168,46 +203,59 @@ $(function(){
     $("#preview").on("click", function(){
         graph_type = 'predict_future';
         makeGraphic();
+        $("#prevision").hide();
         $("#prev").show();
+        $("#prevChartError").hide();
         $("#preview").hide();
     });
 });
 
-$('#dropdown_type').change(function() {
+var select_type = document.getElementById('dropdown_type');
+var select_delta = document.getElementById('dropdown_delta');
+var select_time = document.getElementById('dropdown_time');
+var select_options = document.getElementById('dropdown_options');
+
+(select_type.onchange = function() {   
     var $option = $(this).find('option:selected');
     var value = $option.val();
-    if(value !== ""){
+
+    if (value !== "") {
         graph_type = value;
         makeGraphic();
     }
 });
 
-$('#dropdown_delta').change(function() {
+(select_delta.onchange = function() {   
     var $option = $(this).find('option:selected');
     var value = $option.val();
-    if(value !== ""){
+
+    if (value !== "") {
         delta = value;
         makeGraphic();
     }
 });
 
-$('#dropdown_time').change(function() {
+(select_time.onchange = function() {   
     var $option = $(this).find('option:selected');
     var value = $option.val();
-    if(value !== ""){
+
+    if (value !== "") {
         if (value == 6) {
             time = value * 30;
         } else if (value == 1) {
             time = 365
         }
         makeGraphic();
+        $("#progress").show();
+        $("#prevision").hide();
     }
 });
 
-$('#dropdown_options').change(function() {
+(select_options.onchange = function() {   
     var $option = $(this).find('option:selected');
     var value = $option.val();
-    if(value !== ""){
+
+    if (value !== "") {
         is_count = value;
         makeGraphic();
     }
