@@ -5,4 +5,77 @@
   <%= render "form.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
 </div>
 
+<button class="button is-primary" id='modal-btn'>Add User</button>
+
+
 <%= render InfinWeb.CategoryView, "index.html", Map.put(assigns, :action, Routes.company_path(@conn, :update, @company)) %>
+
+<div class="modal pt-6">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Register User</p>
+      <button class="delete" aria-label="close" id="close-btn"></button>
+    </header>
+    <section class="modal-card-body">
+      <%= form_for @changeset, Routes.add_user_to_company_path(@conn, :add_user), fn fa -> %>
+
+      <div class="steps-content">
+        <div class="step-content has-text-centered is-active">
+          <div class="field py-1">
+            <div class="control has-icons-left has-icons-right">
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+              <%= if has_error(fa, :email) do %>
+              <%= email_input fa, :email, required: true, placeholder: 'Email', class: "input is-danger" %>
+              <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+              <% else %>
+              <%= email_input fa, :email, required: true, placeholder: 'Email', class: "input" %>
+              <% end %>
+              <%= error_tag fa, :email %>
+            </div>
+          </div>
+
+          <div class="field py-1">
+            <div class="control has-icons-left has-icons-right ">
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+              <%= if has_error(fa, :password) do %>
+              <%= password_input fa, :password, required: true, placeholder: 'Password', class: "input is-danger" %>
+              <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+              <% else %>
+              <%= password_input fa, :password, required: true, placeholder: 'Password', class: "input" %>
+              <% end %>
+              <%= error_tag fa, :password %>
+            </div>
+          </div>
+
+          <div class="field py-1">
+            <div class="control has-icons-left has-icons-right">
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+              <%= if has_error(fa, :password_confirmation) do %>
+              <%= password_input fa, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input is-danger" %>
+              <span class="icon is-small is-right">
+                <i class="fas fa-exclamation-triangle"></i>
+              </span>
+              <% else %>
+              <%= password_input fa, :password_confirmation, required: true, placeholder: 'Password Confirmation', class: "input" %>
+              <% end %>
+              <%= error_tag fa, :password_confirmation %>
+            </div>
+          </div>
+          <div class="step-content has-text-centered mt-5">
+            <%= submit "Register", class: "button is-primary is-fullwidth" %>
+          </div>
+          <% end %>
+    </section>
+  </div>
+</div>

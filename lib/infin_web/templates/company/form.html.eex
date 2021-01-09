@@ -1,43 +1,43 @@
 <%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
-    </div>
-  <% end %>
+<%= if @changeset.action do %>
+<div class="alert alert-danger">
+  <p>Oops, something went wrong! Please check the errors below.</p>
+</div>
+<% end %>
 
-  <div class="field">
-    <%= label f, :name, "Name", class: "label" %>
-    <div class="control has-icons-left has-icons-right">
+<div class="field">
+  <%= label f, :name, "Name", class: "label" %>
+  <div class="control has-icons-left has-icons-right">
+    <span class="icon is-small is-left">
+      <i class="fas fa-building"></i>
+    </span>
+    <%= if has_error(f, :name) do %>
+    <%= text_input f, :name, required: true, class: "input is-danger" %>
+    <span class="icon is-small is-right">
+      <i class="fas fa-exclamation-triangle"></i>
+    </span>
+    <% else %>
+    <%= text_input f, :name, required: true, class: "input" %>
+    <% end %>
+    <%= error_tag f, :name %>
+  </div>
+</div>
+
+<div class="field">
+  <fieldset disabled>
+    <%= label f, :company_nif, "Tax Id", class: "label" %>
+    <div class="control has-icons-left">
       <span class="icon is-small is-left">
-        <i class="fas fa-building"></i>
+        <i class="fas fa-file-invoice-dollar"></i>
       </span>
-      <%= if has_error(f, :name) do %>
-        <%= text_input f, :name, required: true, class: "input is-danger" %>
-        <span class="icon is-small is-right">
-          <i class="fas fa-exclamation-triangle"></i>
-        </span>
-      <% else %>
-        <%= text_input f, :name, required: true, class: "input" %>
-      <% end %>
-      <%= error_tag f, :name %>
+      <%= text_input f, :nif, required: true, class: "input" %>
     </div>
-  </div>
+  </fieldset>
+</div>
 
-  <div class="field">
-    <fieldset disabled>
-      <%= label f, :company_nif, "Tax Id", class: "label" %>
-      <div class="control has-icons-left">
-        <span class="icon is-small is-left">
-          <i class="fas fa-file-invoice-dollar"></i>
-        </span>
-        <%= text_input f, :nif, required: true, class: "input" %>
-      </div>
-    </fieldset>
+<div class="field">
+  <div class="control">
+    <%= submit "Update", class: "button is-primary" %>
   </div>
-
-  <div class="field">
-    <div class="control">
-      <%= submit "Update", class: "button is-primary" %>
-    </div>
-  </div>
+</div>
 <% end %>
