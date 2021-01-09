@@ -74,14 +74,16 @@ defmodule Infin.MixProject do
       ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      dev: [
+      "docker.up": [
         "cmd docker login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
         "cmd docker-compose up -d"
       ],
-      dev_podman: [
+      "docker.down": ["cmd docker-compose down"],
+      "podman.up": [
         "cmd podman login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
         "cmd podman-compose up -d"
-      ]
+      ],
+      "podman.down": ["cmd podman-compose down"]
     ]
   end
 end
