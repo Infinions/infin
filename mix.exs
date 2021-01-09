@@ -73,7 +73,15 @@ defmodule Infin.MixProject do
         "run priv/repo/banks.exs"
       ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      dev: [
+        "cmd docker login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
+        "cmd docker-compose up -d"
+      ],
+      dev_podman: [
+        "cmd podman login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
+        "cmd podman-compose up -d"
+      ]
     ]
   end
 end
