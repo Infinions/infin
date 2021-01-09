@@ -4,6 +4,7 @@ defmodule InfinWeb.InvoiceController do
   alias Infin.Invoices
   alias Infin.Invoices.Invoice
   alias Infin.Companies
+  alias Infin.Storage
 
   def index(conn, params, company_id) do
     page = Invoices.list_company_invoices(company_id, params)
@@ -34,6 +35,8 @@ defmodule InfinWeb.InvoiceController do
         )
     end
 
+    invoice_params = check_for_pdf(conn, invoice_params)
+
     case Invoices.create_invoice(invoice_params, company_id) do
       {:ok, invoice} ->
 
@@ -59,7 +62,6 @@ defmodule InfinWeb.InvoiceController do
               Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
 
             changeset = Invoices.change_invoice(invoice)
-
             render(conn, "show.html",
               invoice: invoice,
               changeset: changeset,
@@ -88,17 +90,18 @@ defmodule InfinWeb.InvoiceController do
 
             invoice_params = Map.replace!(invoice_params, "total_value", total_value)
 
-            invoice_params =
+            if invoice_params["category_id"] != nil do
               Map.replace!(
                 invoice_params,
                 "category_id",
                 String.to_integer(invoice_params["category_id"])
               )
+            end
+
+            invoice_params = check_for_pdf(conn, invoice_params)
 
             case Invoices.update_invoice(invoice, invoice_params) do
               {:ok, invoice} ->
-                IO.inspect(invoice.category_id)
-
                 conn
                 |> put_flash(:info, "Invoice updated successfully.")
                 |> redirect(to: Routes.invoice_path(conn, :show, invoice))
@@ -124,6 +127,7 @@ defmodule InfinWeb.InvoiceController do
       invoice ->
         cond do
           company_id == invoice.company_id ->
+            {:ok, _pdf} = Pdf.delete(invoice.pdf)
             {:ok, _invoice} = Invoices.delete_invoice(invoice)
 
           true ->
@@ -134,6 +138,23 @@ defmodule InfinWeb.InvoiceController do
     conn
     |> put_flash(:info, "Invoice deleted successfully.")
     |> redirect(to: Routes.invoice_path(conn, :index))
+  end
+
+  defp check_for_pdf(conn, invoice_params) do
+    if Map.has_key?(invoice_params, "pdf") do
+      case Storage.create_pdf(%{pdf: invoice_params["pdf"]}) do
+        {:ok, pdf} ->
+          invoice_params = Map.put(invoice_params, "pdf_id", pdf.id)
+          IO.inspect(invoice_params)
+
+        {:error, _changeset} ->
+          conn
+          |> put_flash(:error, "Error inserting pdf attachment.")
+          |> redirect(to: Routes.invoice_path(conn, :new))
+      end
+    else
+      invoice_params
+    end
   end
 
   def action(conn, _) do

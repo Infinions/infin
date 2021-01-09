@@ -35,6 +35,7 @@ defmodule Infin.Invoices.Invoice do
     belongs_to :company, Infin.Companies.Company, foreign_key: :company_id
     belongs_to :category, Infin.Companies.Category
     many_to_many :tags, Tag, join_through: "invoices_tags"
+    belongs_to :pdf, Infin.Storage.Pdf
 
     timestamps()
   end
@@ -71,7 +72,8 @@ defmodule Infin.Invoices.Invoice do
       :is_foreign,
       :company_id,
       :company_seller_id,
-      :category_id
+      :category_id,
+      :pdf_id
     ])
     |> validate_required([:id_document, :doc_emission_date, :total_value, :company_id])
     |> unique_constraint(:id_document)
