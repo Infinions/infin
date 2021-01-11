@@ -1,5 +1,6 @@
 import Chart from 'chart.js';
 import $ from "jquery";
+require('dotenv').config()
 
 var delta = 'M';
 var graph_type = "sum_invoices";
@@ -150,7 +151,7 @@ function show_error() {
 }
 
 function makeGraphic() {
-    var apiAccess = 'http://localhost:5600/graphql';
+    var apiAccess = process.env.STATS_API_URL;
     var type = graph_type;
 
     $.ajax({
