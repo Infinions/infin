@@ -52,7 +52,8 @@ defmodule Infin.MixProject do
       {:ex_machina, "~> 2.4"},
       {:httpoison, "~> 1.7"},
       {:scrivener_ecto, "~> 2.0"},
-      {:arc_ecto, "~> 0.11.3"}
+      {:arc_ecto, "~> 0.11.3"},
+      {:sweet_xml, "~> 0.6.6"}
     ]
   end
 

@@ -53,5 +53,46 @@
   <% end %>
   <div class="buttons">
     <%= link "New Income", to: Routes.income_path(@conn, :new), class: "button is-primary" %>
+    <button class="button is-primary" id='modal-btn'>Import Invoices</button>
   </div>
+</div>
+<div class="modal pt-6">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Invoice Importer</p>
+        <button class="delete" aria-label="close" id="close-btn"></button>
+      </header>
+      <section class="modal-card-body">
+      <%= form_for :saft_import, Routes.saft_parser_path(@conn, :import_saft_pt), [multipart: true], fn f -> %>
+        <div class="field">
+    <%= label f, :pdf, "Invoice File", class: "label is-floating-label" %>
+    <div id="file" class="file has-name is-fullwidth">
+      <label class="file-label">
+        <%= file_input f, :pdf, class: "file-input", type: "file" %>
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">
+            Choose a file…
+          </span>
+        </span>
+        <span class="file-name">
+
+        </span>
+      </label>
+    </div>
+  </div>
+      </section>
+      <footer class="modal-card-foot">
+        <%= submit "Import", class: "button is-primary" %>
+      </footer>
+      <% end %>
+    </div>
+  </div>
+  <button class="modal-close is-large"
+    aria-label="close">
+    Model
+  </button>
 </div>
