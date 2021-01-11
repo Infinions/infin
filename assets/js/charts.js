@@ -151,7 +151,6 @@ function show_error() {
 
 function makeGraphic() {
     var apiAccess = process.env.ANALYTICS_URL;
-    console.log(apiAccess);
     var type = graph_type;
 
     $.ajax({
