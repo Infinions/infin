@@ -1,10 +1,10 @@
 import Chart from 'chart.js';
 import $ from "jquery";
 
-var delta = 'M';
-var graph_type = "sum_invoices";
-var time = 7;
-var is_count = true;
+let delta = 'M';
+let graph_type = "sum_invoices";
+let time = 7;
+let is_count = true;
 
 function lineChart(label_values, result){
 
@@ -72,17 +72,17 @@ function pieChart(costs, earnings) {
     });
 }
 
-var dynamicColors = function() {
-    var r = Math.floor(Math.random() * 255);
-    var g = Math.floor(Math.random() * 255);
-    var b = Math.floor(Math.random() * 255);
+let dynamicColors = function() {
+    let r = Math.floor(Math.random() * 255);
+    let g = Math.floor(Math.random() * 255);
+    let b = Math.floor(Math.random() * 255);
 
     return "rgb(" + r + "," + g + "," + b + ")";
 }
 
 function get_query(type) {
-    var nif = $('#nif').data('value');
-    var actual_query;
+    const nif = $('#nif').data('value');
+    let actual_query;
 
     if (type == "n_invoices_category") {
         actual_query = "{n_invoices_category(nif: \"" + nif + "\", is_count: " + is_count + ", delta: \"" + delta + "\")}"
@@ -98,8 +98,8 @@ function get_query(type) {
 }
 
 function graphicInvoices(data) {
-    var result = [];
-    var dict = {};
+    let result = [];
+    let dict = {};
 
     if ( data.categories !== undefined ) {
         dict = data.categories
@@ -123,7 +123,7 @@ function graphicInvoices(data) {
 function graphicSumInvoices(data) {
     $("#generalChartError").hide();
 
-    var result = [];
+    let result = [];
 
     result.push({
         data: data.costs_values,
@@ -150,8 +150,8 @@ function show_error() {
 }
 
 function makeGraphic() {
-    var apiAccess = process.env.ANALYTICS_URL;
-    var type = graph_type;
+    const apiAccess = process.env.ANALYTICS_URL;
+    let type = graph_type;
 
     $.ajax({
         url: apiAccess,
@@ -187,8 +187,8 @@ function makeGraphic() {
                 data = JSON.parse(data.data.sum_invoices);
                 if (data !== null && data.dates.length > 0) {
                     graphicSumInvoices(data)
-                    var total_costs = data.costs_values.reduce((a, b) => a + b, 0);
-                    var total_gains = data.gains_values.reduce((a, b) => a + b, 0);
+                    let total_costs = data.costs_values.reduce((a, b) => a + b, 0);
+                    let total_gains = data.gains_values.reduce((a, b) => a + b, 0);
                     pieChart(total_costs, total_gains);
                 }
             }
@@ -210,14 +210,14 @@ $(function(){
     });
 });
 
-var select_type = document.getElementById('dropdown_type');
-var select_delta = document.getElementById('dropdown_delta');
-var select_time = document.getElementById('dropdown_time');
-var select_options = document.getElementById('dropdown_options');
+let select_type = document.getElementById('dropdown_type');
+let select_delta = document.getElementById('dropdown_delta');
+let select_time = document.getElementById('dropdown_time');
+let select_options = document.getElementById('dropdown_options');
 
 (select_type.onchange = function() {
     var $option = $(this).find('option:selected');
-    var value = $option.val();
+    let value = $option.val();
 
     if (value !== "") {
         graph_type = value;
@@ -227,7 +227,7 @@ var select_options = document.getElementById('dropdown_options');
 
 (select_delta.onchange = function() {
     var $option = $(this).find('option:selected');
-    var value = $option.val();
+    let value = $option.val();
 
     if (value !== "") {
         delta = value;
@@ -237,7 +237,7 @@ var select_options = document.getElementById('dropdown_options');
 
 (select_time.onchange = function() {
     var $option = $(this).find('option:selected');
-    var value = $option.val();
+    let value = $option.val();
 
     if (value !== "") {
         if (value == 6) {
@@ -253,7 +253,7 @@ var select_options = document.getElementById('dropdown_options');
 
 (select_options.onchange = function() {
     var $option = $(this).find('option:selected');
-    var value = $option.val();
+    let value = $option.val();
 
     if (value !== "") {
         is_count = value;
