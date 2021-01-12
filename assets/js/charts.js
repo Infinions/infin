@@ -122,7 +122,7 @@ function graphicInvoices(data) {
 
 function graphicSumInvoices(data) {
     $("#generalChartError").hide();
-    
+
     var result = [];
 
     result.push({
@@ -150,7 +150,7 @@ function show_error() {
 }
 
 function makeGraphic() {
-    var apiAccess = 'http://localhost:5600/graphql';
+    var apiAccess = process.env.ANALYTICS_URL;
     var type = graph_type;
 
     $.ajax({
@@ -215,7 +215,7 @@ var select_delta = document.getElementById('dropdown_delta');
 var select_time = document.getElementById('dropdown_time');
 var select_options = document.getElementById('dropdown_options');
 
-(select_type.onchange = function() {   
+(select_type.onchange = function() {
     var $option = $(this).find('option:selected');
     var value = $option.val();
 
@@ -225,7 +225,7 @@ var select_options = document.getElementById('dropdown_options');
     }
 });
 
-(select_delta.onchange = function() {   
+(select_delta.onchange = function() {
     var $option = $(this).find('option:selected');
     var value = $option.val();
 
@@ -235,7 +235,7 @@ var select_options = document.getElementById('dropdown_options');
     }
 });
 
-(select_time.onchange = function() {   
+(select_time.onchange = function() {
     var $option = $(this).find('option:selected');
     var value = $option.val();
 
@@ -251,7 +251,7 @@ var select_options = document.getElementById('dropdown_options');
     }
 });
 
-(select_options.onchange = function() {   
+(select_options.onchange = function() {
     var $option = $(this).find('option:selected');
     var value = $option.val();
 
