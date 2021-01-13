@@ -8,6 +8,7 @@ import "./register"
 
 import "./calendar"
 import "./modal"
+import "./charts"
 import "./file"
 
 // webpack automatically bundles all modules in your
