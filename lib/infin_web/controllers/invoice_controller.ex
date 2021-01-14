@@ -19,6 +19,7 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def create(conn, %{"invoice" => invoice_params}, company_id) do
+    IO.inspect(invoice_params)
     total_value =
       Decimal.new(invoice_params["total_value"])
       |> Decimal.mult(100)
@@ -75,6 +76,7 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def update(conn, %{"id" => id, "invoice" => invoice_params}, company_id) do
+    IO.inspect(invoice_params)
     case Invoices.get_invoice_with_relations(id) do
       nil ->
         index(conn, %{"page" => 1}, company_id)
