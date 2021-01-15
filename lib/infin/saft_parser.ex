@@ -35,7 +35,7 @@ defmodule Infin.SaftParser do
               ~x"./Invoice"l,
               invoice_number: ~x"./InvoiceNo/text()"s,
               invoice_date: ~x"./InvoiceDate/text()"s,
-              costumer_id: ~x"./CostumerID/text()"s,
+              customer_id: ~x"./CustomerID/text()"s,
               products: [
                 ~x"./Line"l,
                 line_number: ~x"./LineNumber/text()"i,
@@ -86,15 +86,11 @@ defmodule Infin.SaftParser do
     generate_income_list(tail, result_list, company_id)
   end
 
-  # -The value is being multiplied so it goes from float to integer
-  # and the cents value isn't lost (check this)
-  # -What description? Maybe concatenate the product descriptions?
-  # -And check if the order of the attrs is correct
   defp generate_income(map_invoice, company_id) do
     attributes = %{
       value: round(map_invoice.document_totals.gross_total * 100),
       date: map_invoice.invoice_date,
-      description: "Placeholder.",
+      description: "Tax ID: " <> map_invoice.customer_id,
       company_id: company_id
     }
 
