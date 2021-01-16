@@ -25,11 +25,13 @@ defmodule Infin.Importer do
            headers
          ) do
       {:ok, response} ->
+        IO.inspect(response)
         case response.status_code do
           200 ->
             %HTTPoison.Response{body: body} = response
             object = Jason.decode!(body)
-            Invoices.insert_fectched_invoices_pt(object["invoices"], company_id)
+            invoices = Map.get(object, "invoices", [])
+            Invoices.insert_fectched_invoices_pt(invoices, company_id)
             {:ok, "Invoices imported"}
 
           400 ->

@@ -17,6 +17,10 @@ config :infin, InfinWeb.Endpoint,
     "#{System.get_env("PT_INVOICES_HOST") || "localhost"}:#{
       System.get_env("PT_INVOICES_PORT") || "3000"
     }",
+  analytics_url:
+    "#{System.get_env("ANALYTICS_HOST") || "localhost"}:#{
+      System.get_env("ANALYTICS_PORT") || "5600"
+    }",
   pt_sibsapimarket: [
     url: System.get_env("PT_SIBSAPIMARKET_HOST") ||
         "https://site1.sibsapimarket.com:8445/sibs/apimarket-sb",

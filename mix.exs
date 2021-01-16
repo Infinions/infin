@@ -52,7 +52,8 @@ defmodule Infin.MixProject do
       {:ex_machina, "~> 2.4"},
       {:httpoison, "~> 1.7"},
       {:scrivener_ecto, "~> 2.0"},
-      {:arc_ecto, "~> 0.11.3"}
+      {:arc_ecto, "~> 0.11.3"},
+      {:html_entities, "~> 0.5.1"}
     ]
   end
 
@@ -76,12 +77,14 @@ defmodule Infin.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "docker.up": [
         "cmd docker login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
-        "cmd docker-compose up -d"
+        "cmd docker-compose up -d",
+        "setup"
       ],
       "docker.down": ["cmd docker-compose down"],
       "podman.up": [
         "cmd podman login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
-        "cmd podman-compose up -d"
+        "cmd podman-compose up -d",
+        "setup"
       ],
       "podman.down": ["cmd podman-compose down"]
     ]

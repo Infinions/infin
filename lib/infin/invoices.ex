@@ -122,7 +122,7 @@ defmodule Infin.Invoices do
       unless Companies.get_company_by_nif(to_string(invoice["nifEmitente"])) do
         Companies.create_company(%{
           :nif => to_string(invoice["nifEmitente"]),
-          :name => invoice["nomeEmitente"]
+          :name => HtmlEntities.decode(invoice["nomeEmitente"])
         })
       end
 
