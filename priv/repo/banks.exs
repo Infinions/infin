@@ -45,5 +45,7 @@ defmodule PTBankSeed do
   end
 end
 
-{:ok, response} = PTBankSeed.fetch_banks
-response["aspsp-list"] |> Enum.map(fn x -> PTBankSeed.insert_bank(x) end)
+if PTBank |> Repo.aggregate(:count, :id) == 0 do
+  {:ok, response} = PTBankSeed.fetch_banks
+  response["aspsp-list"] |> Enum.map(fn x -> PTBankSeed.insert_bank(x) end)
+end

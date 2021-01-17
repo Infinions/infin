@@ -53,7 +53,8 @@ defmodule Infin.MixProject do
       {:httpoison, "~> 1.7"},
       {:scrivener_ecto, "~> 2.0"},
       {:arc_ecto, "~> 0.11.3"},
-      {:html_entities, "~> 0.5.1"}
+      {:html_entities, "~> 0.5.1"},
+      {:neuron, "~> 5.0.0"}
     ]
   end
 
@@ -68,10 +69,10 @@ defmodule Infin.MixProject do
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
       "ecto.bootstrap": ["ecto.migrate", "run priv/repo/banks.exs"],
       "ecto.setup": [
-        "ecto.create",
-        "ecto.migrate",
-        "run priv/repo/seeds.exs",
-        "run priv/repo/banks.exs"
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
+        "run priv/repo/banks.exs",
+        "run priv/repo/seeds.exs"
       ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],

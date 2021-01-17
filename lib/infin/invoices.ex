@@ -131,7 +131,8 @@ defmodule Infin.Invoices do
         :total_value => invoice["valorTotal"],
         :doc_emission_date => invoice["dataEmissaoDocumento"],
         :company_id => company_id,
-        :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id
+        :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id,
+        :category_id => Map.get(invoice, :category_id)
       }
 
       create_invoice(document)
