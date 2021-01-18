@@ -87,10 +87,22 @@
   </div>
 
   <div class="field">
-   <%= label f, :tags, "Tags", class: "label is-floating-label" %>
+   <%= label f, :tag, "Tags", class: "label is-floating-label" %>
 	<div class="control">
-    <%= tag :input, [data: [type: "tags"], class: "input", type: "text",  placeholder: "Choose Tags", value: "Ola"] %>
+    <%= text_input f, :tags, class: "input with-floating-label" %>
   </div>
+
+  <%= if contains_invoice? assigns do %>
+    <%= if @invoice.tags != nil do %>
+      <%for tag <- @invoice.tags do %>
+      <span class="tag is-info is-medium">
+         <%= tag.name %>
+      </span>
+      <%end%>
+    <% end %>
+  <% end %>
+
+
 </div>
 
   <div class="field">
@@ -123,6 +135,7 @@
 
   <div class="level mt-5">
     <div class="level-left">
+      <%= submit "Save", class: "button is-primary level-item" %>
     </div>
     <div class="level-right">
       <%= if contains_invoice? assigns do %>
