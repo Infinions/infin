@@ -1,0 +1,30 @@
+<h1>Listing Budgets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Init date</th>
+      <th>End date</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for budget <- @budgets do %>
+    <tr>
+      <td><%= budget.value %></td>
+      <td><%= budget.init_date %></td>
+      <td><%= budget.end_date %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.budget_path(@conn, :show, budget) %></span>
+        <span><%= link "Edit", to: Routes.budget_path(@conn, :edit, budget) %></span>
+        <span><%= link "Delete", to: Routes.budget_path(@conn, :delete, budget), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Budget", to: Routes.budget_path(@conn, :new) %></span>

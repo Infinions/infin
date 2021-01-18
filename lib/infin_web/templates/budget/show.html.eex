@@ -1,0 +1,23 @@
+<h1>Show Budget</h1>
+
+<ul>
+
+  <li>
+    <strong>Value:</strong>
+    <%= @budget.value %>
+  </li>
+
+  <li>
+    <strong>Init date:</strong>
+    <%= @budget.init_date %>
+  </li>
+
+  <li>
+    <strong>End date:</strong>
+    <%= @budget.end_date %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.budget_path(@conn, :edit, @budget) %></span>
+<span><%= link "Back", to: Routes.budget_path(@conn, :index) %></span>
