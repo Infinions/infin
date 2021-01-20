@@ -154,8 +154,12 @@ defmodule Infin.Invoices do
 
   """
   def update_invoice(%Invoice{} = invoice, attrs) do
+    at = attrs
+      |> Map.new(fn {k, v} -> {to_string(k), v} end)
+      |> Map.put("automatic_category", false)
+
     invoice
-    |> Invoice.changeset(attrs |> Map.put("automatic_category", false))
+    |> Invoice.changeset(at)
     |> Repo.update()
   end
 
