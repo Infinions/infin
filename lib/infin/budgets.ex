@@ -21,6 +21,15 @@ defmodule Infin.Budgets do
     Repo.all(Budget)
   end
 
+  def list_budgets(params, company_id) do
+    query =
+      from(b in Budget,
+        where: b.company_id == ^company_id,
+        preload: [:category]
+      )
+
+    Repo.paginate(query, params)
+  end
   @doc """
   Gets a single budget.
 
@@ -37,6 +46,8 @@ defmodule Infin.Budgets do
   """
   def get_budget!(id), do: Repo.get!(Budget, id)
 
+  def get_budget(id), do: Repo.get(Budget, id)
+
   @doc """
   Creates a budget.
 
@@ -52,6 +63,21 @@ defmodule Infin.Budgets do
   def create_budget(attrs \\ %{}) do
     %Budget{}
     |> Budget.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_budget(attrs, company_id) do
+
+    budget = %{
+      :value => attrs["value"],
+      :init_date => attrs["init_date"],
+      :end_date => attrs["end_date"],
+      :company_id => company_id,
+      :category_id =>attrs["category_id"]
+    }
+
+    %Budget{}
+    |> Budget.changeset(budget)
     |> Repo.insert()
   end
 

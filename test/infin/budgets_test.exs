@@ -3,20 +3,18 @@ defmodule Infin.BudgetsTest do
 
   alias Infin.Budgets
 
+  import Infin.Factory
+
   describe "budgets" do
     alias Infin.Budgets.Budget
 
-    @valid_attrs %{end_date: "some end_date", init_date: "some init_date", value: 42}
     @update_attrs %{end_date: "some updated end_date", init_date: "some updated init_date", value: 43}
     @invalid_attrs %{end_date: nil, init_date: nil, value: nil}
 
-    def budget_fixture(attrs \\ %{}) do
-      {:ok, budget} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Budgets.create_budget()
-
-      budget
+    def budget_fixture() do
+      company = insert(:company)
+      category = insert(:category, company_id: company.id)
+      insert(:budget, company_id: company.id, category_id: category.id)
     end
 
     test "list_budgets/0 returns all budgets" do
@@ -30,9 +28,18 @@ defmodule Infin.BudgetsTest do
     end
 
     test "create_budget/1 with valid data creates a budget" do
-      assert {:ok, %Budget{} = budget} = Budgets.create_budget(@valid_attrs)
-      assert budget.end_date == "some end_date"
-      assert budget.init_date == "some init_date"
+      company = insert(:company)
+      category = insert(:category, company_id: company.id)
+      attrs = %{
+        init_date: "some date",
+        end_date: "some description",
+        category_id: category.id,
+        value: 42,
+        company_id: company.id
+      }
+      assert {:ok, %Budget{} = budget} = Budgets.create_budget(attrs)
+      assert budget.end_date == "some description"
+      assert budget.init_date == "some date"
       assert budget.value == 42
     end
 

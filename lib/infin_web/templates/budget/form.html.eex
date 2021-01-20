@@ -5,19 +5,61 @@
     </div>
   <% end %>
 
-  <%= label f, :value %>
-  <%= number_input f, :value %>
-  <%= error_tag f, :value %>
+  <div class="field">
+    <%= label f, :value, "Max Value", class: "label" %>
+    <div class="control has-icons-left">
+      <span class="icon is-small is-left">
+        <i class="fas fa-file-alt"></i>
+      </span>
+      <%= if has_error(f, :value) do %>
+        <%= number_input f, :value, value: get_value(@changeset.data), step: "0.01", required: true, class: "input is-danger", min: "0" %>
+      <% else %>
+        <%= number_input f, :value, value: get_value(@changeset.data), step: "0.01", required: true, class: "input", min: "0" %>
+      <% end %>
+      <%= error_tag f, :value %>
+    </div>
+  </div>
 
-  <%= label f, :init_date %>
-  <%= text_input f, :init_date %>
-  <%= error_tag f, :init_date %>
+  <div class="field">
+    <%= label f, :init_date, "Start Date", class: "label" %>
+    <div class="control">
+      <%= if has_error(f, :init_date) do %>
+        <%= date_input f, :init_date, required: true, class: "input is-danger invoice-date-picker" %>
+      <% else %>
+        <%= date_input f, :init_date, required: true, class: "input invoice-date-picker" %>
+      <% end %>
+      <%= error_tag f, :init_date %>
+    </div>
+  </div>
 
-  <%= label f, :end_date %>
-  <%= text_input f, :end_date %>
-  <%= error_tag f, :end_date %>
+  <div class="field">
+    <%= label f, :end_date, "End Date", class: "label" %>
+    <div class="control">
+      <%= if has_error(f, :end_date) do %>
+        <%= date_input f, :end_date, required: true, class: "input is-danger invoice-date-picker" %>
+      <% else %>
+        <%= date_input f, :end_date, required: true, class: "input invoice-date-picker" %>
+      <% end %>
+      <%= error_tag f, :end_date %>
+    </div>
+  </div>
 
-  <div>
-    <%= submit "Save" %>
+  <div class="field">
+    <%= label f, :category_id, "Category", class: "label is-floating-label" %>
+    <div class="select is-fullwidth">
+    <%= select f , :category_id, @categories,  class: "is-focused is-fullwidth"%>
+    </div>
+  </div>
+
+  <div class="level mt-5">
+    <div class="level-left">
+      <%= submit "Save", class: "button is-primary level-item" %>
+    </div>
+    <div class="level-right">
+      <%= if contains_budget? assigns do %>
+        <%= link "Back", to: Routes.budget_path(@conn, :index, page: 1), class: "button level-item" %>
+        <%= link "Delete", to: Routes.budget_path(@conn, :delete, @budget), method: :delete, data: [confirm: "Are you sure?"], class: "button is-danger level-item" %>
+      <% end %>
+    </div>
   </div>
 <% end %>
