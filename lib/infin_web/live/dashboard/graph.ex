@@ -1,5 +1,5 @@
 defmodule InfinWeb.DashboardLive.Graph do
-  use Phoenix.LiveComponent
+  use InfinWeb, :live_component
 
   alias Infin.Companies
 
