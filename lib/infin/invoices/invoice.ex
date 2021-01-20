@@ -30,6 +30,7 @@ defmodule Infin.Invoices.Invoice do
     field :merchant_comm, :boolean
     field :consumer_comm, :boolean
     field :is_foreign, :boolean
+    field :automatic_category, :boolean
 
     belongs_to :company_seller, Infin.Companies.Company, foreign_key: :company_seller_id
     belongs_to :company, Infin.Companies.Company, foreign_key: :company_id
@@ -73,7 +74,8 @@ defmodule Infin.Invoices.Invoice do
       :company_id,
       :company_seller_id,
       :category_id,
-      :pdf_id
+      :pdf_id,
+      :automatic_category
     ])
     |> validate_required([:id_document, :doc_emission_date, :total_value, :company_id])
     |> unique_constraint(:id_document)

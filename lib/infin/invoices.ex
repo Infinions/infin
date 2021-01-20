@@ -33,7 +33,8 @@ defmodule Infin.Invoices do
     query =
       from(i in Invoice,
         where: i.company_id == ^company_id,
-        preload: [:company_seller, :category, :company, company: :categories]
+        preload: [:company_seller, :category, :company, company: :categories],
+        order_by: [desc: :doc_emission_date]
       )
 
     Repo.paginate(query, params)
@@ -132,7 +133,8 @@ defmodule Infin.Invoices do
         :doc_emission_date => invoice["dataEmissaoDocumento"],
         :company_id => company_id,
         :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id,
-        :category_id => Map.get(invoice, :category_id)
+        :category_id => Map.get(invoice, :category_id),
+        :automatic_category => Map.get(invoice, :automatic_category)
       }
 
       create_invoice(document)
@@ -153,7 +155,7 @@ defmodule Infin.Invoices do
   """
   def update_invoice(%Invoice{} = invoice, attrs) do
     invoice
-    |> Invoice.changeset(attrs)
+    |> Invoice.changeset(attrs |> Map.put("automatic_category", false))
     |> Repo.update()
   end
 

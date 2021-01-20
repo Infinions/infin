@@ -106,7 +106,9 @@ defmodule Infin.Importer do
     invoices
     |> Enum.with_index(1)
     |> Enum.map(fn {invoice, index} ->
-      Map.put(invoice, :category_id, categories[to_string(index)])
+      invoice
+      |> Map.put(:category_id, categories[to_string(index)])
+      |> Map.put(:automatic_category, true)
     end)
   end
 end
