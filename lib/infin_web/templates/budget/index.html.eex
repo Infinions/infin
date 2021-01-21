@@ -8,7 +8,7 @@
             <tr>
               <td data-label="category"><b>Category</b></td>
               <td data-label="value"><b>Total Budget Value (EUR)</b></td>
-              <td data-label="spent_value"><b>Spent Value</b></td>
+              <td data-label="spent_value"><b>Spent Value (EUR)</b></td>
               <td data-label="init_date"><b>Start Date</b></td>
               <td data-label="end_date"><b>End Date</b></td>
 
@@ -21,7 +21,7 @@
                         <%= budget.category.name %>
                     </span></td>
                   <td data-label="value"><%= get_value(budget) %></td>
-                  <td data-label="spent_value"><%= get_value(budget) %></td>
+                  <td data-label="spent_value"><%= get_spent_value(budget) %></td>
                   <td data-label="init_date"><%= budget.init_date %></td>
                   <td data-label="end_date"><%= budget.end_date %></td>
                   <td class="has-text-centered" data-label="total_value">

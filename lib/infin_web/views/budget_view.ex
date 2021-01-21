@@ -12,4 +12,12 @@ defmodule InfinWeb.BudgetView do
       "0.00"
     end
   end
+
+  def get_spent_value(budget) do
+    if budget.value do
+      Decimal.new(budget.spent_value) |> Decimal.div(100) |> Decimal.round(2)
+    else
+      "0.00"
+    end
+  end
 end

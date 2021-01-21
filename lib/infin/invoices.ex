@@ -51,6 +51,13 @@ defmodule Infin.Invoices do
     |> Repo.paginate(page: page_number)
   end
 
+  def get_invoices_per_category(company_id, category_id) do
+    Invoice
+    |> where(company_id: ^company_id)
+    |> where(category_id: ^category_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single invoice.
 

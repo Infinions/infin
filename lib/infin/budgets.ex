@@ -7,6 +7,7 @@ defmodule Infin.Budgets do
   alias Infin.Repo
 
   alias Infin.Budgets.Budget
+  alias Infin.Invoices
 
   @doc """
   Returns the list of budgets.
@@ -30,6 +31,46 @@ defmodule Infin.Budgets do
 
     Repo.paginate(query, params)
   end
+
+  def get_budget_spent_value(budget) do
+    value = 0
+    init_split = String.split(budget.init_date, "-")
+    end_split = String.split(budget.end_date, "-")
+
+    init_date =
+      Date.new!(
+        String.to_integer(Enum.at(init_split, 0)),
+        String.to_integer(Enum.at(init_split, 1)),
+        String.to_integer(Enum.at(init_split, 2))
+      )
+
+    end_date =
+      Date.new!(
+        String.to_integer(Enum.at(end_split, 0)),
+        String.to_integer(Enum.at(end_split, 1)),
+        String.to_integer(Enum.at(end_split, 2))
+      )
+
+    invoices_per_category =
+      Invoices.get_invoices_per_category(budget.company_id, budget.category_id)
+
+    for invoice <- invoices_per_category do
+      date_split = String.split(invoice.doc_emission_date, "-")
+
+      date =
+        Date.new!(
+          String.to_integer(Enum.at(date_split, 0)),
+          String.to_integer(Enum.at(date_split, 1)),
+          String.to_integer(Enum.at(date_split, 2))
+        )
+
+      if !(Date.compare(init_date, date) == :gt or
+             Date.compare(end_date, date) == :lt) do
+        value = value + invoice.total_value
+      end
+    end
+  end
+
   @doc """
   Gets a single budget.
 
@@ -67,13 +108,12 @@ defmodule Infin.Budgets do
   end
 
   def create_budget(attrs, company_id) do
-
     budget = %{
       :value => attrs["value"],
       :init_date => attrs["init_date"],
       :end_date => attrs["end_date"],
       :company_id => company_id,
-      :category_id =>attrs["category_id"]
+      :category_id => attrs["category_id"]
     }
 
     %Budget{}

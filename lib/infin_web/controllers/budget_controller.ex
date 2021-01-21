@@ -7,7 +7,25 @@ defmodule InfinWeb.BudgetController do
 
   def index(conn, params, company_id) do
     page = Budgets.list_budgets(params, company_id)
-    render(conn, "index.html", budgets: page.entries, page: page)
+
+    budgets =
+      Enum.map(page.entries, fn budget ->
+        values = Budgets.get_budget_spent_value(budget)
+
+        IO.inspect(values)
+
+        if Enum.member?(values, nil) do
+          Map.put(budget, :spent_value, 0)
+        else
+          Map.put(budget, :spent_value, Enum.sum(values))
+        end
+      end)
+
+
+    render(conn, "index.html",
+      budgets: budgets,
+      page: page
+    )
   end
 
   def new(conn, _params, company_id) do
