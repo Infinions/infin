@@ -15,13 +15,13 @@
     <div class="columns">
       <div class="column">
         <div class="buttons">
-        <a class="button" href="#">
+        <a class="button is-light" href="#">
           <i class="fab fa-twitter"></i>
         </a>
-        <a class="button" href="#">
+        <a class="button is-light" href="#">
           <i class="fab fa-facebook"></i>
         </a>
-        <a class="button" href="#">
+        <a class="button is-light" href="#">
           <i class="fab fa-instagram"></i>
         </a>
         </div>

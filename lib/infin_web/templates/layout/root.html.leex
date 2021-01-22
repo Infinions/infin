@@ -20,6 +20,8 @@
       <%= render "_navbar.html", assigns %>
       <%= render_existing view_module(@conn), "landing_hero.html", assigns %>
       <%= @inner_content %>
+      <%= render_existing view_module(@conn), "team.html", assigns %>
+      <%= render_existing view_module(@conn), "contacts.html", assigns %>
     </div>
     <%= render "_footer.html", assigns %>
   </body>

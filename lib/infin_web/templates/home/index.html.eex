@@ -1,5 +1,4 @@
 <div class="container is-fluid">
   <%= render "strengths.html", assigns %>
   <%= render "plans.html" %>
-  <%= render "contacts.html" %>
 </div>

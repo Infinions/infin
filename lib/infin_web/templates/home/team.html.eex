@@ -1,0 +1,176 @@
+<section class="hero">
+  <div class="hero-body has-bg-color">
+        <div class="container has-text-centered">
+        <h2 class="title mb-6">Infinions</h2>
+        <div class="columns is-centered is-multiline">
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/barbara.jpeg") %>" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">Bárbara Ferreira</h5>
+                <p class="subtitle is-6">Frontend Developer</p>
+                <div class="social-media">
+                    <a href="https://github.com/Barbara29" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="www.linkedin.com/in/barbaraferreira98" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/bruno.jpeg") %>"alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">Bruno Martins</h5>
+                <p class="subtitle is-6">Backend Developer</p>
+                <div class="social-media">
+                    <a href="https://github.com/BrunoMartins11" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/brunocmartins11/" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item"><figure class="image is-128x128"><img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/catarina.jpg") %>" alt=""></figure></div>
+                </div>
+                <h5 class="title is-5">Catarina Machado</p>
+                <p class="subtitle is-6">Frontend Developer</p>
+                <div class="social-media">
+                    <a href="https://github.com/catarinamachado" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/catarinaamachado/" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/eduardo.jpg") %>" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">Eduardo Barbosa</h5>
+                <p class="subtitle is-6">Backend Developer</p>
+                <div class="social-media">
+                    <a href="https://github.com/herulume" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/herulume/" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/filipe.jpg") %>" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">Filipe Monteiro</h5>
+                <p class="subtitle is-6">Data Analyst</p>
+                <div class="social-media">
+                    <a href="https://github.com/pimonteiro" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/pimonteiro/" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/jessicalemos.jpg") %>" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">Jéssica Lemos</h5>
+                <p class="subtitle is-6">Frontend Developer</p>
+                <div class="social-media">
+                    <a href="https://github.com/jessicalemos" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/jessicalemos9" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/grenhas.png") %>" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">João Grenhas</h5>
+                <p class="subtitle is-6">Requirement and Architecture Analyst</p>
+                <div class="social-media">
+                    <a href="https://github.com/JMGrenhas" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/JoãoMGrenhas/" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/vilaca.jpg") %>" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">João Vilaça</h5>
+                <p class="subtitle is-6">Backend Developer</p>
+                <div class="social-media">
+                    <a href="https://github.com/machadovilaca" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/machadovilaca/" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="column is-one-fifth mb-6">
+                <div class="level">
+                    <div class="level-item">
+                        <figure class="image is-128x128">
+                            <img class="is-rounded" src=" <%= Routes.static_path(@conn, "/images/marcio.jpg") %>" alt="">
+                        </figure>
+                    </div>
+                </div>
+                <h5 class="title is-5">Márcio Sousa</h5>
+                <p class="subtitle is-6">Backend Developer</p>
+                <div class="social-media">
+                    <a href="https://github.com/dunnadan" target="_blank" class="button is-light">
+                        <i class="fab fa-github fa-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/marcio20sousa/" target="_blank" class="button is-light">
+                        <i class="fab fa-linkedin fa-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
