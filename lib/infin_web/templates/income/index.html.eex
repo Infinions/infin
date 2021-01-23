@@ -53,7 +53,7 @@
   <% end %>
   <div class="buttons">
     <%= link "New Income", to: Routes.income_path(@conn, :new), class: "button is-primary" %>
-    <button class="button is-primary" id='modal-btn'>Import Invoices</button>
+    <button class="button is-primary" id='modal-btn'>Import SAF-T</button>
   </div>
 </div>
 <div class="modal pt-6">
