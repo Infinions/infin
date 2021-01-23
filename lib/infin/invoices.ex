@@ -33,7 +33,8 @@ defmodule Infin.Invoices do
     query =
       from(i in Invoice,
         where: i.company_id == ^company_id,
-        preload: [:company_seller, :category, :company, company: :categories]
+        preload: [:company_seller, :category, :company, company: :categories],
+        order_by: [desc: :doc_emission_date]
       )
 
     Repo.paginate(query, params)
@@ -122,7 +123,7 @@ defmodule Infin.Invoices do
       unless Companies.get_company_by_nif(to_string(invoice["nifEmitente"])) do
         Companies.create_company(%{
           :nif => to_string(invoice["nifEmitente"]),
-          :name => invoice["nomeEmitente"]
+          :name => HtmlEntities.decode(invoice["nomeEmitente"])
         })
       end
 
@@ -131,7 +132,9 @@ defmodule Infin.Invoices do
         :total_value => invoice["valorTotal"],
         :doc_emission_date => invoice["dataEmissaoDocumento"],
         :company_id => company_id,
-        :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id
+        :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id,
+        :category_id => Map.get(invoice, :category_id),
+        :automatic_category => Map.get(invoice, :automatic_category)
       }
 
       create_invoice(document)
@@ -151,8 +154,12 @@ defmodule Infin.Invoices do
 
   """
   def update_invoice(%Invoice{} = invoice, attrs) do
+    at = attrs
+      |> Map.new(fn {k, v} -> {to_string(k), v} end)
+      |> Map.put("automatic_category", false)
+
     invoice
-    |> Invoice.changeset(attrs)
+    |> Invoice.changeset(at)
     |> Repo.update()
   end
 

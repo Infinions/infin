@@ -1,5 +1,82 @@
-<div class="tile is-child box">
-  <div class="notification is-info is-light has-text-centered" style="height: 500px">
-      <p class="is-size-3">Cool graph</p>
+<div class="tile is-child">
+<div id="nif" data-value="<%=@company_nif%>">
+  <div class="columns">
+    <div class="column">
+      <div class="tile is-child box">
+        <div class="is-info is-light has-text-centered" style="height: 450px">
+          <p class="is-size-4">Invoices Statistics</p>
+          <hr>
+          <div class="chart-container is-inline-block">
+            <p id="generalChartError"> No data available </p>
+            <canvas id="lineChart" width="500" height="300"></canvas>
+          </div>
+          <div class="select">
+            <select id="dropdown_type">
+              <option value="">Graphic Type</option>
+              <option value="n_invoices_client">Invoices/Client</option>
+              <option value="n_invoices_category">Invoices/Category</option>
+              <option value="sum_invoices">Sum of invoices</option>
+            </select>
+          </div>
+          <div class="select">
+            <select id="dropdown_delta">
+              <option value="">Delta Value</option>
+              <option value="D">Day</option>
+              <option value="M">Month</option>
+              <option value="Y">Year</option>
+            </select>
+          </div>
+          <div class="select">
+            <select id="dropdown_options">
+              <option value="">Options</option>
+              <option value="true">Number</option>
+              <option value="false">Value</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="tile is-child box">
+        <div class="is-info is-light has-text-centered" style="height: 450px">
+          <p class="is-size-4">Year Costs and earnings</p>
+          <hr>
+          <div class="chart-container is-inline-block">
+            <p id="pieChartError"> No data available </p>
+            <canvas id="pieChart" class="chart-container"  width="500" height="300"></canvas>
+          </div>
+          <button id="preview" class="button">Show Prevision</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+</div>
+
+<div id="prev" class="tile is-child box" style="display:none">
+  <div class="is-info is-light has-text-centered is-vcentered" style="min-height: 300px">
+    <p class="is-size-4">Costs Prevision</p>
+    <hr>
+    <div id="progress">
+      <img id="loading-image" src="/images/Spin-1s-200px.gif")>
+    </div>
+    <div id="prevision">
+      <div class="chart-container is-inline-block">
+        <p id="prevChartError"> No data available </p>
+        <canvas id="lineChartPrevisions"  width="600" height="400"></canvas>
+      </div>
+      <br>
+      <div class="select" align="bottom">
+        <select id="dropdown_time">
+          <option value="">Time</option>
+          <option value="7">7 days</option>
+          <option value="15">15 days</option>
+          <option value="6">6 months</option>
+          <option value="1">1 year</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="<%= Routes.static_path(@socket, "/js/charts.js") %>"></script>
