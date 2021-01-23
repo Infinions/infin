@@ -12,6 +12,17 @@ defmodule Infin.Importer do
   require Logger
 
   def import_invoices_pt(nif, password, start_date, end_date, company_id) do
+    sd = Date.from_iso8601!(start_date) |> Map.fetch!(:year)
+    ed = Date.from_iso8601!(end_date) |> Map.fetch!(:year)
+
+    if sd == ed  do
+      import(nif, password, start_date, end_date, company_id)
+    else
+      {:error, "Start and end date must be in the same year"}
+    end
+  end
+
+  def import(nif, password, start_date, end_date, company_id) do
     expected = %{
       "nif" => nif,
       "password" => password,
