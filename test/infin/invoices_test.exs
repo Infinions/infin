@@ -14,7 +14,7 @@ defmodule Infin.InvoicesTest do
     def invoice_fixture() do
       company1 = insert(:company)
       company2 = insert(:company)
-      insert(:invoice, company_seller_id: company1.id, company_id: company2.id)
+      insert(:invoice, company_seller_id: company1.id, company_id: company2.id, automatic_category: false)
     end
 
     test "list_invoices/0 returns all invoices" do
