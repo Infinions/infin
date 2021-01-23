@@ -8,8 +8,6 @@ import "./register"
 
 import "./calendar"
 import "./modal"
-import "./charts"
-import "./file"
 
 
 

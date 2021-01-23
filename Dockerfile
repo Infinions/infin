@@ -9,10 +9,12 @@ ADD mix.exs mix.lock ./
 RUN mix do deps.get, deps.compile
 
 ADD assets/package.json assets/
+
 RUN cd assets && \
     npm install
 
 ADD . .
+RUN echo "ANALYTICS_URL=https://infin.di.uminho.pt/graphql" >> assets/.env
 
 RUN cd assets/ && \
     npm run deploy && \

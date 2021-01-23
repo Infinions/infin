@@ -15,6 +15,10 @@ alias Infin.Invoices.Tag
 alias Infin.Repo
 alias Infin.Revenue.Income
 
+if User |> Repo.aggregate(:count, :id) > 0 do
+  exit(:shutdown)
+end
+
 Repo.insert!(
   %User{}
   |> User.registration_changeset(%{
