@@ -87,23 +87,11 @@
   </div>
 
   <div class="field">
-   <%= label f, :tag, "Tags", class: "label is-floating-label" %>
-	<div class="control">
-    <%= text_input f, :tags, class: "input with-floating-label" %>
+    <%= label f, :tags, "Tags", class: "label is-floating-label" %>
+    <div class="control">
+      <%= tag :input, [data: [type: "tags"], class: "input", type: "text",  placeholder: "Choose Tags", value: "Ola"] %>
+    </div>
   </div>
-
-  <%= if contains_invoice? assigns do %>
-    <%= if @invoice.tags != nil do %>
-      <%for tag <- @invoice.tags do %>
-      <span class="tag is-info is-medium">
-         <%= tag.name %>
-      </span>
-      <%end%>
-    <% end %>
-  <% end %>
-
-
-</div>
 
   <div class="field">
     <%= label f, :pdf, "Invoice File", class: "label is-floating-label" %>
@@ -145,5 +133,3 @@
     </div>
   </div>
 <% end %>
-
-<script src="<%= Routes.static_path(@conn, "/js/file.js") %>"></script>

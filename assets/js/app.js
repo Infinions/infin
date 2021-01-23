@@ -7,6 +7,8 @@ import "./nav"
 import "./register"
 
 import "./calendar"
+import "./tags"
+import "./file"
 import "./modal"
 
 
