@@ -17,9 +17,9 @@ services:
     - 5600:5600
     restart: always
 
-  analytics_db:	
-    image: mongo	
-    ports:	
+  analytics_db:
+    image: mongo
+    ports:
     - 27017:27017
     restart: always
 
