@@ -77,7 +77,7 @@ defmodule Infin.Invoices do
   def get_invoice_with_relations(id) do
     id
     |> get_invoice()
-    |> Repo.preload([:company_seller, :tags, :category, :pdf, :tags])
+    |> Repo.preload([:company_seller, :tags, :category, :pdf])
   end
 
   @doc """
