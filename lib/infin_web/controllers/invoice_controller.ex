@@ -13,7 +13,7 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def new(conn, _params, company_id) do
-    changeset = Invoices.change_invoice(%Invoice{})
+    changeset = Invoices.change_invoice(%Invoice{tags: []})
     categories = Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
     render(conn, "new.html", changeset: changeset, categories: categories)
   end
@@ -61,6 +61,7 @@ defmodule InfinWeb.InvoiceController do
             categories =
               Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
 
+            invoice = Map.replace!(invoice, :tags, convert_tags_to_string(invoice.tags))
             changeset = Invoices.change_invoice(invoice)
             render(conn, "show.html",
               invoice: invoice,
@@ -100,7 +101,7 @@ defmodule InfinWeb.InvoiceController do
 
             invoice_params = check_for_pdf(conn, invoice_params)
 
-            case Invoices.update_invoice(invoice, invoice_params) do
+            case Invoices.update_invoice(invoice, invoice_params, company_id) do
               {:ok, invoice} ->
                 conn
                 |> put_flash(:info, "Invoice updated successfully.")
@@ -157,6 +158,13 @@ defmodule InfinWeb.InvoiceController do
     else
       invoice_params
     end
+  end
+
+  defp convert_tags_to_string(tags) do
+    Enum.reduce(tags, "", fn(tag, string) ->
+       tag.name <> "," <> string
+     end
+      )
   end
 
   def action(conn, _) do
