@@ -81,7 +81,7 @@ defmodule InfinWeb.UserAuth do
     conn
     |> renew_session()
     |> delete_resp_cookie(@remember_me_cookie)
-    |> redirect(to: "/")
+    |> redirect(to: Routes.home_path(conn, :index))
   end
 
   @doc """
@@ -147,5 +147,5 @@ defmodule InfinWeb.UserAuth do
 
   defp maybe_store_return_to(conn), do: conn
 
-  defp signed_in_path(_conn), do: "/"
+  defp signed_in_path(conn), do: Routes.home_path(conn, :index)
 end
