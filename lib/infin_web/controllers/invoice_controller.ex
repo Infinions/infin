@@ -127,7 +127,9 @@ defmodule InfinWeb.InvoiceController do
       invoice ->
         cond do
           company_id == invoice.company_id ->
-            {:ok, _pdf} = Pdf.delete(invoice.pdf)
+            if invoice.pdf do
+              {:ok, _pdf} = Storage.delete_pdf(invoice.pdf)
+            end
             {:ok, _invoice} = Invoices.delete_invoice(invoice)
 
           true ->
