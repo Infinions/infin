@@ -125,4 +125,30 @@ defmodule Infin.Revenue do
   def change_income(%Income{} = income, attrs \\ %{}) do
     Income.changeset(income, attrs)
   end
+
+  def get_monthly_income(company_id) do
+    date = Timex.today
+    current_month = date |> Timex.format!("%Y-%m-", :strftime)
+    previous_month = date |> Timex.shift(months: -1) |> Timex.format!("%Y-%m-", :strftime)
+
+    previous = Income
+    |> where([i],
+        ilike(i.date, ^"%#{previous_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :value)
+    || 0
+
+    current = Income
+    |> where([i],
+        ilike(i.date, ^"%#{current_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :value)
+    || 0
+
+    {current, previous}
+  end
 end
