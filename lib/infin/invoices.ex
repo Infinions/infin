@@ -191,6 +191,7 @@ defmodule Infin.Invoices do
       |> Map.put("automatic_category", false)
 
     invoice
+    |> Repo.preload(:tags)
     |> Invoice.changeset(at)
     |> Ecto.Changeset.put_assoc(:tags, invoice_tags(at, company_id))
     |> Repo.update()
