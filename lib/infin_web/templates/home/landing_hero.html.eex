@@ -4,7 +4,7 @@
       <h2 class="title is-size-1 has-text-centered my-6">The only software you need to run your business financials</h2>
       <div class="columns is-vcentered my-6">
         <div class="column has-text-centered" style="min-height: 30vh; padding-top:5vh">
-          <h2 class="title is-size-3 is-spaced">Manage money, not spreadsheets</h2>
+          <h2 class="title is-size-3 is-spaced">Automating enterprises financial data</h2>
           <p class="subtitle">Let's get you connected! We've designed a simple, efficient service for companies to automate their financial processes.</p>
           <%= link "Start Now!", to: Routes.user_registration_path(@conn, :new), class: "button is-primary" %>
         </div>
