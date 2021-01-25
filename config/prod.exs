@@ -12,6 +12,7 @@ config :infin, InfinWeb.Endpoint,
     port: System.get_env("PORT") || "443",
     path: "/app"
   ],
+  static_url: [path: "/app"],
   # force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
   pt_invoices_url:

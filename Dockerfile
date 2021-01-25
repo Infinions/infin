@@ -15,6 +15,7 @@ RUN cd assets && \
 
 ADD . .
 RUN echo "ANALYTICS_URL=https://infin.di.uminho.pt/graphql" >> assets/.env
+RUN echo "LIVE_SOCKET=/app/live" >> assets/.env
 
 RUN cd assets/ && \
     npm run deploy && \
