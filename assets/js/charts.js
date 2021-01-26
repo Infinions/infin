@@ -143,6 +143,23 @@ function graphicSumInvoices(data) {
     lineChart(data.dates, result);
 }
 
+function graphicTotals(data) {
+    let costs = 0
+    let gains = 0
+
+    data.dates.forEach((date, index) => {
+        let year = new Date(date).getFullYear()
+        const actual_year = new Date().getFullYear()
+
+        if (year === actual_year) {
+            costs = data.costs_values[index];
+            gains = data.gains_values[index];
+        }
+    });
+    
+    pieChart(costs, gains);
+}
+
 function show_error() {
     $("#progress").hide();
     $("#prevision").show();
@@ -187,9 +204,7 @@ function makeGraphic() {
                 data = JSON.parse(data.data.sum_invoices);
                 if (data !== null && data.dates.length > 0) {
                     graphicSumInvoices(data)
-                    let total_costs = data.costs_values.reduce((a, b) => a + b, 0);
-                    let total_gains = data.gains_values.reduce((a, b) => a + b, 0);
-                    pieChart(total_costs, total_gains);
+                    graphicTotals(data)
                 }
             }
         }
