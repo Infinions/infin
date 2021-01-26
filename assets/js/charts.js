@@ -33,7 +33,7 @@ function barChart(label_values, data){
             datasets: [{
                 label: 'Predict Cost',
                 data: data,
-                backgroundColor: "rgba(251, 85, 85, 0.4)",
+                backgroundColor: "hsl(171, 100%, 41%)",
                 borderWidth: 1
             }]
         },
@@ -57,8 +57,8 @@ function pieChart(costs, earnings) {
                     earnings
                 ],
                 backgroundColor: [
-                    "rgba(251, 85, 85, 0.4)",
-                    "rgba(137, 196, 244, 1)",
+                    "hsl(171, 100%, 41%)",
+                    "hsl(48, 100%, 67%)",
                 ],
             }],
             labels: [
@@ -129,14 +129,14 @@ function graphicSumInvoices(data) {
         data: data.costs_values,
         label: "Costs",
         fill: false,
-        borderColor: dynamicColors(),
+        borderColor: "hsl(171, 100%, 41%)",
         borderWidth: 2
     });
     result.push({
         data: data.gains_values,
         label: "Gains",
         fill: false,
-        borderColor: dynamicColors(),
+        borderColor: "hsl(48, 100%, 67%)",
         borderWidth: 2
     });
 
