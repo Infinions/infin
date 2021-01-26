@@ -5,10 +5,14 @@ let delta = 'M';
 let graph_type = "sum_invoices";
 let time = 7;
 let is_count = true;
+let chart = null;
 
 function lineChart(label_values, result){
+    if(chart != null){
+        chart.destroy();
+    }
 
-    new Chart(document.getElementById("lineChart"), {
+    chart = new Chart($("#lineChart"), {
         type: 'line',
         responsive: true,
         mantainAspectRatio: false,
