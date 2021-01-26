@@ -15,7 +15,7 @@ defmodule Infin.Importer do
     sd = Date.from_iso8601!(start_date) |> Map.fetch!(:year)
     ed = Date.from_iso8601!(end_date) |> Map.fetch!(:year)
 
-    if sd == ed  do
+    if sd == ed do
       import(nif, password, start_date, end_date, company_id)
     else
       {:error, "Start and end date must be in the same year"}
@@ -47,21 +47,25 @@ defmodule Infin.Importer do
             invoices = Map.get(object, "invoices", [])
             {:ok, result} = get_category_prediction(invoices, company_id)
 
-            categories =
-              Jason.decode!(result.body["data"]["categorize_invoices"])
+            categories = result.body["data"]["categorize_invoices"]
 
-            if categories != [] do
-              Invoices.insert_fectched_invoices_pt(
-                categorize_invoices(invoices, categories),
-                company_id
-              )
+            case categories do
+              nil ->
+                {:ok, "No invoices to import"}
 
-              {:ok, "Invoices imported"}
-            else
-              Invoices.insert_fectched_invoices_pt(invoices, company_id)
+              "[]" ->
+                Invoices.insert_fectched_invoices_pt(invoices, company_id)
 
-              {:ok,
-               "Invoices imported, but insufficient data to automatic categorization"}
+                {:ok,
+                 "Invoices imported, but insufficient data to automatic categorization"}
+
+              _ ->
+                Invoices.insert_fectched_invoices_pt(
+                  categorize_invoices(invoices, Jason.decode!(categories)),
+                  company_id
+                )
+
+                {:ok, "Invoices imported"}
             end
 
           400 ->
