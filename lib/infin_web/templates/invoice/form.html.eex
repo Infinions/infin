@@ -87,8 +87,9 @@
 
   <div class="field">
     <%= label f, :tags, "Tags", class: "label is-floating-label" %>
-	<div class="control">
-    <%= tag :input, [data: [type: "tags"], class: "input", type: "text",  placeholder: "Choose Tags", value: "Ola"] %>
+	  <div class="control">
+      <%= text_input f, :tags, [data: [type: "tags"], class: "input with-floating-label", placeholder: "Choose Tags"] %>
+    </div>
   </div>
 
   <div class="field">

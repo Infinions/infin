@@ -10,7 +10,7 @@ defmodule Infin.Storage.Pdf do
     field :pdf, File.Type
     field :title, :string
 
-    has_one :invoice, Infin.Invoices.Invoice
+    has_one :invoice, Infin.Invoices.Invoice, on_delete: :nilify_all
     timestamps()
   end
 

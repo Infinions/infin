@@ -21,6 +21,7 @@
         <%= link "Invoices", to: Routes.invoice_path(@conn, :index, page: 1), class: "navbar-item" %>
         <%= link "Incomes", to: Routes.income_path(@conn, :index, page: 1), class: "navbar-item" %>
         <%= link "Expenses", to: Routes.cost_path(@conn, :index, page: 1), class: "navbar-item" %>
+        <%= link "Budgets", to: Routes.budget_path(@conn, :index, page: 1), class: "navbar-item" %>
       <% end %>
 
       <%= render "_user_menu.html", assigns %>

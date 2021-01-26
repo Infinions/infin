@@ -86,6 +86,7 @@ defmodule InfinWeb.Router do
 
     post "/pt/invoices/import", InvoiceImporterController, :import_invoices_pt
     put "/companies/user", AddUserToCompanyController, :add_user
+    post "/pt/saft/import", SaftParserController, :import_saft_pt
 
     resources "/companies", CompanyController, only: [:show, :update]
     resources "/invoices", InvoiceController
@@ -93,6 +94,7 @@ defmodule InfinWeb.Router do
     resources "/categories", CategoryController, except: [:index, :edit]
     resources "/incomes", IncomeController
     resources "/costs", CostController
+    resources "/budgets", BudgetController, except: [:edit]
 
   end
 end

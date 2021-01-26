@@ -11,5 +11,5 @@ defmodule InfinWeb.CostView do
     else
       "0.00"
     end
-end
+  end
 end

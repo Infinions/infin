@@ -1,0 +1,64 @@
+<div class="container py-5">
+  <p class="is-size-4 mb-5">Budgets</p>
+  <%= if length(@budgets) > 0 do %>
+    <div class="b-table has-pagination">
+      <div class="table-wrapper has-mobile-cards">
+        <table class="table is-fullwidth is-striped is-hoverable is-fullwidth">
+          <tbody>
+            <tr>
+              <td data-label="category"><b>Category</b></td>
+              <td data-label="value"><b>Total Budget Value (EUR)</b></td>
+              <td data-label="spent_value"><b>Spent Value (EUR)</b></td>
+              <td data-label="init_date"><b>Start Date</b></td>
+              <td data-label="end_date"><b>End Date</b></td>
+
+              <td class="has-text-centered"></td>
+            </tr>
+            <%= for budget <- @budgets do %>
+              <tr>
+                  <td data-label="category">
+                    <span class="tag is-info is-medium">
+                        <%= budget.category.name %>
+                    </span></td>
+                  <td data-label="value"><%= get_value(budget) %></td>
+                  <td data-label="spent_value"><%= get_spent_value(budget) %></td>
+                  <td data-label="init_date"><%= budget.init_date %></td>
+                  <td data-label="end_date"><%= budget.end_date %></td>
+                  <td class="has-text-centered" data-label="total_value">
+                    <%= link ">", to: Routes.budget_path(@conn, :show, budget), class: "button is-primary" %>
+                  </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="notification">
+      <div class="level">
+        <div class="level-left">
+          <div class="level-item">
+            <div class="buttons has-addons">
+              <%= link "<",
+                class: "button",
+                disabled: @page.page_number == 1,
+                to: Routes.budget_path(@conn, :index, page: @page.page_number - 1) %>
+              <%= link ">",
+                class: "button",
+                disabled: @page.page_number == @page.total_pages,
+                to: Routes.budget_path(@conn, :index, page: @page.page_number + 1) %>
+            </div>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <small>Page <%= @page.page_number %> of <%= @page.total_pages %></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="notification">No Budgets registered</div>
+  <% end %>
+  <div class="buttons">
+    <%= link "New Budget", to: Routes.budget_path(@conn, :new), class: "button is-primary" %>
+  </div>
