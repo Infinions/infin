@@ -57,10 +57,10 @@ defmodule InfinWeb.InvoiceController do
     end
 
     case Invoices.create_invoice(invoice_params, company_id) do
-      {:ok, invoice} ->
+      {:ok, _invoice} ->
         conn
         |> put_flash(:info, "Invoice created successfully.")
-        |> redirect(to: Routes.invoice_path(conn, :show, invoice))
+        |> redirect(to: Routes.invoice_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         categories =
