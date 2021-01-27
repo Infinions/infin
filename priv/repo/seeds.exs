@@ -83,9 +83,9 @@ Repo.insert!(
 Repo.insert!(
   %Income{}
   |> Income.changeset(%{
-    "value" => 123,
-    "date" => "12-12-12",
-    "description" => "Christmas Party",
+    "value" => 100000,
+    "date" => Timex.today |> Timex.shift(months: -3) |> Timex.format!("%F", :strftime),
+    "description" => "Salary",
     "company_id" => "1"
   })
 )
@@ -93,19 +93,19 @@ Repo.insert!(
 Repo.insert!(
   %Income{}
   |> Income.changeset(%{
-    "value" => 1234,
-    "date" => "13-12-12",
-    "description" => "Party",
-    "company_id" => "2"
+    "value" => 50000,
+    "date" => Timex.today |> Timex.shift(months: -2) |> Timex.format!("%F", :strftime),
+    "description" => "Social Security",
+    "company_id" => "1"
   })
 )
 
 Repo.insert!(
   %Income{}
   |> Income.changeset(%{
-    "value" => 1235,
-    "date" => "14-12-12",
-    "description" => "Christmas",
-    "company_id" => "2"
+    "value" => 123500,
+    "date" => Timex.today |> Timex.shift(months: -1) |> Timex.format!("%F", :strftime),
+    "description" => "Stocks",
+    "company_id" => "1"
   })
 )

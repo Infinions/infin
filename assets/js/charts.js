@@ -5,10 +5,14 @@ let delta = 'M';
 let graph_type = "sum_invoices";
 let time = 7;
 let is_count = true;
+let chart = null;
 
 function lineChart(label_values, result){
+    if(chart != null){
+        chart.destroy();
+    }
 
-    new Chart(document.getElementById("lineChart"), {
+    chart = new Chart($("#lineChart"), {
         type: 'line',
         responsive: true,
         mantainAspectRatio: false,
@@ -33,7 +37,7 @@ function barChart(label_values, data){
             datasets: [{
                 label: 'Predict Cost',
                 data: data,
-                backgroundColor: "rgba(251, 85, 85, 0.4)",
+                backgroundColor: "hsl(171, 100%, 41%)",
                 borderWidth: 1
             }]
         },
@@ -57,8 +61,8 @@ function pieChart(costs, earnings) {
                     earnings
                 ],
                 backgroundColor: [
-                    "rgba(251, 85, 85, 0.4)",
-                    "rgba(137, 196, 244, 1)",
+                    "hsl(171, 100%, 41%)",
+                    "hsl(48, 100%, 67%)",
                 ],
             }],
             labels: [
@@ -129,18 +133,35 @@ function graphicSumInvoices(data) {
         data: data.costs_values,
         label: "Costs",
         fill: false,
-        borderColor: dynamicColors(),
+        borderColor: "hsl(171, 100%, 41%)",
         borderWidth: 2
     });
     result.push({
         data: data.gains_values,
         label: "Gains",
         fill: false,
-        borderColor: dynamicColors(),
+        borderColor: "hsl(48, 100%, 67%)",
         borderWidth: 2
     });
 
     lineChart(data.dates, result);
+}
+
+function graphicTotals(data) {
+    let costs = 0
+    let gains = 0
+
+    data.dates.forEach((date, index) => {
+        let year = new Date(date).getFullYear()
+        const actual_year = new Date().getFullYear()
+
+        if (year === actual_year) {
+            costs = data.costs_values[index];
+            gains = data.gains_values[index];
+        }
+    });
+    
+    pieChart(costs, gains);
 }
 
 function show_error() {
@@ -187,9 +208,7 @@ function makeGraphic() {
                 data = JSON.parse(data.data.sum_invoices);
                 if (data !== null && data.dates.length > 0) {
                     graphicSumInvoices(data)
-                    let total_costs = data.costs_values.reduce((a, b) => a + b, 0);
-                    let total_gains = data.gains_values.reduce((a, b) => a + b, 0);
-                    pieChart(total_costs, total_gains);
+                    graphicTotals(data)
                 }
             }
         }
