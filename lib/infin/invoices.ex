@@ -317,4 +317,30 @@ defmodule Infin.Invoices do
     |> Ecto.Changeset.put_assoc(:company, company)
     |> Repo.update!()
   end
+
+  def get_monthly_invoices(company_id) do
+    date = Timex.today
+    current_month = date |> Timex.format!("%Y-%m-", :strftime)
+    previous_month = date |> Timex.shift(months: -1) |> Timex.format!("%Y-%m-", :strftime)
+
+    previous = Invoice
+    |> where([i],
+        ilike(i.doc_emission_date, ^"%#{previous_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :total_value)
+    || 0
+
+    current = Invoice
+    |> where([i],
+        ilike(i.doc_emission_date, ^"%#{current_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :total_value)
+    || 0
+
+    {current, previous}
+  end
 end

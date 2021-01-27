@@ -125,4 +125,30 @@ defmodule Infin.Costs do
   def change_cost(%Cost{} = cost, attrs \\ %{}) do
     Cost.changeset(cost, attrs)
   end
+
+  def get_monthly_costs(company_id) do
+    date = Timex.today
+    current_month = date |> Timex.format!("%Y-%m-", :strftime)
+    previous_month = date |> Timex.shift(months: -1) |> Timex.format!("%Y-%m-", :strftime)
+
+    previous = Cost
+    |> where([i],
+        ilike(i.date, ^"%#{previous_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :value)
+    || 0
+
+    current = Cost
+    |> where([i],
+        ilike(i.date, ^"%#{current_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :value)
+    || 0
+
+    {current, previous}
+  end
 end
