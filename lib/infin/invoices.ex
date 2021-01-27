@@ -40,6 +40,22 @@ defmodule Infin.Invoices do
     Repo.paginate(query, params)
   end
 
+  def invoices_by_doc_id_of_company_exist(doc_id, company_id, seller_nif) do
+    results = Invoice
+    |> where([company_id: ^company_id, id_document: ^doc_id])
+    |> preload([:company_seller])
+    |> Repo.all()
+
+    Enum.reduce_while(results, false, fn entry, _exists ->
+      if entry.company_seller.nif == seller_nif do
+        {:halt, true}
+      else
+        {:cont, false}
+      end
+    end
+    )
+  end
+
   def list_company_invoices_unassociated(company_id, page_number) do
     Invoice
     |> where(company_id: ^company_id)
