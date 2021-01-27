@@ -1,7 +1,7 @@
 defmodule InfinWeb.BankAccountPTLive.Consents do
   use InfinWeb, :live_view
 
-  alias Infin.BankAccounts.PT
+  alias Infin.BankAccounts.PT_Accounts
   alias Infin.Accounts
 
   @impl true
@@ -42,7 +42,7 @@ defmodule InfinWeb.BankAccountPTLive.Consents do
 
     if socket.assigns[:account] do
       {:ok, account} =
-        PT.get_consent(
+        PT_Accounts.get_consent(
           socket.assigns.bank,
           socket.assigns.account.iban,
           socket.assigns.account.consent_id
@@ -51,7 +51,7 @@ defmodule InfinWeb.BankAccountPTLive.Consents do
       verify_consent(socket, account)
     else
       {:ok, account} =
-        PT.create_consent(socket.assigns.company_id, socket.assigns.iban, socket.assigns.bank)
+        PT_Accounts.create_consent(socket.assigns.company_id, socket.assigns.iban, socket.assigns.bank)
 
       {:noreply, assign(socket, account: account)}
     end
@@ -61,7 +61,7 @@ defmodule InfinWeb.BankAccountPTLive.Consents do
 
   defp verify_consent(socket, account) do
     if account.consent_status == "ACCP" do
-      case PT.fetch_account(socket.assigns.bank, account.iban, account.consent_id) do
+      case PT_Accounts.fetch_account(socket.assigns.bank, account.iban, account.consent_id) do
         {:ok, account} ->
           {:noreply,
            push_redirect(socket,

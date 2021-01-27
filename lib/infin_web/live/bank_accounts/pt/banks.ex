@@ -1,6 +1,6 @@
 defmodule InfinWeb.BankAccountPTLive.Banks do
   use InfinWeb, :live_view
-  alias Infin.BankAccounts.PT
+  alias Infin.BankAccounts.PT_Banks
 
   @impl true
   def mount(_params, _session, socket) do
@@ -36,7 +36,7 @@ defmodule InfinWeb.BankAccountPTLive.Banks do
   ### PRIVATE ###
 
   defp return(status, socket, page_number) do
-    page = PT.list_banks(page_number)
+    page = PT_Banks.list_banks(page_number)
 
     {status,
      assign(socket,

@@ -8,13 +8,13 @@ defmodule Infin.InvoicesTest do
   describe "invoices" do
     alias Infin.Invoices.Invoice
 
-    @update_attrs %{id_document: "some updated id_document"}
-    @invalid_attrs %{id_document: nil}
+    @update_attrs %{id_document: "some updated id_document", tags: ""}
+    @invalid_attrs %{id_document: nil, tags: ""}
 
     def invoice_fixture() do
       company1 = insert(:company)
       company2 = insert(:company)
-      insert(:invoice, company_seller_id: company1.id, company_id: company2.id)
+      insert(:invoice, company_seller_id: company1.id, company_id: company2.id, automatic_category: false)
     end
 
     test "list_invoices/0 returns all invoices" do
@@ -47,13 +47,13 @@ defmodule Infin.InvoicesTest do
 
     test "update_invoice/2 with valid data updates the invoice" do
       invoice = invoice_fixture()
-      assert {:ok, %Invoice{} = invoice} = Invoices.update_invoice(invoice, @update_attrs)
+      assert {:ok, %Invoice{} = invoice} = Invoices.update_invoice(invoice, @update_attrs, invoice.company_id)
       assert invoice.id_document == "some updated id_document"
     end
 
     test "update_invoice/2 with invalid data returns error changeset" do
       invoice = invoice_fixture()
-      assert {:error, %Ecto.Changeset{}} = Invoices.update_invoice(invoice, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Invoices.update_invoice(invoice, @invalid_attrs, invoice.company_id)
       assert invoice == Invoices.get_invoice!(invoice.id)
     end
 

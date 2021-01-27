@@ -3,9 +3,9 @@ defmodule InfinWeb.HomeController do
 
   def index(conn, _params) do
     if conn.assigns[:current_user] do
-      redirect(conn, to: "/manage/invoices")
+      redirect(conn, to: Routes.dashboard_dashboard_path(conn, :index))
     else
-      render(conn, "index.html")
+      redirect(conn, to: Routes.user_registration_path(conn, :new))
     end
   end
 end

@@ -43,7 +43,7 @@ defmodule InfinWeb.InvoiceControllerTest do
     total_value: "0.00",
     company_seller: %{
       nif: "123",
-      name: "hello"
+      name: "hello",
     }
   }
 
@@ -68,6 +68,7 @@ defmodule InfinWeb.InvoiceControllerTest do
   end
 
   describe "create invoice" do
+
     test "redirects to show when data is valid", %{conn: conn} do
       conn = post(conn, Routes.invoice_path(conn, :create), invoice: @create_attrs)
 

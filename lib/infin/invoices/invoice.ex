@@ -30,11 +30,13 @@ defmodule Infin.Invoices.Invoice do
     field :merchant_comm, :boolean
     field :consumer_comm, :boolean
     field :is_foreign, :boolean
+    field :automatic_category, :boolean
 
     belongs_to :company_seller, Infin.Companies.Company, foreign_key: :company_seller_id
     belongs_to :company, Infin.Companies.Company, foreign_key: :company_id
     belongs_to :category, Infin.Companies.Category
-    many_to_many :tags, Tag, join_through: "invoices_tags"
+    many_to_many :tags, Tag, join_through: "invoices_tags", on_delete: :delete_all, on_replace: :delete
+    belongs_to :pdf, Infin.Storage.Pdf
 
     timestamps()
   end
@@ -70,7 +72,10 @@ defmodule Infin.Invoices.Invoice do
       :consumer_comm,
       :is_foreign,
       :company_id,
-      :company_seller_id
+      :company_seller_id,
+      :category_id,
+      :pdf_id,
+      :automatic_category
     ])
     |> validate_required([:id_document, :doc_emission_date, :total_value, :company_id])
     |> unique_constraint(:id_document)

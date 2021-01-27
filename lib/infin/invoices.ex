@@ -9,6 +9,7 @@ defmodule Infin.Invoices do
   alias Infin.Invoices.Invoice
   alias Infin.Invoices.Tag
   alias Infin.Companies
+  alias Infin.BankAccounts.PT.InvoiceTransaction
 
   @doc """
   Returns the list of invoices.
@@ -32,10 +33,27 @@ defmodule Infin.Invoices do
     query =
       from(i in Invoice,
         where: i.company_id == ^company_id,
-        preload: [:company_seller, :category]
+        preload: [:company_seller, :category, :company, company: :categories],
+        order_by: [desc: :doc_emission_date]
       )
 
     Repo.paginate(query, params)
+  end
+
+  def list_company_invoices_unassociated(company_id, page_number) do
+    Invoice
+    |> where(company_id: ^company_id)
+    |> join(:left, [i], ti in InvoiceTransaction, on: i.id == ti.invoice_id)
+    |> where([i, ti], is_nil(ti.invoice_id))
+    |> preload([:company_seller])
+    |> Repo.paginate(page: page_number)
+  end
+
+  def get_invoices_per_category(company_id, category_id) do
+    Invoice
+    |> where(company_id: ^company_id)
+    |> where(category_id: ^category_id)
+    |> Repo.all()
   end
 
   @doc """
@@ -59,7 +77,7 @@ defmodule Infin.Invoices do
   def get_invoice_with_relations(id) do
     id
     |> get_invoice()
-    |> Repo.preload([:company_seller, :tags, :category])
+    |> Repo.preload([:company_seller, :tags, :category, :pdf])
   end
 
   @doc """
@@ -94,12 +112,39 @@ defmodule Infin.Invoices do
       :doc_emission_date => attrs["doc_emission_date"],
       :company_id => company_id,
       :company_seller_id =>
-        Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id
+        Companies.get_company_by_nif(to_string(attrs["company_seller"]["nif"])).id,
+      :category_id => attrs["category_id"],
+      :pdf_id => attrs["pdf_id"]
     }
 
     %Invoice{}
     |> Invoice.changeset(invoice)
+    |> Ecto.Changeset.put_assoc(:tags, invoice_tags(attrs, company_id))
     |> Repo.insert()
+  end
+
+  defp parse_tags(nil, _company_id), do: []
+
+  defp parse_tags(tags, company_id) do
+    now = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+
+    for tag <- String.split(tags, ","),
+        tag != "",
+        do: %{name: tag, company_id: company_id, inserted_at: now, updated_at: now}
+  end
+
+  defp invoice_tags(attrs, company_id) do
+    tags = parse_tags(attrs["tags"], company_id)
+
+    Repo.insert_all(Tag, tags, on_conflict: :nothing)
+
+    tag_names = for t <- tags, do: t.name
+
+    Repo.all(
+      from t in Tag,
+        where: t.name in ^tag_names,
+        where: t.company_id == ^company_id
+    )
   end
 
   @spec insert_fectched_invoices_pt(any, any) :: [any]
@@ -108,7 +153,7 @@ defmodule Infin.Invoices do
       unless Companies.get_company_by_nif(to_string(invoice["nifEmitente"])) do
         Companies.create_company(%{
           :nif => to_string(invoice["nifEmitente"]),
-          :name => invoice["nomeEmitente"]
+          :name => HtmlEntities.decode(invoice["nomeEmitente"])
         })
       end
 
@@ -117,7 +162,10 @@ defmodule Infin.Invoices do
         :total_value => invoice["valorTotal"],
         :doc_emission_date => invoice["dataEmissaoDocumento"],
         :company_id => company_id,
-        :company_seller_id => Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id
+        :company_seller_id =>
+          Companies.get_company_by_nif(to_string(invoice["nifEmitente"])).id,
+        :category_id => Map.get(invoice, :category_id),
+        :automatic_category => Map.get(invoice, :automatic_category)
       }
 
       create_invoice(document)
@@ -136,9 +184,16 @@ defmodule Infin.Invoices do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_invoice(%Invoice{} = invoice, attrs) do
+  def update_invoice(%Invoice{} = invoice, attrs, company_id) do
+    at =
+      attrs
+      |> Map.new(fn {k, v} -> {to_string(k), v} end)
+      |> Map.put("automatic_category", false)
+
     invoice
-    |> Invoice.changeset(attrs)
+    |> Repo.preload(:tags)
+    |> Invoice.changeset(at)
+    |> Ecto.Changeset.put_assoc(:tags, invoice_tags(at, company_id))
     |> Repo.update()
   end
 
@@ -288,5 +343,31 @@ defmodule Infin.Invoices do
     |> Ecto.Changeset.change()
     |> Ecto.Changeset.put_assoc(:company, company)
     |> Repo.update!()
+  end
+
+  def get_monthly_invoices(company_id) do
+    date = Timex.today
+    current_month = date |> Timex.format!("%Y-%m-", :strftime)
+    previous_month = date |> Timex.shift(months: -1) |> Timex.format!("%Y-%m-", :strftime)
+
+    previous = Invoice
+    |> where([i],
+        ilike(i.doc_emission_date, ^"%#{previous_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :total_value)
+    || 0
+
+    current = Invoice
+    |> where([i],
+        ilike(i.doc_emission_date, ^"%#{current_month}%")
+        and
+        i.company_id == ^company_id
+      )
+    |> Repo.aggregate(:sum, :total_value)
+    || 0
+
+    {current, previous}
   end
 end

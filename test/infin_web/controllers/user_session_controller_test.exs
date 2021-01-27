@@ -33,11 +33,10 @@ defmodule InfinWeb.UserSessionControllerTest do
       assert redirected_to(conn) =~ "/"
 
       # Now do a logged in request and assert on the menu
-      conn = get(conn, "/manage/invoices")
+      conn = get(conn, "/dashboard")
       response = html_response(conn, 200)
-      assert response =~ user.email
-      assert response =~ "#{user.email}</a>"
-      assert response =~ "Log out</a>"
+      assert response =~ "Invoices</a>"
+      assert response =~ "Incomes</a>"
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
@@ -71,14 +70,12 @@ defmodule InfinWeb.UserSessionControllerTest do
       conn = conn |> log_in_user(user) |> delete(Routes.user_session_path(conn, :delete))
       assert redirected_to(conn) == "/"
       refute get_session(conn, :user_token)
-      assert get_flash(conn, :info) =~ "Logged out successfully"
     end
 
     test "succeeds even if the user is not logged in", %{conn: conn} do
       conn = delete(conn, Routes.user_session_path(conn, :delete))
       assert redirected_to(conn) == "/"
       refute get_session(conn, :user_token)
-      assert get_flash(conn, :info) =~ "Logged out successfully"
     end
   end
 end

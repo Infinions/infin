@@ -33,6 +33,14 @@ defmodule Infin.Accounts.User do
     |> validate_password()
   end
 
+  def add_user_registration_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :password, :company_id])
+    |> validate_confirmation(:password, message: "does not match password")
+    |> validate_email()
+    |> validate_password()
+  end
+
   defp validate_email(changeset) do
     changeset
     |> validate_required([:email])

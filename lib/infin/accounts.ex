@@ -79,6 +79,12 @@ defmodule Infin.Accounts do
     |> Repo.insert()
   end
 
+  def add_user(attrs) do
+    %User{}
+      |> User.add_user_registration_changeset(attrs)
+      |> Repo.insert()
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
 

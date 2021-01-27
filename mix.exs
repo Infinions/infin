@@ -51,7 +51,12 @@ defmodule Infin.MixProject do
       {:phx_gen_auth, "~> 0.5", only: [:dev], runtime: false},
       {:ex_machina, "~> 2.4"},
       {:httpoison, "~> 1.7"},
-      {:scrivener_ecto, "~> 2.0"}
+      {:scrivener_ecto, "~> 2.0"},
+      {:arc_ecto, "~> 0.11.3"},
+      {:sweet_xml, "~> 0.6.6"},
+      {:html_entities, "~> 0.5.1"},
+      {:neuron, "~> 5.0.0"},
+      {:timex, "~> 3.6"}
     ]
   end
 
@@ -66,13 +71,25 @@ defmodule Infin.MixProject do
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
       "ecto.bootstrap": ["ecto.migrate", "run priv/repo/banks.exs"],
       "ecto.setup": [
-        "ecto.create",
-        "ecto.migrate",
-        "run priv/repo/seeds.exs",
-        "run priv/repo/banks.exs"
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
+        "run priv/repo/banks.exs",
+        "run priv/repo/seeds.exs"
       ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "docker.up": [
+        "cmd docker login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
+        "cmd docker-compose up -d",
+        "setup"
+      ],
+      "docker.down": ["cmd docker-compose down"],
+      "podman.up": [
+        "cmd podman login -u=machadovilaca -p=bf9ebaf2843c4b79bb60daeb1c961cbf repo.treescale.com",
+        "cmd podman-compose up -d",
+        "setup"
+      ],
+      "podman.down": ["cmd podman-compose down"]
     ]
   end
 end

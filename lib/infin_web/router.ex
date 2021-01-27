@@ -34,7 +34,7 @@ defmodule InfinWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: InfinWeb.Telemetry
+      live_dashboard "/metrics", metrics: InfinWeb.Telemetry
     end
   end
 
@@ -61,10 +61,13 @@ defmodule InfinWeb.Router do
     put "/users/settings/update_email", UserSettingsController, :update_email
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
+
     live "/pt/bank_accounts", BankAccountPTLive.Index, :index
     live "/pt/bank_accounts/banks", BankAccountPTLive.Banks, :index
     live "/pt/bank_accounts/consents", BankAccountPTLive.Consents, :index
     live "/pt/bank_accounts/accounts", BankAccountPTLive.Accounts, :index
+
+    live "/dashboard", DashboardLive.Dashboard, :index
   end
 
   scope "/", InfinWeb do
@@ -82,11 +85,16 @@ defmodule InfinWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     post "/pt/invoices/import", InvoiceImporterController, :import_invoices_pt
+    put "/companies/user", AddUserToCompanyController, :add_user
+    post "/pt/saft/import", SaftParserController, :import_saft_pt
 
     resources "/companies", CompanyController, only: [:show, :update]
     resources "/invoices", InvoiceController
     resources "/tags", TagController, except: [:edit]
     resources "/categories", CategoryController, except: [:index, :edit]
     resources "/incomes", IncomeController
+    resources "/costs", CostController
+    resources "/budgets", BudgetController, except: [:edit]
+
   end
 end
