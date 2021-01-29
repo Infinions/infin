@@ -49,6 +49,9 @@
 
   <%= inputs_for f, :company_seller, fn f_company -> %>
     <div class="field">
+      <%= if contains_invoice? assigns do%>
+      <fieldset disabled>
+      <% end %>
       <%= label f_company, :nif, "Emitter Tax Id", class: "label is-floating-label" %>
       <div class="control has-icons-left">
         <span class="icon is-small is-left">
@@ -64,6 +67,9 @@
     </div>
 
     <div class="field">
+    <%= if contains_invoice? assigns do%>
+      <fieldset disabled>
+      <% end %>
       <%= label f_company, :name, "Emitter Name", class: "label is-floating-label" %>
       <div class="control has-icons-left">
         <span class="icon is-small is-left">
