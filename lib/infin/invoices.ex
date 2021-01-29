@@ -65,6 +65,7 @@ defmodule Infin.Invoices do
     |> where(company_id: ^company_id)
     |> join(:left, [i], ti in InvoiceTransaction, on: i.id == ti.invoice_id)
     |> where([i, ti], is_nil(ti.invoice_id))
+    |> order_by([i], [desc: i.doc_emission_date])
     |> preload([:company_seller])
     |> Repo.paginate(page: page_number)
   end
