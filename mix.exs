@@ -55,7 +55,8 @@ defmodule Infin.MixProject do
       {:arc_ecto, "~> 0.11.3"},
       {:sweet_xml, "~> 0.6.6"},
       {:html_entities, "~> 0.5.1"},
-      {:neuron, "~> 5.0.0"}
+      {:neuron, "~> 5.0.0"},
+      {:timex, "~> 3.6"}
     ]
   end
 

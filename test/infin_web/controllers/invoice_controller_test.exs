@@ -39,7 +39,8 @@ defmodule InfinWeb.InvoiceControllerTest do
   }
   @update_attrs %{id_document: "some updated id_document"}
   @invalid_attrs %{
-    id_document: nil,
+    id_document: "2",
+    doc_emission_date: nil,
     total_value: "0.00",
     company_seller: %{
       nif: "123",
@@ -72,11 +73,10 @@ defmodule InfinWeb.InvoiceControllerTest do
     test "redirects to show when data is valid", %{conn: conn} do
       conn = post(conn, Routes.invoice_path(conn, :create), invoice: @create_attrs)
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.invoice_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.invoice_path(conn, :index)
 
-      conn = get(conn, Routes.invoice_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Invoice"
+      conn = get(conn, Routes.invoice_path(conn, :index))
+      assert html_response(conn, 200) =~ "Invoices"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

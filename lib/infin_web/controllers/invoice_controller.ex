@@ -18,7 +18,7 @@ defmodule InfinWeb.InvoiceController do
   end
 
   def new(conn, _params, company_id) do
-    changeset = Invoices.change_invoice(%Invoice{})
+    changeset = Invoices.change_invoice(%Invoice{tags: []})
     categories = Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
     render(conn, "new.html", changeset: changeset, categories: categories)
   end
@@ -33,25 +33,37 @@ defmodule InfinWeb.InvoiceController do
     invoice_params = Map.replace!(invoice_params, "total_value", total_value)
 
     if invoice_params["category_id"] != nil do
-        Map.replace!(
-          invoice_params,
-          "category_id",
-          String.to_integer(invoice_params["category_id"])
-        )
+      Map.replace!(
+        invoice_params,
+        "category_id",
+        String.to_integer(invoice_params["category_id"])
+      )
     end
 
     invoice_params = check_for_pdf(conn, invoice_params)
 
-    case Invoices.create_invoice(invoice_params, company_id) do
-      {:ok, invoice} ->
+    if Invoices.invoices_by_doc_id_of_company_exist(
+         invoice_params["id_document"],
+         company_id,
+         invoice_params["company_seller"]["nif"]
+       ) != [] do
+      conn
+      |> put_flash(:error, "Invoice already exists")
+      |> redirect(to: Routes.invoice_path(conn, :index))
+    else
+      case Invoices.create_invoice(invoice_params, company_id) do
+        {:ok, _invoice} ->
+          conn
+          |> put_flash(:info, "Invoice created successfully.")
+          |> redirect(to: Routes.invoice_path(conn, :index))
 
-        conn
-        |> put_flash(:info, "Invoice created successfully.")
-        |> redirect(to: Routes.invoice_path(conn, :show, invoice))
+        {:error, %Ecto.Changeset{} = changeset} ->
+          categories =
+            Companies.list_company_categories(company_id)
+            |> Enum.map(&{&1.name, &1.id})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        categories = Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
-        render(conn, "new.html", changeset: changeset, categories: categories)
+          render(conn, "new.html", changeset: changeset, categories: categories)
+      end
     end
   end
 
@@ -64,9 +76,12 @@ defmodule InfinWeb.InvoiceController do
         cond do
           company_id == invoice.company_id ->
             categories =
-              Companies.list_company_categories(company_id) |> Enum.map(&{&1.name, &1.id})
+              Companies.list_company_categories(company_id)
+              |> Enum.map(&{&1.name, &1.id})
 
+            invoice = Map.replace!(invoice, :tags, convert_tags_to_string(invoice.tags))
             changeset = Invoices.change_invoice(invoice)
+
             render(conn, "show.html",
               invoice: invoice,
               changeset: changeset,
@@ -93,7 +108,8 @@ defmodule InfinWeb.InvoiceController do
               |> Decimal.round(0, :ceiling)
               |> Decimal.to_integer()
 
-            invoice_params = Map.replace!(invoice_params, "total_value", total_value)
+            invoice_params =
+              Map.replace!(invoice_params, "total_value", total_value)
 
             if invoice_params["category_id"] != nil do
               Map.replace!(
@@ -105,7 +121,7 @@ defmodule InfinWeb.InvoiceController do
 
             invoice_params = check_for_pdf(conn, invoice_params)
 
-            case Invoices.update_invoice(invoice, invoice_params) do
+            case Invoices.update_invoice(invoice, invoice_params, company_id) do
               {:ok, invoice} ->
                 conn
                 |> put_flash(:info, "Invoice updated successfully.")
@@ -135,6 +151,7 @@ defmodule InfinWeb.InvoiceController do
             if invoice.pdf do
               {:ok, _pdf} = Storage.delete_pdf(invoice.pdf)
             end
+
             {:ok, _invoice} = Invoices.delete_invoice(invoice)
 
           true ->
@@ -162,6 +179,13 @@ defmodule InfinWeb.InvoiceController do
     else
       invoice_params
     end
+  end
+
+  defp convert_tags_to_string(tags) do
+    Enum.reduce(tags, "", fn(tag, string) ->
+       tag.name <> "," <> string
+     end
+      )
   end
 
   def action(conn, _) do
