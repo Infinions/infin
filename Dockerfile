@@ -22,6 +22,8 @@ RUN cd assets/ && \
     cd - && \
     mix do compile, phx.digest
 
+RUN chmod -R a+rw /opt/app
+
 USER default
 
 ENTRYPOINT ["/opt/app/docker-entrypoint.sh"]
