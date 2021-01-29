@@ -2,8 +2,8 @@
   <p class="is-size-4 mb-5">Invoices</p>
 
   <%= form_for @conn, Routes.invoice_path(@conn, :index), [method: :get, class: "pull-right"], fn f -> %>
-    <div class="field has-addons mb-4">
-      <p class="control is-expanded">
+    <div class="field has-addons mb-4 is-pulled-right">
+      <p class="control">
         <%= search_input f, :query, class: "input has-icons-right", placeholder: "Search by Emitter Tax ID"  %>
       </p>
       <p class="control">
