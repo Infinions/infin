@@ -50,24 +50,24 @@ defmodule InfinWeb.InvoiceController do
          invoice_params["id_document"],
          company_id,
          invoice_params["company_seller"]["nif"]
-       ) do
+       ) != [] do
       conn
       |> put_flash(:error, "Invoice already exists")
       |> redirect(to: Routes.invoice_path(conn, :index))
-    end
+    else
+      case Invoices.create_invoice(invoice_params, company_id) do
+        {:ok, _invoice} ->
+          conn
+          |> put_flash(:info, "Invoice created successfully.")
+          |> redirect(to: Routes.invoice_path(conn, :index))
 
-    case Invoices.create_invoice(invoice_params, company_id) do
-      {:ok, _invoice} ->
-        conn
-        |> put_flash(:info, "Invoice created successfully.")
-        |> redirect(to: Routes.invoice_path(conn, :index))
+        {:error, %Ecto.Changeset{} = changeset} ->
+          categories =
+            Companies.list_company_categories(company_id)
+            |> Enum.map(&{&1.name, &1.id})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        categories =
-          Companies.list_company_categories(company_id)
-          |> Enum.map(&{&1.name, &1.id})
-
-        render(conn, "new.html", changeset: changeset, categories: categories)
+          render(conn, "new.html", changeset: changeset, categories: categories)
+      end
     end
   end
 
