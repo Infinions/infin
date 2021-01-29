@@ -37,7 +37,8 @@ defmodule Infin.Importer do
            Application.get_env(:infin, InfinWeb.Endpoint)[:pt_invoices_url] <>
              "/invoices",
            {:stream, enumerable},
-           headers
+           headers,
+           [timeout: 15_000]
          ) do
       {:ok, response} ->
         case response.status_code do
@@ -97,7 +98,9 @@ defmodule Infin.Importer do
     Neuron.Config.set(url: analytics_url)
 
     Neuron.query(
-      "{ categorize_invoices(invoices: \"{\\\"list\\\": #{parsed_invoices}}\")}"
+      "{ categorize_invoices(invoices: \"{\\\"list\\\": #{parsed_invoices}}\")}",
+      %{},
+      connection_opts: [recv_timeout: 15_000]
     )
   end
 

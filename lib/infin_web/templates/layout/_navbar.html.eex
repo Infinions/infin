@@ -4,7 +4,7 @@
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
 <% end %>
   <div class="navbar-brand">
-    <a class="navbar-item" href="/">
+    <a class="navbar-item" href="<%= Routes.dashboard_dashboard_path(@conn, :index) %>">
       <img src="<%= Routes.static_path(@conn, "/images/logo.png") %>">
     </a>
 
