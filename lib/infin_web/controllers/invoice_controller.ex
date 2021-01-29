@@ -7,9 +7,14 @@ defmodule InfinWeb.InvoiceController do
   alias Infin.Storage
 
   def index(conn, params, company_id) do
-    page = Invoices.list_company_invoices(company_id, params)
     company = Companies.get_company(company_id)
-    render(conn, "index.html", invoices: page.entries, company: company, page: page)
+    if is_nil(params["query"]) or params["query"] == "" do
+      page = Invoices.list_company_invoices(company_id, params)
+      render(conn, "index.html", invoices: page.entries, company: company, page: page)
+    else
+      page = Invoices.list_company_invoices_query(company_id, params, params["query"])
+      render(conn, "index.html", invoices: page.entries, company: company, page: page)
+    end
   end
 
   def new(conn, _params, company_id) do
