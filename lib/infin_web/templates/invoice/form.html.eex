@@ -86,6 +86,13 @@
   </div>
 
   <div class="field">
+    <%= label f, :tags, "Tags", class: "label is-floating-label" %>
+	  <div class="control">
+      <%= text_input f, :tags, [data: [type: "tags"], class: "input with-floating-label", placeholder: "Choose Tags"] %>
+    </div>
+  </div>
+
+  <div class="field">
     <%= label f, :pdf, "Invoice File", class: "label is-floating-label" %>
     <div id="file" class="file has-name is-fullwidth">
       <label class="file-label">
@@ -127,3 +134,4 @@
 <% end %>
 
 <script src="<%= Routes.static_path(@conn, "/js/file.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/tags.js") %>"></script>

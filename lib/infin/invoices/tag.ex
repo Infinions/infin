@@ -6,7 +6,7 @@ defmodule Infin.Invoices.Tag do
     field :name, :string
 
     belongs_to :company, Infin.Companies.Company, on_replace: :nilify
-    many_to_many :invoices, Infin.Invoices.Invoice, join_through: "invoices_tags"
+    many_to_many :invoices, Infin.Invoices.Invoice, join_through: "invoices_tags", on_delete: :delete_all
 
     timestamps()
   end
