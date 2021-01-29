@@ -1,9 +1,16 @@
 <div class="container py-5">
   <p class="is-size-4 mb-5">Invoices</p>
+
   <%= form_for @conn, Routes.invoice_path(@conn, :index), [method: :get, class: "pull-right"], fn f -> %>
-      <%= search_input f, :query, class: "input has-icons-right", placeholder: "Search by Emitter Tax ID"  %>
-      <%= submit "Search", class: "button is-primary is-outlined" %>
-    <% end %>
+    <div class="field has-addons mb-4">
+      <p class="control is-expanded">
+        <%= search_input f, :query, class: "input has-icons-right", placeholder: "Search by Emitter Tax ID"  %>
+      </p>
+      <p class="control">
+        <%= submit "Search", class: "button is-primary is-outlined" %>
+      </p>
+    </div>
+  <% end %>
 
   <%= if length(@invoices) > 0 do %>
     <div class="b-table has-pagination">
