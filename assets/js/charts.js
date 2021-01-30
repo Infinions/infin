@@ -3,12 +3,14 @@ import $ from "jquery";
 
 let delta = 'M';
 let graph_type = "sum_invoices";
-let time = 7;
+let time = 365;
 let is_count = true;
 let chart = null;
+let prev_chart = null;
+let pie_chart = null;
 
 function lineChart(label_values, result){
-    if(chart != null){
+    if (chart != null) {
         chart.destroy();
     }
 
@@ -27,10 +29,14 @@ function lineChart(label_values, result){
 }
 
 function barChart(label_values, data){
+    if (prev_chart != null) {
+        prev_chart.destroy();
+    }
+
     $("#progress").hide();
     $("#prevision").show();
 
-    new Chart(document.getElementById("lineChartPrevisions"), {
+    prev_chart = new Chart(document.getElementById("lineChartPrevisions"), {
         type: 'bar',
         data: {
             labels: label_values,
@@ -48,9 +54,13 @@ function barChart(label_values, data){
 }
 
 function pieChart(costs, earnings) {
+    if (pie_chart != null) {
+        pie_chart.destroy();
+    }
+
     $("#pieChartError").hide();
 
-    new Chart(document.getElementById("pieChart"), {
+    pie_chart = new Chart(document.getElementById("pieChart"), {
         type: 'doughnut',
         responsive: true,
         mantainAspectRatio: false,
@@ -160,7 +170,7 @@ function graphicTotals(data) {
             gains = data.gains_values[index];
         }
     });
-    
+
     pieChart(costs, gains);
 }
 
