@@ -55,7 +55,10 @@ defmodule Infin.Companies do
   """
   def get_company_by_nif!(nif), do: Repo.get_by!(Company, nif: nif)
 
-  def get_company_by_nif(nif), do: Repo.get_by(Company, nif: nif)
+  def get_company_by_nif(nif) do
+    query = from(c in Company, where: c.nif == ^nif, preload: :users)
+    Repo.one(query)
+  end
 
   @doc """
   Creates a company.

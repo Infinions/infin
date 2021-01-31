@@ -47,6 +47,12 @@ defmodule InfinWeb.BudgetController do
 
     budget_params = Map.replace!(budget_params, "value", value)
 
+    if is_nil(budget_params["category_id"]) do
+      conn
+        |> put_flash(:error, "Please associate a category to the budget.")
+        |> redirect(to: Routes.budget_path(conn, :new))
+    end
+
     budget_params =
       Map.replace!(
         budget_params,
